@@ -1,0 +1,50 @@
+<header id="header">
+  <div class="header-inner">
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <a href="{{ routes.root_url }}" class="logo">DIVAA</a>
+
+    <div class="header-icons">
+      <a href="{{ routes.search_url }}" aria-label="Search" id="search-toggle">
+        <i class="fas fa-search"></i>
+      </a>
+      {% if shop.customer_accounts_enabled %}
+        <a href="{{ routes.account_url }}" aria-label="Account">
+          <i class="fas fa-user"></i>
+        </a>
+      {% endif %}
+      <a href="{{ routes.cart_url }}" aria-label="Cart" style="position:relative">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="cart-badge" id="cart-count">{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- Sidebar Nav -->
+<nav id="mobile-nav" aria-label="Main navigation">
+  <a href="{{ routes.root_url }}"><i class="fas fa-home"></i> Home</a>
+  <a href="{{ routes.collections_url }}/american-diamond"><i class="fas fa-gem"></i> American Diamond</a>
+  <a href="{{ routes.collections_url }}/necklace-sets"><i class="fas fa-ring"></i> Necklace Sets</a>
+  <a href="{{ routes.collections_url }}/earrings"><i class="fas fa-star"></i> Earrings</a>
+  <a href="{{ routes.collections_url }}/bangles-bracelets"><i class="fas fa-circle"></i> Bangles & Bracelets</a>
+  <a href="{{ routes.collections_url }}/south-indian"><i class="fas fa-gopuram"></i> South Indian</a>
+  <a href="{{ routes.collections_url }}/oxidized"><i class="fas fa-leaf"></i> Oxidized</a>
+  <a href="{{ routes.collections_url }}/traditional"><i class="fas fa-crown"></i> Traditional</a>
+  <a href="{{ routes.collections_url }}/kundan"><i class="fas fa-spa"></i> Kundan</a>
+  <a href="{{ routes.collections_url }}/bridal-jewelry"><i class="fas fa-heart"></i> Bridal Jewelry</a>
+  <a href="{{ routes.collections_url }}/sarees"><i class="fas fa-scroll"></i> Sarees</a>
+  <a href="{{ routes.root_url }}pages/about"><i class="fas fa-info-circle"></i> About</a>
+</nav>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [],
+  "presets": [
+    { "name": "Header" }
+  ]
+}
+{% endschema %}

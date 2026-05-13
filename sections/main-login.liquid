@@ -1,0 +1,45 @@
+<section style="padding:80px 24px; background:var(--cream); min-height:70vh; display:flex; align-items:center;">
+  <div style="width:100%; max-width:440px; margin:0 auto; background:#fff; padding:48px; border:1px solid rgba(201,168,76,.15);">
+    <div style="text-align:center; margin-bottom:32px;">
+      <a href="{{ routes.root_url }}" class="logo" style="display:block; margin-bottom:16px;">DIVAA</a>
+      <span class="section-label" style="display:block;">Welcome Back</span>
+      <h1 style="font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:400; color:var(--dark);">Sign In</h1>
+    </div>
+
+    {% form 'customer_login' %}
+      {% if form.errors %}
+        <p style="background:#fff0f0;border:1px solid #e00;color:#e00;padding:14px;font-size:12px;letter-spacing:1px;margin-bottom:20px;">
+          {{ form.errors | default_errors }}
+        </p>
+      {% endif %}
+
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;color:var(--dark);">Email</label>
+        <input type="email" name="customer[email]" required autocomplete="email" autofocus
+               style="width:100%;border:1px solid rgba(0,0,0,.12);padding:13px 14px;font-family:'Montserrat',sans-serif;font-size:13px;outline:none;transition:border-color .3s;">
+      </div>
+      <div style="margin-bottom:8px;">
+        <label style="display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;color:var(--dark);">Password</label>
+        <input type="password" name="customer[password]" required autocomplete="current-password"
+               style="width:100%;border:1px solid rgba(0,0,0,.12);padding:13px 14px;font-family:'Montserrat',sans-serif;font-size:13px;outline:none;transition:border-color .3s;">
+      </div>
+      <div style="text-align:right; margin-bottom:24px;">
+        <a href="{{ routes.root_url }}account/login#recover" style="font-size:11px;color:var(--gold);letter-spacing:1px;">Forgot password?</a>
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">Sign In</button>
+    {% endform %}
+
+    <p style="text-align:center;font-size:12px;color:var(--gray);margin-top:20px;letter-spacing:1px;">
+      New customer?
+      <a href="{{ routes.account_register_url }}" style="color:var(--gold);">Create account</a>
+    </p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Login",
+  "settings": [],
+  "presets": [{ "name": "Login" }]
+}
+{% endschema %}

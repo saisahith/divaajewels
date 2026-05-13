@@ -1,0 +1,47 @@
+<div class="product-card">
+  <div class="product-img-wrap">
+    <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+      {% if product.featured_image %}
+        <img src="{{ product.featured_image | image_url: width: 600 }}"
+             alt="{{ product.featured_image.alt | escape }}"
+             loading="lazy" width="600" height="800">
+      {% else %}
+        <div class="product-placeholder">
+          <i class="fas fa-gem"></i>
+          <span>{{ product.type | default: 'Jewellery' }}</span>
+        </div>
+      {% endif %}
+    </a>
+
+    <div class="product-overlay">
+      <button class="quick-add"
+              type="button"
+              data-variant-id="{{ product.first_available_variant.id }}"
+              {% unless product.available %}disabled{% endunless %}>
+        {% if product.available %}Quick Add{% else %}Sold Out{% endif %}
+      </button>
+    </div>
+
+    {% unless product.available %}
+      <span class="product-badge badge-sold">Sold Out</span>
+    {% else %}
+      {% if product.compare_at_price > product.price %}
+        <span class="product-badge">Sale</span>
+      {% endif %}
+    {% endunless %}
+  </div>
+
+  <div class="product-info">
+    <p class="product-brand">{{ product.vendor }}</p>
+    <h3 class="product-name">
+      <a href="{{ product.url }}" style="color:inherit;">{{ product.title }}</a>
+    </h3>
+    <p class="product-price {% unless product.available %}sold{% endunless %}">
+      {% if product.compare_at_price > product.price %}
+        <s style="color:var(--gray); font-size:12px;">{{ product.compare_at_price | money }}</s>
+        &nbsp;
+      {% endif %}
+      {{ product.price | money }}
+    </p>
+  </div>
+</div>

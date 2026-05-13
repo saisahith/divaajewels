@@ -1,0 +1,50 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "DiVaa Jewels",
+    "theme_version": "1.0.0",
+    "theme_author": "DiVaa Jewels N Ensemble",
+    "theme_documentation_url": "https://divaajewels.com",
+    "theme_support_url": "https://wa.me/17033894519"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_gold",
+        "label": "Gold accent",
+        "default": "#C9A84C"
+      },
+      {
+        "type": "color",
+        "id": "color_dark",
+        "label": "Dark",
+        "default": "#1A1A1A"
+      },
+      {
+        "type": "color",
+        "id": "color_cream",
+        "label": "Cream background",
+        "default": "#FAF7F2"
+      }
+    ]
+  },
+  {
+    "name": "Social",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_instagram",
+        "label": "Instagram handle",
+        "default": "divaajewels_n_ensemble"
+      },
+      {
+        "type": "text",
+        "id": "social_whatsapp",
+        "label": "WhatsApp number (digits only)",
+        "default": "17033894519"
+      }
+    ]
+  }
+]

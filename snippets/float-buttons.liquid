@@ -1,0 +1,17 @@
+<div class="float-buttons">
+  <a href="{{ routes.cart_url }}" class="float-btn float-cart" aria-label="Cart">
+    <i class="fas fa-shopping-bag"></i>
+    <span class="float-cart-badge" id="float-badge">{{ cart.item_count }}</span>
+    <span class="tooltip">Cart</span>
+  </a>
+  <a href="https://wa.me/{{ settings.social_whatsapp | default: '17033894519' }}?text=Hi%20DiVaa%20Jewels!%20I%20saw%20your%20collection%20and%20would%20like%20to%20know%20more."
+     class="float-btn float-whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+    <span class="tooltip">WhatsApp</span>
+  </a>
+  <a href="https://ig.me/m/{{ settings.social_instagram | default: 'divaajewels_n_ensemble' }}"
+     class="float-btn float-instagram" target="_blank" rel="noopener" aria-label="Instagram DM">
+    <i class="fab fa-instagram"></i>
+    <span class="tooltip">Instagram</span>
+  </a>
+</div>

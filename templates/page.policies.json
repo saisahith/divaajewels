@@ -1,0 +1,6 @@
+{
+  "sections": {
+    "main": { "type": "page-policies", "disabled": false, "settings": {} }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,6 @@
+{
+  "sections": {
+    "main": { "type": "main-login", "disabled": false, "settings": {} }
+  },
+  "order": ["main"]
+}

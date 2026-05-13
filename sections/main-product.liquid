@@ -1,0 +1,157 @@
+<section style="padding:70px 24px 90px; background:#fff;">
+  <div class="container">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start;">
+
+      <!-- Product images -->
+      <div>
+        <div class="product-img-wrap" style="aspect-ratio:3/4;">
+          {% if product.featured_image %}
+            <img src="{{ product.featured_image | image_url: width: 800 }}"
+                 alt="{{ product.featured_image.alt | escape }}"
+                 id="main-product-img" width="800" height="1067">
+          {% else %}
+            <div class="product-placeholder" style="height:100%;">
+              <i class="fas fa-gem"></i>
+              <span>{{ product.type | default: 'Jewellery' }}</span>
+            </div>
+          {% endif %}
+        </div>
+
+        {% if product.images.size > 1 %}
+          <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+            {% for image in product.images limit: 5 %}
+              <div style="width:80px; height:80px; overflow:hidden; cursor:pointer; border:2px solid transparent; transition:border-color .3s;"
+                   data-full="{{ image | image_url: width: 800 }}"
+                   onclick="document.getElementById('main-product-img').src=this.dataset.full">
+                <img src="{{ image | image_url: width: 160 }}" alt="{{ image.alt | escape }}" loading="lazy" width="80" height="80" style="width:100%;height:100%;object-fit:cover;">
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Product details -->
+      <div>
+        <p class="product-brand">{{ product.vendor }}</p>
+        <h1 style="font-family:'Cormorant Garamond',serif; font-size:clamp(28px,3vw,42px); font-weight:400; color:var(--dark); margin-bottom:12px; line-height:1.1;">
+          {{ product.title }}
+        </h1>
+
+        <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:24px;">
+          <span style="font-size:24px; color:var(--gold); font-weight:500;">{{ product.price | money }}</span>
+          {% if product.compare_at_price > product.price %}
+            <s style="color:var(--gray); font-size:16px;">{{ product.compare_at_price | money }}</s>
+            <span style="background:var(--gold); color:#fff; font-size:9px; letter-spacing:2px; padding:3px 10px; text-transform:uppercase;">
+              Sale
+            </span>
+          {% endif %}
+        </div>
+
+        {% if product.description != blank %}
+          <div style="color:#555; font-size:13px; line-height:1.9; margin-bottom:28px; border-top:1px solid rgba(0,0,0,.08); padding-top:22px;">
+            {{ product.description }}
+          </div>
+        {% endif %}
+
+        {% form 'product', product %}
+          {% if product.has_only_default_variant == false %}
+            <div style="margin-bottom:18px;">
+              <label for="ProductVariant-{{ section.id }}" style="display:block; font-size:10px; letter-spacing:2px; text-transform:uppercase; margin-bottom:10px; color:var(--dark);">
+                Select Option
+              </label>
+              <select id="ProductVariant-{{ section.id }}"
+                      name="id"
+                      style="width:100%; border:1px solid rgba(0,0,0,.15); padding:11px 14px; font-family:'Montserrat',sans-serif; font-size:12px; background:#fff; cursor:pointer;">
+                {% for variant in product.variants %}
+                  <option value="{{ variant.id }}"
+                          {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+                          {% unless variant.available %}disabled{% endunless %}>
+                    {{ variant.title }}{% unless variant.available %} - Sold Out{% endunless %}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          {% else %}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          {% endif %}
+
+          <!-- Quantity -->
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px;">
+            <label style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--dark);">Qty</label>
+            <div style="display:flex; border:1px solid rgba(0,0,0,.15);">
+              <button type="button" onclick="let q=document.getElementById('qty'); if(q.value>1) q.value=parseInt(q.value)-1;"
+                      style="width:40px; height:44px; background:none; border:none; font-size:18px; cursor:pointer;">−</button>
+              <input type="number" id="qty" name="quantity" value="1" min="1"
+                     style="width:50px; height:44px; text-align:center; border:none; font-family:'Montserrat',sans-serif; font-size:13px;">
+              <button type="button" onclick="let q=document.getElementById('qty'); q.value=parseInt(q.value)+1;"
+                      style="width:40px; height:44px; background:none; border:none; font-size:18px; cursor:pointer;">+</button>
+            </div>
+          </div>
+
+          <!-- Add to cart -->
+          {% if product.available %}
+            <button type="submit" name="add" class="btn-primary" style="width:100%; justify-content:center; gap:10px; margin-bottom:14px;">
+              <i class="fas fa-shopping-bag"></i> Add to Cart
+            </button>
+          {% else %}
+            <button type="button" disabled class="btn-primary" style="width:100%; justify-content:center; opacity:.6; cursor:not-allowed; margin-bottom:14px;">
+              Sold Out
+            </button>
+          {% endif %}
+
+          <!-- WhatsApp order -->
+          <a href="https://wa.me/{{ settings.social_whatsapp | default: '17033894519' }}?text=Hi%20DiVaa!%20I%27m%20interested%20in%20{{ product.title | url_encode }}%20(%24{{ product.price | money_without_currency }})."
+             class="btn-outline" target="_blank" rel="noopener"
+             style="width:100%; justify-content:center; gap:10px; color:var(--dark); border-color:rgba(0,0,0,.15); display:flex; align-items:center;">
+            <i class="fab fa-whatsapp" style="color:#25D366; font-size:16px;"></i> Order via WhatsApp
+          </a>
+        {% endform %}
+
+        <!-- Trust badges -->
+        <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:28px; padding-top:24px; border-top:1px solid rgba(0,0,0,.08);">
+          {% assign trust = "fas fa-truck,Free USA Shipping $75+|fas fa-undo,Easy Returns|fas fa-shield-alt,Secure Checkout|fas fa-gem,Handcrafted" | split: "|" %}
+          {% for item in trust %}
+            {% assign parts = item | split: "," %}
+            <div style="display:flex; align-items:center; gap:7px; font-size:10px; letter-spacing:1px; color:var(--gray);">
+              <i class="{{ parts[0] }}" style="color:var(--gold); font-size:14px;"></i>
+              {{ parts[1] }}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Related products -->
+    {% if recommendations.products_count > 0 %}
+      <div style="margin-top:80px;">
+        <div class="featured-header" style="text-align:center; margin-bottom:40px;">
+          <span class="section-label">You May Also Like</span>
+          <h2 class="section-title">Related Products</h2>
+          <div class="section-divider" style="margin:20px auto 0;"></div>
+        </div>
+        <div class="products-grid">
+          {% for product in recommendations.products limit: 3 %}
+            {% render 'product-card', product: product %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  @media (max-width: 768px) {
+    .container > div[style*="grid-template-columns:1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+      gap: 32px !important;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [],
+  "presets": [{ "name": "Product" }]
+}
+{% endschema %}

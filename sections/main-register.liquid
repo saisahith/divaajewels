@@ -1,0 +1,54 @@
+<section style="padding:80px 24px; background:var(--cream); min-height:70vh; display:flex; align-items:center;">
+  <div style="width:100%; max-width:440px; margin:0 auto; background:#fff; padding:48px; border:1px solid rgba(201,168,76,.15);">
+    <div style="text-align:center; margin-bottom:32px;">
+      <a href="{{ routes.root_url }}" class="logo" style="display:block; margin-bottom:16px;">DIVAA</a>
+      <span class="section-label" style="display:block;">Join the Family</span>
+      <h1 style="font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:400; color:var(--dark);">Create Account</h1>
+    </div>
+
+    {% form 'create_customer' %}
+      {% if form.errors %}
+        <p style="background:#fff0f0;border:1px solid #e00;color:#e00;padding:14px;font-size:12px;letter-spacing:1px;margin-bottom:20px;">
+          {{ form.errors | default_errors }}
+        </p>
+      {% endif %}
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+        <div>
+          <label style="display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;color:var(--dark);">First Name</label>
+          <input type="text" name="customer[first_name]" autocomplete="given-name"
+                 style="width:100%;border:1px solid rgba(0,0,0,.12);padding:13px 14px;font-family:'Montserrat',sans-serif;font-size:13px;outline:none;">
+        </div>
+        <div>
+          <label style="display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;color:var(--dark);">Last Name</label>
+          <input type="text" name="customer[last_name]" autocomplete="family-name"
+                 style="width:100%;border:1px solid rgba(0,0,0,.12);padding:13px 14px;font-family:'Montserrat',sans-serif;font-size:13px;outline:none;">
+        </div>
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;color:var(--dark);">Email *</label>
+        <input type="email" name="customer[email]" required autocomplete="email"
+               style="width:100%;border:1px solid rgba(0,0,0,.12);padding:13px 14px;font-family:'Montserrat',sans-serif;font-size:13px;outline:none;">
+      </div>
+      <div style="margin-bottom:24px;">
+        <label style="display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;color:var(--dark);">Password *</label>
+        <input type="password" name="customer[password]" required autocomplete="new-password"
+               style="width:100%;border:1px solid rgba(0,0,0,.12);padding:13px 14px;font-family:'Montserrat',sans-serif;font-size:13px;outline:none;">
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">Create Account</button>
+    {% endform %}
+
+    <p style="text-align:center;font-size:12px;color:var(--gray);margin-top:20px;letter-spacing:1px;">
+      Already have an account?
+      <a href="{{ routes.account_login_url }}" style="color:var(--gold);">Sign in</a>
+    </p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Register",
+  "settings": [],
+  "presets": [{ "name": "Register" }]
+}
+{% endschema %}

@@ -1,0 +1,99 @@
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <!-- Brand -->
+      <div class="footer-brand">
+        <a href="{{ routes.root_url }}" class="logo">DIVAA</a>
+        <p class="footer-desc">
+          Handcrafted Indian jewellery & ethnic wear curated for the modern woman.
+          Authentic craftsmanship delivered across the USA.
+        </p>
+        <div class="footer-socials">
+          <a href="https://instagram.com/{{ settings.social_instagram | default: 'divaajewels_n_ensemble' }}" target="_blank" rel="noopener" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://wa.me/{{ settings.social_whatsapp | default: '17033894519' }}" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <a href="https://www.facebook.com/DiVaaJewelsbyNehaJain/" target="_blank" rel="noopener" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://pinterest.com" target="_blank" rel="noopener" aria-label="Pinterest">
+            <i class="fab fa-pinterest-p"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Shop -->
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="{{ routes.collections_url }}/american-diamond">American Diamond</a></li>
+          <li><a href="{{ routes.collections_url }}/south-indian">South Indian</a></li>
+          <li><a href="{{ routes.collections_url }}/kundan">Kundan</a></li>
+          <li><a href="{{ routes.collections_url }}/traditional">Traditional</a></li>
+          <li><a href="{{ routes.collections_url }}/oxidized">Oxidized</a></li>
+          <li><a href="{{ routes.collections_url }}/necklace-sets">Necklace Sets</a></li>
+          <li><a href="{{ routes.collections_url }}/earrings">Earrings</a></li>
+          <li><a href="{{ routes.collections_url }}/bangles-bracelets">Bangles</a></li>
+          <li><a href="{{ routes.collections_url }}/bridal-jewelry">Bridal Jewelry</a></li>
+          <li><a href="{{ routes.collections_url }}/sarees">Sarees</a></li>
+        </ul>
+      </div>
+
+      <!-- Help -->
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul>
+          <li><a href="{{ routes.root_url }}pages/contact">Contact Us</a></li>
+          <li><a href="{{ routes.root_url }}pages/order-tracking">Track Order</a></li>
+          <li><a href="{{ routes.root_url }}pages/policies#shipping">Shipping Info</a></li>
+          <li><a href="{{ routes.root_url }}pages/policies#returns">Returns & Exchange</a></li>
+          <li><a href="{{ routes.root_url }}pages/policies#faq">FAQ</a></li>
+          {% if shop.customer_accounts_enabled %}
+            <li><a href="{{ routes.account_url }}">My Account</a></li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <!-- About -->
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="{{ routes.root_url }}pages/about">Our Story</a></li>
+          <li><a href="{{ routes.root_url }}pages/policies#terms">Terms of Service</a></li>
+          <li><a href="{{ routes.root_url }}pages/policies#privacy">Privacy Policy</a></li>
+          <li><a href="{{ routes.root_url }}pages/policies#refund">Refund Policy</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="https://wa.me/{{ settings.social_whatsapp | default: '17033894519' }}">WhatsApp Us</a></li>
+          <li><a href="mailto:divaajewels@gmail.com">divaajewels@gmail.com</a></li>
+          <li><a href="https://ig.me/m/{{ settings.social_instagram | default: 'divaajewels_n_ensemble' }}">Instagram DM</a></li>
+          <li><a href="{{ routes.root_url }}pages/contact">Send a Message</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">
+        &copy; {{ 'now' | date: '%Y' }} <a href="{{ routes.root_url }}">{{ shop.name }}</a>. All rights reserved.
+      </p>
+      <p class="powered">Virginia, USA &nbsp;·&nbsp; Est. 2020</p>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [],
+  "presets": [
+    { "name": "Footer" }
+  ]
+}
+{% endschema %}

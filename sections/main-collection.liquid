@@ -1,0 +1,110 @@
+{% paginate collection.products by 16 %}
+
+<section style="padding:60px 24px 90px; background:#fff;">
+  <div class="container">
+
+    <!-- Collection header -->
+    <div class="featured-header" style="text-align:center; margin-bottom:40px;">
+      <span class="section-label">{{ collection.title }}</span>
+      <h1 class="section-title">{{ collection.description | strip_html | truncate: 80 | default: collection.title }}</h1>
+      <div class="section-divider" style="margin:20px auto 0;"></div>
+    </div>
+
+    <!-- Category filter links -->
+    <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:44px;">
+      <a href="{{ routes.collections_url }}/all"
+         class="filter-btn {% if collection.handle == 'all' %}active{% endif %}">
+        All
+      </a>
+      {% assign cat_handles = "american-diamond,kundan,south-indian,traditional,oxidized,necklace-sets,earrings,bangles-bracelets,tikka-sets,bridal-jewelry,sarees,sale" | split: "," %}
+      {% assign cat_labels  = "American Diamond,Kundan,South Indian,Traditional,Oxidized,Necklace Sets,Earrings,Bangles & Bracelets,Tikka Sets,Bridal Jewelry,Sarees,Sale" | split: "," %}
+      {% for handle in cat_handles %}
+        <a href="{{ routes.collections_url }}/{{ handle }}"
+           class="filter-btn {% if collection.handle == handle %}active{% endif %}">
+          {{ cat_labels[forloop.index0] }}
+        </a>
+      {% endfor %}
+    </div>
+
+    <!-- Sort -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:12px;">
+      <p style="font-size:11px; letter-spacing:1px; color:var(--gray);">
+        {{ collection.products_count }} products
+      </p>
+      <form method="get" action="{{ request.path }}">
+        <select name="sort_by" onchange="this.form.submit()"
+                style="border:1px solid rgba(0,0,0,.12); padding:8px 12px; font-size:11px; letter-spacing:1px; font-family:'Montserrat',sans-serif; background:#fff; cursor:pointer;">
+          <option value="manual" {% if collection.sort_by == 'manual' %}selected{% endif %}>Featured</option>
+          <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
+          <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
+          <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>Newest</option>
+          <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>A-Z</option>
+        </select>
+      </form>
+    </div>
+
+    <!-- Products grid -->
+    <div class="products-grid">
+      {% for product in collection.products %}
+        {% render 'product-card', product: product %}
+      {% else %}
+        <p style="grid-column:1/-1; text-align:center; color:var(--gray); padding:60px 0; font-size:13px; letter-spacing:1px;">
+          No products in this collection yet.
+        </p>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if paginate.pages > 1 %}
+      <div style="display:flex; justify-content:center; gap:8px; margin-top:56px; flex-wrap:wrap;">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}" class="btn-ghost">&larr; Previous</a>
+        {% endif %}
+        {% for part in paginate.parts %}
+          {% if part.is_link %}
+            <a href="{{ part.url }}" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid rgba(0,0,0,.12);font-size:11px;color:var(--dark);transition:all .3s;">{{ part.title }}</a>
+          {% else %}
+            {% if part.title == paginate.current_page %}
+              <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:var(--gold);color:#fff;font-size:11px;">{{ part.title }}</span>
+            {% else %}
+              <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;font-size:11px;color:var(--gray);">{{ part.title }}</span>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}" class="btn-ghost">Next &rarr;</a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endpaginate %}
+
+<style>
+  .filter-btn {
+    padding: 8px 18px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid rgba(0,0,0,.12);
+    color: var(--dark);
+    transition: all .3s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover,
+  .filter-btn.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #fff;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [],
+  "presets": [{ "name": "Collection" }]
+}
+{% endschema %}

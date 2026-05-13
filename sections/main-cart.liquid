@@ -1,0 +1,103 @@
+<section style="padding:70px 24px 90px; background:#fff; min-height:60vh;">
+  <div class="container" style="max-width:900px;">
+    <div class="featured-header" style="text-align:center; margin-bottom:48px;">
+      <span class="section-label">Your Selections</span>
+      <h1 class="section-title">Shopping Cart</h1>
+      <div class="section-divider" style="margin:20px auto 0;"></div>
+    </div>
+
+    {% if cart.item_count == 0 %}
+      <div style="text-align:center; padding:60px 0;">
+        <i class="fas fa-shopping-bag" style="font-size:56px; color:rgba(201,168,76,.25); display:block; margin-bottom:20px;"></i>
+        <p style="font-size:13px; letter-spacing:2px; color:var(--gray); text-transform:uppercase; margin-bottom:28px;">Your cart is empty</p>
+        <a href="{{ routes.collections_url }}/all" class="btn-primary">Continue Shopping</a>
+      </div>
+    {% else %}
+      {% form 'cart', cart %}
+        <!-- Items -->
+        <div style="border-top:1px solid rgba(0,0,0,.08);">
+          {% for item in cart.items %}
+            <div style="display:grid; grid-template-columns:90px 1fr auto; gap:20px; padding:22px 0; border-bottom:1px solid rgba(0,0,0,.08); align-items:start;">
+              <a href="{{ item.url }}">
+                {% if item.image %}
+                  <img src="{{ item.image | image_url: width: 180 }}" alt="{{ item.image.alt | escape }}" loading="lazy" width="90" height="110" style="width:90px;height:110px;object-fit:cover;">
+                {% else %}
+                  <div style="width:90px;height:110px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;">
+                    <i class="fas fa-gem" style="color:var(--gold);font-size:24px;"></i>
+                  </div>
+                {% endif %}
+              </a>
+              <div>
+                <p style="font-size:9px;letter-spacing:3px;color:var(--gray);text-transform:uppercase;margin-bottom:4px;">{{ item.vendor }}</p>
+                <h3 style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--dark);margin-bottom:8px;">
+                  <a href="{{ item.url }}" style="color:inherit;">{{ item.product.title }}</a>
+                </h3>
+                {% unless item.variant.title == 'Default Title' %}
+                  <p style="font-size:11px;color:var(--gray);letter-spacing:1px;margin-bottom:10px;">{{ item.variant.title }}</p>
+                {% endunless %}
+                <div style="display:flex;align-items:center;gap:0;border:1px solid rgba(0,0,0,.12);width:fit-content;margin-top:10px;">
+                  <button type="button"
+                          onclick="let i=this.nextElementSibling; if(parseInt(i.value)>1){i.value=parseInt(i.value)-1;i.dispatchEvent(new Event('change'));}"
+                          style="width:34px;height:34px;background:none;border:none;font-size:16px;cursor:pointer;">−</button>
+                  <input type="number" name="updates[]" value="{{ item.quantity }}" min="0"
+                         style="width:44px;height:34px;text-align:center;border:none;font-family:'Montserrat',sans-serif;font-size:12px;"
+                         onchange="this.form.submit()">
+                  <button type="button"
+                          onclick="let i=this.previousElementSibling; i.value=parseInt(i.value)+1; i.dispatchEvent(new Event('change'));"
+                          style="width:34px;height:34px;background:none;border:none;font-size:16px;cursor:pointer;">+</button>
+                </div>
+              </div>
+              <div style="text-align:right;">
+                <p style="color:var(--gold);font-size:16px;font-weight:500;margin-bottom:12px;">{{ item.line_price | money }}</p>
+                <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0"
+                   style="font-size:10px;letter-spacing:1.5px;color:var(--gray);text-transform:uppercase;border-bottom:1px solid;padding-bottom:2px;transition:color .3s;"
+                   onmouseover="this.style.color='#e00'" onmouseout="this.style.color='var(--gray)'">Remove</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Order note -->
+        <div style="margin:28px 0;">
+          <label style="display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;color:var(--dark);">
+            Order Note (optional)
+          </label>
+          <textarea name="note" rows="3" placeholder="Gift message, special instructions…"
+                    style="width:100%;border:1px solid rgba(0,0,0,.12);padding:12px;font-family:'Montserrat',sans-serif;font-size:12px;resize:vertical;"></textarea>
+        </div>
+
+        <!-- Totals -->
+        <div style="display:flex;justify-content:flex-end;">
+          <div style="width:100%;max-width:340px;">
+            <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.08);font-size:12px;letter-spacing:1px;">
+              <span>Subtotal</span>
+              <span style="color:var(--gold);font-weight:500;">{{ cart.total_price | money }}</span>
+            </div>
+            <p style="font-size:10px;letter-spacing:1px;color:var(--gray);margin:12px 0 20px;text-align:right;">
+              Taxes & shipping calculated at checkout
+            </p>
+            <button type="submit" name="checkout" class="btn-primary" style="width:100%;justify-content:center;gap:10px;">
+              <i class="fas fa-lock"></i> Secure Checkout
+            </button>
+            <a href="{{ routes.collections_url }}/all" class="btn-ghost" style="display:block;text-align:center;margin-top:16px;padding-bottom:4px;">
+              &larr; Continue Shopping
+            </a>
+            <p style="font-size:9px;letter-spacing:1.5px;color:var(--gray);text-align:center;margin-top:14px;text-transform:uppercase;">
+              <i class="fab fa-stripe" style="font-size:13px;"></i> &nbsp;
+              <i class="fab fa-paypal" style="font-size:13px;"></i> &nbsp;
+              Secured by Stripe · PayPal · 256-bit SSL
+            </p>
+          </div>
+        </div>
+      {% endform %}
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [],
+  "presets": [{ "name": "Cart" }]
+}
+{% endschema %}

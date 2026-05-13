@@ -1,0 +1,115 @@
+<section style="background:var(--dark); padding:70px 24px 60px; text-align:center;">
+  <div class="container">
+    <span class="section-label">We're Here to Help</span>
+    <h1 class="section-title" style="color:#fff;">Get In Touch</h1>
+    <div class="section-divider" style="margin:20px auto 0;"></div>
+  </div>
+</section>
+
+<section style="background:#fff; padding:90px 24px;">
+  <div class="container">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:start;">
+
+      <!-- Contact info -->
+      <div>
+        <span class="section-label">Contact Info</span>
+        <h2 class="section-title">Let's Connect</h2>
+        <div class="section-divider"></div>
+
+        <div style="display:flex; flex-direction:column; gap:28px; margin-bottom:40px;">
+          {% assign whatsapp_url = 'https://wa.me/' | append: settings.social_whatsapp %}
+          {% assign instagram_url = 'https://ig.me/m/' | append: settings.social_instagram %}
+          {% assign contacts = "fab fa-whatsapp,WhatsApp (Fastest),+1 703 389 4519," | append: whatsapp_url | append: "|fas fa-envelope,Email Us,divaajewels@gmail.com,mailto:divaajewels@gmail.com|fab fa-instagram,Instagram DM,@" | append: settings.social_instagram | append: "," | append: instagram_url | split: "|" %}
+          {% for item in contacts %}
+            {% assign p = item | split: "," %}
+            <a href="{{ p[3] }}" target="_blank" rel="noopener"
+               style="display:flex;align-items:flex-start;gap:18px;padding:22px;border:1px solid rgba(201,168,76,.15);transition:all .3s;color:var(--dark);"
+               onmouseover="this.style.borderColor='var(--gold)';this.style.transform='translateX(4px)'"
+               onmouseout="this.style.borderColor='rgba(201,168,76,.15)';this.style.transform=''">
+              <i class="{{ p[0] }}" style="font-size:22px;color:var(--gold);margin-top:2px;"></i>
+              <div>
+                <p style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gray);margin-bottom:4px;">{{ p[1] }}</p>
+                <p style="font-size:14px;color:var(--dark);">{{ p[2] }}</p>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+
+        <div style="background:var(--cream);padding:24px;">
+          <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Business Hours</p>
+          <p style="font-size:13px;color:#555;line-height:1.8;">
+            Monday – Saturday: 10 AM – 7 PM ET<br>
+            Sunday: 10 AM – 5 PM ET
+          </p>
+        </div>
+      </div>
+
+      <!-- Contact form -->
+      <div>
+        <span class="section-label">Send a Message</span>
+        <h2 class="section-title">Write to Us</h2>
+        <div class="section-divider"></div>
+
+        {% form 'contact' %}
+          {% if form.posted_successfully? %}
+            <p style="background:#f0fff0;border:1px solid #2a7a2a;color:#2a7a2a;padding:16px;font-size:12px;letter-spacing:1px;margin-bottom:24px;">
+              ✓ Message sent! We'll reply within 24 hours.
+            </p>
+          {% endif %}
+          {% if form.errors %}
+            <p style="background:#fff0f0;border:1px solid #e00;color:#e00;padding:16px;font-size:12px;letter-spacing:1px;margin-bottom:24px;">
+              Please check the highlighted fields.
+            </p>
+          {% endif %}
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div>
+              <label style="display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;color:var(--dark);">Name *</label>
+              <input type="text" name="contact[name]" required placeholder="Your name"
+                     style="width:100%;border:1px solid rgba(0,0,0,.12);padding:12px 14px;font-family:'Montserrat',sans-serif;font-size:12px;outline:none;transition:border-color .3s;">
+            </div>
+            <div>
+              <label style="display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;color:var(--dark);">Phone</label>
+              <input type="tel" name="contact[phone]" placeholder="+1 (555) 000-0000"
+                     style="width:100%;border:1px solid rgba(0,0,0,.12);padding:12px 14px;font-family:'Montserrat',sans-serif;font-size:12px;outline:none;">
+            </div>
+          </div>
+          <div style="margin-bottom:16px;">
+            <label style="display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;color:var(--dark);">Email *</label>
+            <input type="email" name="contact[email]" required placeholder="you@email.com"
+                   value="{{ form.email }}"
+                   style="width:100%;border:1px solid rgba(0,0,0,.12);padding:12px 14px;font-family:'Montserrat',sans-serif;font-size:12px;outline:none;transition:border-color .3s;">
+          </div>
+          <div style="margin-bottom:16px;">
+            <label style="display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;color:var(--dark);">Subject</label>
+            <select name="contact[subject]"
+                    style="width:100%;border:1px solid rgba(0,0,0,.12);padding:12px 14px;font-family:'Montserrat',sans-serif;font-size:12px;background:#fff;">
+              <option>Order Inquiry</option>
+              <option>Product Question</option>
+              <option>Shipping & Delivery</option>
+              <option>Returns & Exchange</option>
+              <option>Custom Order</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div style="margin-bottom:24px;">
+            <label style="display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;color:var(--dark);">Message *</label>
+            <textarea name="contact[body]" rows="5" required placeholder="Tell us how we can help you…"
+                      style="width:100%;border:1px solid rgba(0,0,0,.12);padding:12px 14px;font-family:'Montserrat',sans-serif;font-size:12px;resize:vertical;outline:none;transition:border-color .3s;">{{ form.body }}</textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;justify-content:center;gap:10px;">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact Page",
+  "settings": [],
+  "presets": [{ "name": "Contact Page" }]
+}
+{% endschema %}

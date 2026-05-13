@@ -1,0 +1,111 @@
+<section style="background:var(--dark);padding:70px 24px 60px;text-align:center;">
+  <div class="container">
+    <span class="section-label">Where Is My Order?</span>
+    <h1 class="section-title" style="color:#fff;">Track Your Order</h1>
+    <div class="section-divider" style="margin:20px auto 0;"></div>
+  </div>
+</section>
+
+<section style="background:#fff;padding:80px 24px 100px;">
+  <div class="container" style="max-width:680px;">
+
+    <!-- Track form -->
+    <div style="background:var(--cream);padding:44px;margin-bottom:60px;">
+      <span class="section-label" style="display:block;margin-bottom:8px;">Enter Details</span>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;margin-bottom:6px;">Track Your Shipment</h2>
+      <p style="font-size:12px;color:var(--gray);margin-bottom:28px;letter-spacing:1px;">
+        Enter your order number or USPS/UPS tracking number
+      </p>
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;color:var(--dark);">Order Number or Tracking Number</label>
+        <input type="text" id="track-input" placeholder="e.g. #1001 or 9400111899223874836282"
+               style="width:100%;border:1px solid rgba(0,0,0,.15);padding:14px 16px;font-family:'Montserrat',sans-serif;font-size:13px;outline:none;transition:border-color .3s;">
+      </div>
+      <div style="margin-bottom:24px;">
+        <label style="display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;color:var(--dark);">Email Address</label>
+        <input type="email" id="track-email" placeholder="you@email.com"
+               style="width:100%;border:1px solid rgba(0,0,0,.15);padding:14px 16px;font-family:'Montserrat',sans-serif;font-size:13px;outline:none;transition:border-color .3s;">
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button onclick="trackOrder()" class="btn-primary" style="flex:1;justify-content:center;gap:8px;min-width:160px;">
+          <i class="fas fa-search"></i> Track Order
+        </button>
+        <a href="https://tools.usps.com/go/TrackConfirmAction" target="_blank" rel="noopener" class="btn-outline"
+           style="flex:1;justify-content:center;gap:8px;min-width:160px;display:inline-flex;align-items:center;color:var(--dark);border-color:rgba(0,0,0,.2);">
+          <i class="fas fa-external-link-alt"></i> USPS.com
+        </a>
+      </div>
+    </div>
+
+    <!-- Result area -->
+    <div id="track-result" style="display:none;"></div>
+
+    <!-- Order status steps -->
+    <div style="margin-bottom:48px;">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:24px;color:var(--dark);">Order Journey</h3>
+      <div style="position:relative;">
+        <div style="position:absolute;left:18px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--gold),rgba(201,168,76,.1));"></div>
+        {% assign steps = "fas fa-check-circle,Order Placed,Your order has been received and is being reviewed.|fas fa-box,Processing,Your jewellery is being carefully quality-checked and packaged.|fas fa-shipping-fast,Shipped,Your order is on its way via USPS / UPS with tracking.|fas fa-map-marker-alt,Out for Delivery,Your package is out for delivery today.|fas fa-star,Delivered,Your DiVaa order has arrived. Enjoy!" | split: "|" %}
+        {% for step in steps %}
+          {% assign p = step | split: "," %}
+          <div style="display:flex;gap:20px;margin-bottom:28px;padding-left:0;">
+            <div style="width:36px;height:36px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1;">
+              <i class="{{ p[0] }}" style="color:#fff;font-size:14px;"></i>
+            </div>
+            <div style="padding-top:6px;">
+              <p style="font-size:12px;font-weight:600;letter-spacing:1px;color:var(--dark);margin-bottom:4px;text-transform:uppercase;">{{ p[1] }}</p>
+              <p style="font-size:12px;color:#555;line-height:1.7;">{{ p[2] }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Help box -->
+    <div style="background:var(--dark);padding:36px;text-align:center;">
+      <i class="fab fa-whatsapp" style="font-size:32px;color:#25D366;margin-bottom:12px;display:block;"></i>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#fff;font-weight:400;margin-bottom:10px;">Need Help With Your Order?</h3>
+      <p style="color:rgba(255,255,255,.6);font-size:12px;letter-spacing:1px;margin-bottom:22px;">
+        WhatsApp us for instant order updates
+      </p>
+      <a href="https://wa.me/{{ settings.social_whatsapp | default: '17033894519' }}?text=Hi%20DiVaa!%20I%20need%20help%20tracking%20my%20order."
+         class="btn-primary" target="_blank" rel="noopener" style="display:inline-flex;gap:10px;align-items:center;">
+        <i class="fab fa-whatsapp"></i> WhatsApp Support
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+function trackOrder() {
+  const num = document.getElementById('track-input').value.trim();
+  const email = document.getElementById('track-email').value.trim();
+  const result = document.getElementById('track-result');
+  if (!num) { alert('Please enter your order or tracking number.'); return; }
+  result.style.display = 'block';
+  result.innerHTML = `
+    <div style="background:var(--cream);padding:32px;text-align:center;margin-bottom:48px;">
+      <i class="fas fa-search" style="font-size:32px;color:var(--gold);margin-bottom:16px;display:block;"></i>
+      <p style="font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dark);margin-bottom:10px;">
+        Searching for <strong>${num}</strong>
+      </p>
+      <p style="font-size:12px;color:var(--gray);margin-bottom:20px;">
+        For real-time tracking, please use your USPS/UPS tracking number directly.
+      </p>
+      <a href="https://tools.usps.com/go/TrackConfirmAction?tLabels=${encodeURIComponent(num)}"
+         target="_blank" class="btn-primary" style="display:inline-flex;gap:8px;align-items:center;">
+        <i class="fas fa-external-link-alt"></i> Track on USPS.com
+      </a>
+    </div>
+  `;
+  result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+
+{% schema %}
+{
+  "name": "Order Tracking Page",
+  "settings": [],
+  "presets": [{ "name": "Order Tracking Page" }]
+}
+{% endschema %}

@@ -1,0 +1,69 @@
+<section class="featured">
+  <div class="container">
+    <div class="featured-header">
+      <span class="section-label">{{ section.settings.label }}</span>
+      <h2 class="section-title">{{ section.settings.title }}</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="products-grid">
+      {%- liquid
+        assign col = section.settings.collection
+        assign featured_collection = collections[col]
+        if featured_collection == blank or featured_collection == nil
+          for c in collections
+            if c.handle contains 'american-diamond' or c.handle contains 'american_diamond'
+              assign featured_collection = c
+              break
+            endif
+          endfor
+        endif
+        if featured_collection == blank or featured_collection == nil
+          assign featured_collection = collections.first
+        endif
+      -%}
+
+      {%- if featured_collection != blank and featured_collection != nil -%}
+        {%- for product in featured_collection.products limit: section.settings.products_count -%}
+          {% render 'product-card', product: product %}
+        {%- else -%}
+          <p class="fc-empty">No products in this collection yet.</p>
+        {%- endfor -%}
+      {%- else -%}
+        <p class="fc-empty">No collection found — assign one in the theme editor.</p>
+      {%- endif -%}
+    </div>
+
+    <div class="view-all-wrap">
+      {%- assign col_url = featured_collection.url | default: routes.collections_url -%}
+      <a href="{{ col_url }}" class="btn-ghost">
+        View All &nbsp;<i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .featured { background: #fff; padding: 80px 0; }
+  .featured-header { text-align: center; margin-bottom: 50px; }
+  .fc-empty {
+    color: var(--gray, #999);
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 0;
+    font-size: 15px;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    { "type": "text",       "id": "label",          "label": "Section label",    "default": "New Arrivals" },
+    { "type": "text",       "id": "title",          "label": "Section title",    "default": "Featured Collection" },
+    { "type": "collection", "id": "collection",     "label": "Collection" },
+    { "type": "range",      "id": "products_count", "label": "Products to show", "min": 3, "max": 12, "step": 3, "default": 6 }
+  ],
+  "presets": [{ "name": "Featured Collection" }]
+}
+{% endschema %}

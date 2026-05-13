@@ -1,0 +1,73 @@
+{% paginate search.results by 12 %}
+  <section style="padding:70px 24px 90px; background:#fff; min-height:60vh;">
+    <div class="container">
+      <div class="featured-header" style="text-align:center; margin-bottom:42px;">
+        <span class="section-label">Search</span>
+        <h1 class="section-title">
+          {% if search.performed %}
+            Results for "{{ search.terms | escape }}"
+          {% else %}
+            Find Your Favorite Pieces
+          {% endif %}
+        </h1>
+        <div class="section-divider" style="margin:20px auto 0;"></div>
+      </div>
+
+      <form action="{{ routes.search_url }}" method="get" role="search" style="max-width:620px;margin:0 auto 44px;display:flex;gap:10px;">
+        <input type="search"
+               name="q"
+               value="{{ search.terms | escape }}"
+               placeholder="Search jewellery, sarees, collections..."
+               style="flex:1;border:1px solid rgba(0,0,0,.15);padding:13px 15px;font-family:'Montserrat',sans-serif;font-size:13px;">
+        <button type="submit" class="btn-primary" style="gap:8px;">
+          <i class="fas fa-search"></i> Search
+        </button>
+      </form>
+
+      {% if search.performed %}
+        {% if search.results_count > 0 %}
+          <p style="text-align:center;font-size:11px;letter-spacing:1px;color:var(--gray);margin-bottom:28px;">
+            {{ search.results_count }} result{% unless search.results_count == 1 %}s{% endunless %}
+          </p>
+          <div class="products-grid">
+            {% for item in search.results %}
+              {% if item.object_type == 'product' %}
+                {% render 'product-card', product: item %}
+              {% else %}
+                <article style="border:1px solid rgba(0,0,0,.08);padding:24px;">
+                  <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;margin-bottom:10px;">
+                    <a href="{{ item.url }}" style="color:var(--dark);">{{ item.title }}</a>
+                  </h2>
+                  <p style="font-size:13px;color:#555;line-height:1.8;">{{ item.content | strip_html | truncate: 160 }}</p>
+                </article>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% else %}
+          <p style="text-align:center;color:var(--gray);font-size:13px;letter-spacing:1px;padding:40px 0;">
+            No results found. Try a different product name or collection.
+          </p>
+        {% endif %}
+      {% endif %}
+
+      {% if paginate.pages > 1 %}
+        <div style="display:flex; justify-content:center; gap:8px; margin-top:56px; flex-wrap:wrap;">
+          {% if paginate.previous %}
+            <a href="{{ paginate.previous.url }}" class="btn-ghost">&larr; Previous</a>
+          {% endif %}
+          {% if paginate.next %}
+            <a href="{{ paginate.next.url }}" class="btn-ghost">Next &rarr;</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": "Search",
+  "settings": [],
+  "presets": [{ "name": "Search" }]
+}
+{% endschema %}
