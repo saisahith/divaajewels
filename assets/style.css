@@ -239,6 +239,24 @@ header.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,.08); }
   overflow: hidden;
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2010 50%, #1a1a1a 100%);
 }
+.hero-editorial-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: .42;
+  filter: saturate(.92) contrast(1.05);
+  transform: scale(1.02);
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(15,12,8,.88), rgba(15,12,8,.42), rgba(15,12,8,.82)),
+    linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,.62));
+  pointer-events: none;
+}
 .hero-bg-pattern {
   position: absolute; inset: 0;
   background-image:
@@ -246,6 +264,7 @@ header.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,.08); }
     radial-gradient(circle at 80% 20%, rgba(201,168,76,.10) 0%, transparent 40%),
     radial-gradient(circle at 60% 80%, rgba(201,168,76,.08) 0%, transparent 40%);
   animation: bgPulse 8s ease-in-out infinite alternate;
+  z-index: 1;
 }
 .hero-decor {
   position: absolute;
@@ -258,7 +277,7 @@ header.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,.08); }
 
 .hero-content {
   text-align: center;
-  z-index: 2;
+  z-index: 3;
   padding: 60px 20px;
   width: 100%;
 }
@@ -415,8 +434,21 @@ section { padding: 90px 24px; }
 .shop-look-inner { display: grid; grid-template-columns: 1fr 1fr; min-height: 560px; }
 .look-image {
   background: linear-gradient(145deg, #1a1208, #2d2010, #0a0a0a);
+  background-size: cover;
+  background-position: center;
   display: flex; align-items: center; justify-content: center;
   position: relative; overflow: hidden; min-height: 320px;
+}
+.look-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(0,0,0,.58), rgba(0,0,0,.16), rgba(0,0,0,.52));
+  z-index: 0;
+}
+.look-image > * {
+  position: relative;
+  z-index: 1;
 }
 .look-image-placeholder { text-align: center; color: rgba(201,168,76,.5); }
 .look-image-placeholder i { font-size: 72px; display: block; margin-bottom: 16px; }
@@ -440,6 +472,11 @@ section { padding: 90px 24px; }
 
 .category-card { position: relative; overflow: hidden; aspect-ratio: 3/4; cursor: pointer; background: #111; }
 .category-bg { position: absolute; inset: 0; transition: transform .7s ease; }
+.category-img {
+  background-size: 310%;
+  background-repeat: no-repeat;
+  filter: saturate(.95) contrast(1.04);
+}
 .category-card:hover .category-bg { transform: scale(1.08); }
 
 .cat-traditional { background: linear-gradient(145deg, #2d1a08, #4a2c10, #1a0a00); }
