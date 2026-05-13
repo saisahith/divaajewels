@@ -2,15 +2,6 @@
   "sections": {
     "home-hero": { "type": "home-hero", "disabled": false, "settings": {} },
     "home-marquee": { "type": "home-marquee", "disabled": false, "settings": {} },
-    "home-featured": {
-      "type": "home-featured",
-      "disabled": false,
-      "settings": {
-        "label": "New Arrivals",
-        "title": "Featured Collection",
-        "products_count": 6
-      }
-    },
     "home-shop-look": { "type": "home-shop-look", "disabled": false, "settings": {} },
     "home-categories": { "type": "home-categories", "disabled": false, "settings": {} },
     "home-gift-guide": { "type": "home-gift-guide", "disabled": false, "settings": {} },
@@ -31,7 +22,6 @@
     "home-hero",
     "home-marquee",
     "home-categories",
-    "home-featured",
     "home-shop-look",
     "home-gift-guide",
     "home-testimonials",
