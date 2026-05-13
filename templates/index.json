@@ -12,7 +12,9 @@
       }
     },
     "home-shop-look": { "type": "home-shop-look", "disabled": false, "settings": {} },
+    "home-editorial-collections": { "type": "home-editorial-collections", "disabled": false, "settings": {} },
     "home-categories": { "type": "home-categories", "disabled": false, "settings": {} },
+    "home-essential-jewelry": { "type": "home-essential-jewelry", "disabled": false, "settings": {} },
     "home-gift-guide": { "type": "home-gift-guide", "disabled": false, "settings": {} },
     "home-testimonials": {
       "type": "home-testimonials",
@@ -32,7 +34,9 @@
     "home-marquee",
     "home-featured",
     "home-shop-look",
+    "home-editorial-collections",
     "home-categories",
+    "home-essential-jewelry",
     "home-gift-guide",
     "home-testimonials",
     "home-newsletter"

@@ -1,0 +1,33 @@
+<section class="editorial-collections">
+  <div class="container">
+    <div class="editorial-collections-grid">
+      <a href="{{ routes.collections_url }}/kundan" class="editorial-panel">
+        <div class="editorial-panel-img" style="background-image:url('{{ 'divaa-editorial-grid.png' | asset_url }}'); background-position:38% 12%;"></div>
+        <div class="editorial-panel-content">
+          <span class="section-label">Heritage Setting</span>
+          <h2>Kundan Classics</h2>
+          <p>Hand-set stones, pearl finishes, and regal profiles for wedding and festive styling.</p>
+          <span class="editorial-panel-link">Discover Kundan <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a href="{{ routes.collections_url }}/south-indian" class="editorial-panel">
+        <div class="editorial-panel-img" style="background-image:url('{{ 'divaa-editorial-grid.png' | asset_url }}'); background-position:82% 16%;"></div>
+        <div class="editorial-panel-content">
+          <span class="section-label">Temple Inspired</span>
+          <h2>South Indian Elegance</h2>
+          <p>Gold-finish statement pieces with traditional motifs, layered for sarees and bridal looks.</p>
+          <span class="editorial-panel-link">Discover South Indian <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Editorial Collections",
+  "settings": [],
+  "presets": [{ "name": "Editorial Collections" }]
+}
+{% endschema %}

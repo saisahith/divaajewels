@@ -1,0 +1,43 @@
+<section class="essential-jewelry">
+  <div class="container">
+    <div class="categories-header">
+      <span class="section-label">Essential Jewelry</span>
+      <h2 class="section-title">Every outfit needs a finishing touch</h2>
+      <div class="section-divider" style="margin:20px auto 0;"></div>
+    </div>
+
+    <div class="essential-nav" aria-label="Essential jewelry categories">
+      <a href="{{ routes.collections_url }}/necklace-sets">Necklaces</a>
+      <a href="{{ routes.collections_url }}/earrings">Earrings</a>
+      <a href="{{ routes.collections_url }}/bangles-bracelets">Bangles</a>
+      <a href="{{ routes.collections_url }}/tikka-sets">Tikka Sets</a>
+    </div>
+
+    <div class="essential-grid">
+      <a href="{{ routes.collections_url }}/necklace-sets" class="essential-tile essential-tile-wide">
+        <div class="essential-img" style="background-image:url('{{ 'divaa-product-grid.png' | asset_url }}'); background-position:8% 10%;"></div>
+        <span>Statement Necklaces</span>
+      </a>
+      <a href="{{ routes.collections_url }}/earrings" class="essential-tile">
+        <div class="essential-img" style="background-image:url('{{ 'divaa-product-grid.png' | asset_url }}'); background-position:50% 52%;"></div>
+        <span>Jhumkas & Drops</span>
+      </a>
+      <a href="{{ routes.collections_url }}/bangles-bracelets" class="essential-tile">
+        <div class="essential-img" style="background-image:url('{{ 'divaa-product-grid.png' | asset_url }}'); background-position:52% 95%;"></div>
+        <span>Bangle Stacks</span>
+      </a>
+      <a href="{{ routes.collections_url }}/tikka-sets" class="essential-tile">
+        <div class="essential-img" style="background-image:url('{{ 'divaa-editorial-grid.png' | asset_url }}'); background-position:92% 92%;"></div>
+        <span>Bridal Tikka Sets</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Essential Jewelry",
+  "settings": [],
+  "presets": [{ "name": "Essential Jewelry" }]
+}
+{% endschema %}
