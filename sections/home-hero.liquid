@@ -1,8 +1,7 @@
-<section class="hero">
+<section class="hero tsr-hero">
   {% assign default_collection_url = routes.collections_url | append: '/all' %}
   {% assign default_about_url = routes.root_url | append: 'pages/about' %}
   <div class="hero-editorial-image" style="background-image:url('{{ 'divaa-editorial-grid.png' | asset_url }}');"></div>
-  <div class="hero-bg-pattern"></div>
   <div class="hero-content hero-panel">
     <span class="hero-tag">{{ section.settings.tag }}</span>
     <h1 class="hero-title">
@@ -12,16 +11,12 @@
     <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
     <div class="hero-cta">
       <a href="{{ section.settings.cta1_url | default: default_collection_url }}" class="btn-primary">
-        {{ section.settings.cta1_label }} &nbsp;<i class="fas fa-arrow-right"></i>
+        {{ section.settings.cta1_label }}
       </a>
       <a href="{{ section.settings.cta2_url | default: default_about_url }}" class="btn-outline">
         {{ section.settings.cta2_label }}
       </a>
     </div>
-  </div>
-  <div class="scroll-indicator">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
   </div>
 </section>
 
@@ -29,14 +24,14 @@
 {
   "name": "Hero",
   "settings": [
-    { "type": "text", "id": "tag",          "label": "Tag line",        "default": "Luxury Jewelry and Sarees" },
-    { "type": "text", "id": "title_line1",  "label": "Title line 1",    "default": "DIVAA" },
-    { "type": "text", "id": "title_line2",  "label": "Title line 2 (italic gold)", "default": "Jewels" },
-    { "type": "text", "id": "subtitle",     "label": "Subtitle",        "default": "Premium Indian jewelry and sarees curated for celebrations, gifting, and everyday elegance." },
-    { "type": "text", "id": "cta1_label",   "label": "Button 1 label",  "default": "Shop Jewelry" },
-    { "type": "url",  "id": "cta1_url",     "label": "Button 1 link" },
-    { "type": "text", "id": "cta2_label",   "label": "Button 2 label",  "default": "Our Story" },
-    { "type": "url",  "id": "cta2_url",     "label": "Button 2 link" }
+    { "type": "text", "id": "tag", "label": "Tag line", "default": "New arrivals are here" },
+    { "type": "text", "id": "title_line1", "label": "Title line 1", "default": "The Divaa" },
+    { "type": "text", "id": "title_line2", "label": "Title line 2", "default": "Edit Returns." },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Restocked in festive jewelry and saree-ready styling. Move fast." },
+    { "type": "text", "id": "cta1_label", "label": "Button 1 label", "default": "Shop Now" },
+    { "type": "url", "id": "cta1_url", "label": "Button 1 link" },
+    { "type": "text", "id": "cta2_label", "label": "Button 2 label", "default": "Our Story" },
+    { "type": "url", "id": "cta2_url", "label": "Button 2 link" }
   ],
   "presets": [{ "name": "Hero" }]
 }

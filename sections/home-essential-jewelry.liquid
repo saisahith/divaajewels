@@ -1,0 +1,38 @@
+<section class="essential-jewelry">
+  <div class="container">
+    <div class="essential-header">
+      <span class="section-label">Essential Jewelry</span>
+      <h2 class="section-title">The finishing touch for every outfit.</h2>
+    </div>
+
+    <div class="essential-tabs" aria-label="Essential jewelry collections">
+      <a href="{{ routes.collections_url }}/kundan">Kundan</a>
+      <a href="{{ routes.collections_url }}/american-diamond">American Diamond</a>
+      <a href="{{ routes.collections_url }}/south-indian">South Indian</a>
+    </div>
+
+    <div class="essential-products">
+      {% assign essentials = "Champagne Kundan Edit|$89|kundan,American Diamond Edit|$104|american-diamond,South Indian Temple Edit|$118|south-indian,Oxidized Everyday Edit|$45|oxidized,Traditional Festive Edit|$98|traditional,Silk Saree Pairing|$135|sarees" | split: "," %}
+      {% for item in essentials %}
+        {% assign p = item | split: "|" %}
+        <article class="tsr-product-card">
+          <a href="{{ routes.collections_url }}/{{ p[2] }}">
+            <div class="tsr-product-media" style="background-image:url('{% if forloop.index <= 3 %}{{ 'divaa-product-grid.png' | asset_url }}{% else %}{{ 'divaa-editorial-grid.png' | asset_url }}{% endif %}'); background-position:{% cycle '0% 0%', '50% 0%', '100% 0%', '0% 100%', '50% 100%', '100% 100%' %};">
+              <span>Quick View</span>
+            </div>
+            <h3>{{ p[0] }}</h3>
+            <p>{{ p[1] }} USD</p>
+          </a>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Essential Jewelry",
+  "settings": [],
+  "presets": [{ "name": "Essential Jewelry" }]
+}
+{% endschema %}

@@ -1,17 +1,14 @@
-<section class="gift-guide">
-  <div class="container">
-    <div class="gift-guide-inner">
-      <div class="gift-badge">
-        <span class="gift-badge-title">Gift<br>Guide</span>
-        <span class="gift-badge-sub">2025</span>
-      </div>
-      <div class="gift-content">
-        <span class="section-label">Perfect For Every Occasion</span>
-        <h2 class="section-title">{{ section.settings.title }}</h2>
-        <div class="section-divider"></div>
-        <p class="gift-desc">{{ section.settings.description }}</p>
-        <a href="{{ section.settings.cta_url }}" class="btn-primary">
-          {{ section.settings.cta_label }} &nbsp;<i class="fas fa-gift"></i>
+<section class="gift-guide tsr-promo tsr-promo-alt">
+  <div class="shop-look-inner">
+    <div class="look-image tsr-promo-image" style="background-image:url('{{ 'divaa-product-grid.png' | asset_url }}');"></div>
+    <div class="look-content tsr-promo-copy">
+      <div class="look-content-inner">
+        <span class="section-label">Statement Edit</span>
+        <h2 class="look-title">{{ section.settings.title }}</h2>
+        <p class="look-desc">{{ section.settings.description }}</p>
+        {% assign statement_url = routes.collections_url | append: '/american-diamond' %}
+        <a href="{{ section.settings.cta_url | default: statement_url }}" class="btn-primary">
+          {{ section.settings.cta_label }}
         </a>
       </div>
     </div>
@@ -20,15 +17,13 @@
 
 {% schema %}
 {
-  "name": "Gift Guide",
+  "name": "Statement Promo",
   "settings": [
-    { "type": "text", "id": "title", "label": "Title",
-      "default": "The Perfect Gift for Every Occasion" },
-    { "type": "textarea", "id": "description", "label": "Description",
-      "default": "Weddings, Diwali, Navratri, anniversaries or just because — our jewellery makes every moment unforgettable. Gift beautifully packaged pieces with a personal touch." },
-    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Explore Gift Ideas" },
-    { "type": "url",  "id": "cta_url",   "label": "Button link" }
+    { "type": "text", "id": "title", "label": "Title", "default": "Your statement jewelry is calling." },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Traditional, Oxidized, South Indian, American Diamond, and Kundan pieces selected to complete the look." },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Get My Statement Piece" },
+    { "type": "url", "id": "cta_url", "label": "Button link" }
   ],
-  "presets": [{ "name": "Gift Guide" }]
+  "presets": [{ "name": "Statement Promo" }]
 }
 {% endschema %}
