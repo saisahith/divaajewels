@@ -447,8 +447,6 @@ section { padding: 90px 24px; }
 .cat-kundan      { background: linear-gradient(145deg, #1a0d2d, #2d1545, #0d0520); }
 .cat-american    { background: linear-gradient(145deg, #1a1a08, #2d2d10, #0d0d00); }
 .cat-oxidized    { background: linear-gradient(145deg, #1a1a1a, #2d2d2d, #0d0d0d); }
-.cat-clothing    { background: linear-gradient(145deg, #1a0808, #2d1010, #0d0000); }
-
 .category-overlay {
   position: absolute; inset: 0;
   background: linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.2) 60%, transparent 100%);
@@ -626,5 +624,114 @@ footer { background: var(--dark); padding: 60px 24px 28px; }
   *, *::before, *::after {
     animation-duration: .01ms !important;
     transition-duration: .01ms !important;
+  }
+}
+
+/* Stitch branch: premium jewelry/saree navigation and glassmorphism layer */
+.glass-panel,
+.glass-card,
+.hero-glass {
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .18);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .24);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.hero-glass {
+  max-width: 920px;
+  margin: 0 20px;
+  padding: clamp(34px, 5vw, 64px);
+}
+
+.glass-card {
+  padding: 14px;
+  border-color: rgba(201, 168, 76, .22);
+  background: rgba(250, 247, 242, .72);
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(201, 168, 76, .45);
+  box-shadow: 0 26px 70px rgba(26, 26, 26, .12);
+}
+
+#main-nav {
+  display: block;
+  position: sticky;
+  top: 78px;
+  z-index: 900;
+  background: rgba(255, 255, 255, .82);
+  border-bottom: 1px solid rgba(201, 168, 76, .16);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.nav-group {
+  position: relative;
+}
+
+.mega-panel {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  min-width: 240px;
+  padding: 14px;
+  background: rgba(255, 255, 255, .9);
+  border: 1px solid rgba(201, 168, 76, .22);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transform: translateX(-50%) translateY(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+}
+
+.nav-group:hover .mega-panel,
+.nav-group:focus-within .mega-panel {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+#main-nav .mega-panel a {
+  padding: 11px 12px;
+  font-size: 10px;
+  letter-spacing: 1.7px;
+  border-bottom: 1px solid rgba(0, 0, 0, .05);
+}
+
+#main-nav .mega-panel a:last-child {
+  border-bottom: 0;
+}
+
+#main-nav .mega-panel a::after {
+  display: none;
+}
+
+.category-card {
+  border: 1px solid rgba(255, 255, 255, .16);
+  box-shadow: 0 20px 70px rgba(0, 0, 0, .12);
+}
+
+.category-overlay,
+.product-overlay {
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.dummy-product-card .product-img-wrap {
+  border: 1px solid rgba(201, 168, 76, .16);
+}
+
+@media (max-width: 1024px) {
+  #main-nav {
+    display: none;
+  }
+
+  .hero-glass {
+    margin: 0 14px;
   }
 }

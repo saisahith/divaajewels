@@ -1,16 +1,17 @@
 <section class="gift-guide">
   <div class="container">
     <div class="gift-guide-inner">
-      <div class="gift-badge">
-        <span class="gift-badge-title">Gift<br>Guide</span>
-        <span class="gift-badge-sub">2025</span>
+      <div class="gift-badge glass-panel">
+        <span class="gift-badge-title">Gift<br>Edit</span>
+        <span class="gift-badge-sub">Jewelry</span>
       </div>
       <div class="gift-content">
         <span class="section-label">Perfect For Every Occasion</span>
         <h2 class="section-title">{{ section.settings.title }}</h2>
         <div class="section-divider"></div>
         <p class="gift-desc">{{ section.settings.description }}</p>
-        <a href="{{ section.settings.cta_url }}" class="btn-primary">
+        {% assign gift_url = routes.collections_url | append: '/gift-edit' %}
+        <a href="{{ section.settings.cta_url | default: gift_url }}" class="btn-primary">
           {{ section.settings.cta_label }} &nbsp;<i class="fas fa-gift"></i>
         </a>
       </div>
@@ -22,12 +23,10 @@
 {
   "name": "Gift Guide",
   "settings": [
-    { "type": "text", "id": "title", "label": "Title",
-      "default": "The Perfect Gift for Every Occasion" },
-    { "type": "textarea", "id": "description", "label": "Description",
-      "default": "Weddings, Diwali, Navratri, anniversaries or just because — our jewellery makes every moment unforgettable. Gift beautifully packaged pieces with a personal touch." },
-    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Explore Gift Ideas" },
-    { "type": "url",  "id": "cta_url",   "label": "Button link" }
+    { "type": "text", "id": "title", "label": "Title", "default": "Gifts That Feel Personal" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Weddings, festivals, birthdays, anniversaries, or just because — gift-ready jewelry and saree pairings for meaningful moments." },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Shop Gift Edit" },
+    { "type": "url", "id": "cta_url", "label": "Button link" }
   ],
   "presets": [{ "name": "Gift Guide" }]
 }

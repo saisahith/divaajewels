@@ -48,9 +48,26 @@
       {% for product in collection.products %}
         {% render 'product-card', product: product %}
       {% else %}
-        <p style="grid-column:1/-1; text-align:center; color:var(--gray); padding:60px 0; font-size:13px; letter-spacing:1px;">
-          No products in this collection yet.
-        </p>
+        {% assign dummy_products = "American Diamond Necklace Set|$89|New|american-diamond,Kundan Choker Set|$125|Low Stock|kundan,South Indian Temple Necklace|$145|New|south-indian,Oxidized Jhumka Earrings|$42|Best Seller|oxidized,Gold Finish Bangles Set|$58|New|bangles-bracelets,Bridal Tikka Set|$72|Limited|bridal-jewelry,Temple Jhumka Earrings|$48|New|earrings,Traditional Silk Saree|$135|Limited|sarees" | split: "," %}
+        {% for item in dummy_products %}
+          {% assign p = item | split: "|" %}
+          <article class="product-card dummy-product-card glass-card">
+            <a href="{{ routes.collections_url }}/{{ p[3] }}">
+              <div class="product-img-wrap">
+                <div class="product-placeholder">
+                  <i class="fas fa-gem"></i>
+                  <span>{{ p[3] | replace: "-", " " }}</span>
+                </div>
+                <span class="product-badge">{{ p[2] }}</span>
+              </div>
+            </a>
+            <div class="product-info">
+              <p class="product-brand">Divaa Jewels</p>
+              <h3 class="product-name"><a href="{{ routes.collections_url }}/{{ p[3] }}" style="color:inherit;">{{ p[0] }}</a></h3>
+              <p class="product-price">{{ p[1] }}</p>
+            </div>
+          </article>
+        {% endfor %}
       {% endfor %}
     </div>
 
