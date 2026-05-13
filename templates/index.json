@@ -19,9 +19,9 @@
       "disabled": false,
       "settings": {},
       "blocks": {
-        "t1": { "type": "testimonial", "settings": { "text": "The necklace set I ordered for my sister's wedding was absolutely stunning. Everyone kept asking where I got it from!", "author": "Priya M., New Jersey" } },
+        "t1": { "type": "testimonial", "settings": { "text": "The jewelry I ordered for my sister's wedding was absolutely stunning. Everyone kept asking where I got it from!", "author": "Priya M., New Jersey" } },
         "t2": { "type": "testimonial", "settings": { "text": "Fast shipping, beautiful packaging, and the quality exceeded my expectations. Will definitely order again!", "author": "Ananya R., Texas" } },
-        "t3": { "type": "testimonial", "settings": { "text": "The oxidized earrings are so unique and lightweight. Perfect for everyday wear. Love DiVaa!", "author": "Deepa K., California" } }
+        "t3": { "type": "testimonial", "settings": { "text": "The oxidized collection is so unique and lightweight. Perfect for everyday wear. Love DiVaa!", "author": "Deepa K., California" } }
       },
       "block_order": ["t1", "t2", "t3"]
     },
@@ -30,9 +30,9 @@
   "order": [
     "home-hero",
     "home-marquee",
+    "home-categories",
     "home-featured",
     "home-shop-look",
-    "home-categories",
     "home-gift-guide",
     "home-testimonials",
     "home-newsletter"

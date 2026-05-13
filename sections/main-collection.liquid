@@ -16,8 +16,8 @@
          class="filter-btn {% if collection.handle == 'all' %}active{% endif %}">
         All
       </a>
-      {% assign cat_handles = "american-diamond,kundan,south-indian,traditional,oxidized,necklace-sets,earrings,bangles-bracelets,tikka-sets,bridal-jewelry,sarees,sale" | split: "," %}
-      {% assign cat_labels  = "American Diamond,Kundan,South Indian,Traditional,Oxidized,Necklace Sets,Earrings,Bangles & Bracelets,Tikka Sets,Bridal Jewelry,Sarees,Sale" | split: "," %}
+      {% assign cat_handles = "traditional,oxidized,south-indian,american-diamond,kundan,sarees" | split: "," %}
+      {% assign cat_labels  = "Traditional,Oxidized,South Indian,American Diamond,Kundan,Sarees" | split: "," %}
       {% for handle in cat_handles %}
         <a href="{{ routes.collections_url }}/{{ handle }}"
            class="filter-btn {% if collection.handle == handle %}active{% endif %}">

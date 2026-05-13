@@ -11,31 +11,41 @@
         assign col = section.settings.collection
         assign featured_collection = collections[col]
         if featured_collection == blank or featured_collection == nil
-          for c in collections
-            if c.handle contains 'american-diamond' or c.handle contains 'american_diamond'
-              assign featured_collection = c
-              break
-            endif
-          endfor
+          assign featured_collection = collections['american-diamond']
         endif
-        if featured_collection == blank or featured_collection == nil
-          assign featured_collection = collections.first
-        endif
+        assign rendered_products = 0
       -%}
 
       {%- if featured_collection != blank and featured_collection != nil -%}
         {%- for product in featured_collection.products limit: section.settings.products_count -%}
+          {% assign rendered_products = rendered_products | plus: 1 %}
           {% render 'product-card', product: product %}
-        {%- else -%}
-          <p class="fc-empty">No products in this collection yet.</p>
         {%- endfor -%}
-      {%- else -%}
-        <p class="fc-empty">No collection found — assign one in the theme editor.</p>
+      {%- endif -%}
+
+      {%- if rendered_products == 0 -%}
+        {% assign dummy_products = "American Diamond Edit|$125|New|american-diamond,Kundan Edit|$148|Signature|kundan,South Indian Edit|$110|Heritage|south-indian,Oxidized Edit|$45|Best Seller|oxidized,Traditional Gold Finish Edit|$98|Festive|traditional,Silk Saree Edit|$135|Limited|sarees" | split: "," %}
+        {% for item in dummy_products %}
+          {% assign p = item | split: "|" %}
+          <article class="product-card dummy-product-card">
+            <a href="{{ routes.collections_url }}/{{ p[3] }}">
+              <div class="product-img-wrap product-img-tile" style="background-image:url('{% if forloop.index <= 3 %}{{ 'divaa-product-grid.png' | asset_url }}{% else %}{{ 'divaa-editorial-grid.png' | asset_url }}{% endif %}'); background-position:{% cycle '0% 0%', '50% 0%', '100% 0%', '0% 100%', '50% 100%', '100% 100%' %};">
+                <span class="product-badge">{{ p[2] }}</span>
+              </div>
+            </a>
+            <div class="product-info">
+              <p class="product-brand">Divaa Jewels</p>
+              <h3 class="product-name"><a href="{{ routes.collections_url }}/{{ p[3] }}">{{ p[0] }}</a></h3>
+              <p class="product-price">{{ p[1] }}</p>
+            </div>
+          </article>
+        {% endfor %}
       {%- endif -%}
     </div>
 
     <div class="view-all-wrap">
-      {%- assign col_url = featured_collection.url | default: routes.collections_url -%}
+      {%- assign fallback_url = routes.collections_url | append: '/all' -%}
+      {%- assign col_url = featured_collection.url | default: fallback_url -%}
       <a href="{{ col_url }}" class="btn-ghost">
         View All &nbsp;<i class="fas fa-arrow-right"></i>
       </a>
@@ -43,24 +53,12 @@
   </div>
 </section>
 
-<style>
-  .featured { background: #fff; padding: 80px 0; }
-  .featured-header { text-align: center; margin-bottom: 50px; }
-  .fc-empty {
-    color: var(--gray, #999);
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 40px 0;
-    font-size: 15px;
-  }
-</style>
-
 {% schema %}
 {
   "name": "Featured Collection",
   "settings": [
     { "type": "text",       "id": "label",          "label": "Section label",    "default": "New Arrivals" },
-    { "type": "text",       "id": "title",          "label": "Section title",    "default": "Featured Collection" },
+    { "type": "text",       "id": "title",          "label": "Section title",    "default": "Freshly Curated Jewelry" },
     { "type": "collection", "id": "collection",     "label": "Collection" },
     { "type": "range",      "id": "products_count", "label": "Products to show", "min": 3, "max": 12, "step": 3, "default": 6 }
   ],

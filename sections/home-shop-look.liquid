@@ -1,6 +1,6 @@
 <section class="shop-look">
   <div class="shop-look-inner">
-    <div class="look-image">
+    <div class="look-image" style="background-image:url('{{ 'divaa-editorial-grid.png' | asset_url }}');">
       <div class="look-rings">
         <div class="look-ring"></div>
         <div class="look-ring"></div>
@@ -8,7 +8,7 @@
       </div>
       <div class="look-image-placeholder">
         <i class="fas fa-gem"></i>
-        <p>Curated Look</p>
+        <p>Jewelry With Sarees</p>
       </div>
     </div>
     <div class="look-content">
@@ -17,7 +17,8 @@
         <h2 class="look-title">{{ section.settings.title }}</h2>
         <div class="section-divider"></div>
         <p class="look-desc">{{ section.settings.description }}</p>
-        <a href="{{ section.settings.cta_url }}" class="btn-primary">
+        {% assign shop_look_url = routes.collections_url | append: '/all' %}
+        <a href="{{ section.settings.cta_url | default: shop_look_url }}" class="btn-primary">
           {{ section.settings.cta_label }} &nbsp;<i class="fas fa-arrow-right"></i>
         </a>
       </div>
@@ -30,10 +31,10 @@
   "name": "Shop The Look",
   "settings": [
     { "type": "text", "id": "label",       "label": "Label",       "default": "Styled For You" },
-    { "type": "text", "id": "title",       "label": "Title",       "default": "Shop The Complete Look" },
+    { "type": "text", "id": "title",       "label": "Title",       "default": "Jewelry and Sarees, Styled Together" },
     { "type": "textarea", "id": "description", "label": "Description",
-      "default": "From statement necklaces to matching earrings, bangles, and maang tikka — discover curated sets that tell a story of elegance." },
-    { "type": "text", "id": "cta_label",   "label": "Button label","default": "Shop All Jewellery" },
+      "default": "Discover Traditional, Oxidized, South Indian, American Diamond, and Kundan jewelry curated to pair with sarees." },
+    { "type": "text", "id": "cta_label",   "label": "Button label","default": "Shop Jewelry" },
     { "type": "url",  "id": "cta_url",     "label": "Button link" }
   ],
   "presets": [{ "name": "Shop The Look" }]
