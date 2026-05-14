@@ -11,20 +11,70 @@
     </div>
 
     <!-- Category filter links -->
-    <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:44px;">
-      <a href="{{ routes.collections_url }}/all"
-         class="filter-btn {% if collection.handle == 'all' %}active{% endif %}">
-        All
-      </a>
-      {% assign cat_handles = "new-arrivals,american-diamond-jewelry,kundan-jewelry,traditional-jewelry,temple-jewelry,oxidised-jewelry,bridal-jewelry,necklace-sets,bridal-necklace-sets,earrings,bangles-bracelets,rings,sarees,bridal-edit,occasion-edit,sale,clearance" | split: "," %}
-      {% assign cat_labels  = "New Arrivals,American Diamond,Kundan,Traditional,Temple,Oxidised,Bridal Jewelry,Necklace Sets,Bridal Necklace Sets,Earrings,Bangles & Bracelets,Rings,Sarees,Bridal Edit,Occasion Edit,Sale,Clearance" | split: "," %}
-      {% for handle in cat_handles %}
-        <a href="{{ routes.collections_url }}/{{ handle }}"
-           class="filter-btn {% if collection.handle == handle %}active{% endif %}">
-          {{ cat_labels[forloop.index0] }}
+    {% assign style_prefix = '' %}
+    {% assign style_title = '' %}
+    {% assign style_base_handle = '' %}
+    {% if collection.handle == 'american-diamond' or collection.handle contains 'american-diamond-' %}
+      {% assign style_prefix = 'american-diamond' %}
+      {% assign style_title = 'American Diamond Jewelry' %}
+      {% assign style_base_handle = 'american-diamond' %}
+    {% elsif collection.handle == 'kundan' or collection.handle contains 'kundan-' %}
+      {% assign style_prefix = 'kundan' %}
+      {% assign style_title = 'Kundan Jewelry' %}
+      {% assign style_base_handle = 'kundan' %}
+    {% elsif collection.handle == 'traditional' or collection.handle contains 'traditional-' %}
+      {% assign style_prefix = 'traditional' %}
+      {% assign style_title = 'Traditional Jewelry' %}
+      {% assign style_base_handle = 'traditional' %}
+    {% elsif collection.handle == 'south-indian' or collection.handle contains 'south-indian-' %}
+      {% assign style_prefix = 'south-indian' %}
+      {% assign style_title = 'Temple Jewelry' %}
+      {% assign style_base_handle = 'south-indian' %}
+    {% elsif collection.handle == 'oxidized' or collection.handle contains 'oxidized-' %}
+      {% assign style_prefix = 'oxidized' %}
+      {% assign style_title = 'Oxidised Jewelry' %}
+      {% assign style_base_handle = 'oxidized' %}
+    {% elsif collection.handle == 'bridal-jewelry' or collection.handle contains 'bridal-necklace-sets' or collection.handle contains 'bridal-earrings' or collection.handle contains 'bridal-bangles' or collection.handle contains 'bridal-rings' or collection.handle contains 'bridal-others' %}
+      {% assign style_prefix = 'bridal' %}
+      {% assign style_title = 'Bridal Jewelry' %}
+      {% assign style_base_handle = 'bridal-jewelry' %}
+    {% endif %}
+
+    {% if style_prefix != '' %}
+      <div class="style-filter-wrap">
+        <p class="style-filter-title">Filter {{ style_title }} by type</p>
+        <div class="style-filter-grid">
+          <a href="{{ routes.collections_url }}/{{ style_base_handle }}"
+             class="filter-btn {% if collection.handle == style_base_handle %}active{% endif %}">
+            All
+          </a>
+          {% assign type_handles = "necklace-sets,bridal-necklace-sets,earrings,bangles-bracelets,rings,others" | split: "," %}
+          {% assign type_labels = "Necklace Sets,Bridal Necklace Sets,Earrings,Bangles & Bracelets,Rings,Others" | split: "," %}
+          {% for type_handle in type_handles %}
+            {% assign combined_handle = style_prefix | append: '-' | append: type_handle %}
+            <a href="{{ routes.collections_url }}/{{ combined_handle }}"
+               class="filter-btn {% if collection.handle == combined_handle %}active{% endif %}">
+              {{ type_labels[forloop.index0] }}
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    {% else %}
+      <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:44px;">
+        <a href="{{ routes.collections_url }}/all"
+           class="filter-btn {% if collection.handle == 'all' %}active{% endif %}">
+          All
         </a>
-      {% endfor %}
-    </div>
+        {% assign cat_handles = "new-arrivals,american-diamond,kundan,traditional,south-indian,oxidized,bridal-jewelry,sarees,bridal-edit,occasion-edit,sale,clearance" | split: "," %}
+        {% assign cat_labels  = "New Arrivals,American Diamond,Kundan,Traditional,Temple,Oxidised,Bridal Jewelry,Sarees,Bridal Edit,Occasion Edit,Sale,Clearance" | split: "," %}
+        {% for handle in cat_handles %}
+          <a href="{{ routes.collections_url }}/{{ handle }}"
+             class="filter-btn {% if collection.handle == handle %}active{% endif %}">
+            {{ cat_labels[forloop.index0] }}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
 
     <!-- Sort -->
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; flex-wrap:wrap; gap:12px;">

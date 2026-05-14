@@ -2,26 +2,18 @@
   <div class="container">
     <div class="categories-header">
       <span class="section-label">Shop By Jewelry Style</span>
-      <h2 class="section-title">Choose a style, then shop the type.</h2>
+      <h2 class="section-title">Shop by jewelry style.</h2>
     </div>
 
     <div class="style-type-grid">
-      {% assign cards = "American Diamond Jewelry|american-diamond|0% 0%,Kundan Jewelry|kundan|50% 0%,Traditional Jewelry|traditional|100% 0%,Temple Jewelry|temple|0% 100%,Oxidised Jewelry|oxidised|50% 100%,Bridal Jewelry|bridal-jewelry|100% 100%" | split: "," %}
-      {% assign type_labels = "Necklace Sets,Bridal Necklace Sets,Earrings,Bangles & Bracelets,Rings" | split: "," %}
-      {% assign type_handles = "necklace-sets,bridal-necklace-sets,earrings,bangles-bracelets,rings" | split: "," %}
+      {% assign cards = "American Diamond Jewelry|american-diamond|0% 0%,Kundan Jewelry|kundan|50% 0%,Traditional Jewelry|traditional|100% 0%,Temple Jewelry|south-indian|0% 100%,Oxidised Jewelry|oxidized|50% 100%,Bridal Jewelry|bridal-jewelry|100% 100%" | split: "," %}
       {% for item in cards %}
         {% assign card = item | split: "|" %}
         <article class="style-type-card">
-          <a href="{{ routes.collections_url }}/{{ card[1] }}-jewelry" class="style-type-image">
+          <a href="{{ routes.collections_url }}/{{ card[1] }}" class="style-type-image">
             <div class="category-bg category-img" style="background-image:url('{{ 'divaa-jewelry-styles.png' | asset_url }}'); background-position:{{ card[2] }};"></div>
             <h3>{{ card[0] }}</h3>
           </a>
-          <div class="style-type-links">
-            {% for type_handle in type_handles %}
-              {% assign combined_handle = card[1] | append: '-' | append: type_handle %}
-              <a href="{{ routes.collections_url }}/{{ combined_handle }}">{{ type_labels[forloop.index0] }}</a>
-            {% endfor %}
-          </div>
         </article>
       {% endfor %}
     </div>

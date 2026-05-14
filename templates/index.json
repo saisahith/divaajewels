@@ -1,7 +1,6 @@
 {
   "sections": {
     "home-hero": { "type": "home-hero", "disabled": false, "settings": {} },
-    "home-categories": { "type": "home-categories", "disabled": false, "settings": {} },
     "home-jewelry-style": { "type": "home-jewelry-style", "disabled": false, "settings": {} },
     "home-bridal-edit": { "type": "home-bridal-edit", "disabled": false, "settings": {} },
     "home-featured": {
@@ -19,7 +18,6 @@
   },
   "order": [
     "home-hero",
-    "home-categories",
     "home-jewelry-style",
     "home-bridal-edit",
     "home-featured",

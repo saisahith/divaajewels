@@ -12,17 +12,17 @@
       <div class="nav-group nav-group-wide">
         <a href="{{ routes.collections_url }}/all">Jewelry</a>
         <div class="mega-panel mega-panel-style-grid">
-          {% assign styles = "American Diamond Jewelry|american-diamond,Kundan Jewelry|kundan,Traditional Jewelry|traditional,Temple Jewelry|temple,Oxidised Jewelry|oxidised,Bridal Jewelry|bridal-jewelry" | split: "," %}
-          {% assign type_labels = "Necklace Sets,Bridal Necklace Sets,Earrings,Bangles & Bracelets,Rings" | split: "," %}
-          {% assign type_handles = "necklace-sets,bridal-necklace-sets,earrings,bangles-bracelets,rings" | split: "," %}
+          {% assign styles = "American Diamond Jewelry|american-diamond|american-diamond,Kundan Jewelry|kundan|kundan,Traditional Jewelry|traditional|traditional,Temple Jewelry|south-indian|south-indian,Oxidised Jewelry|oxidized|oxidized,Bridal Jewelry|bridal|bridal-jewelry" | split: "," %}
           {% for style_item in styles %}
             {% assign style = style_item | split: "|" %}
             <div class="mega-style-column">
-              <a href="{{ routes.collections_url }}/{{ style[1] }}-jewelry" class="mega-heading-link">{{ style[0] }}</a>
-              {% for type_handle in type_handles %}
-                {% assign combined_handle = style[1] | append: '-' | append: type_handle %}
-                <a href="{{ routes.collections_url }}/{{ combined_handle }}">{{ type_labels[forloop.index0] }}</a>
-              {% endfor %}
+              <a href="{{ routes.collections_url }}/{{ style[2] }}" class="mega-heading-link">{{ style[0] }}</a>
+              <span>Necklace Sets</span>
+              <span>Bridal Necklace Sets</span>
+              <span>Earrings</span>
+              <span>Bangles & Bracelets</span>
+              <span>Rings</span>
+              <span>Others</span>
             </div>
           {% endfor %}
         </div>
@@ -96,11 +96,11 @@
 <nav id="mobile-nav" aria-label="Main navigation">
   <a href="{{ routes.collections_url }}/new-arrivals"><i class="fas fa-star"></i> New Arrivals</a>
   <a href="{{ routes.collections_url }}/all"><i class="fas fa-gem"></i> Jewelry</a>
-  <a href="{{ routes.collections_url }}/american-diamond-jewelry"><i class="fas fa-gem"></i> American Diamond Jewelry</a>
-  <a href="{{ routes.collections_url }}/kundan-jewelry"><i class="fas fa-spa"></i> Kundan Jewelry</a>
-  <a href="{{ routes.collections_url }}/traditional-jewelry"><i class="fas fa-crown"></i> Traditional Jewelry</a>
-  <a href="{{ routes.collections_url }}/temple-jewelry"><i class="fas fa-gopuram"></i> Temple Jewelry</a>
-  <a href="{{ routes.collections_url }}/oxidised-jewelry"><i class="fas fa-leaf"></i> Oxidised Jewelry</a>
+  <a href="{{ routes.collections_url }}/american-diamond"><i class="fas fa-gem"></i> American Diamond Jewelry</a>
+  <a href="{{ routes.collections_url }}/kundan"><i class="fas fa-spa"></i> Kundan Jewelry</a>
+  <a href="{{ routes.collections_url }}/traditional"><i class="fas fa-crown"></i> Traditional Jewelry</a>
+  <a href="{{ routes.collections_url }}/south-indian"><i class="fas fa-gopuram"></i> Temple Jewelry</a>
+  <a href="{{ routes.collections_url }}/oxidized"><i class="fas fa-leaf"></i> Oxidised Jewelry</a>
   <a href="{{ routes.collections_url }}/bridal-jewelry"><i class="fas fa-heart"></i> Bridal Jewelry</a>
   <a href="{{ routes.collections_url }}/necklace-sets"><i class="fas fa-ring"></i> Necklace Sets</a>
   <a href="{{ routes.collections_url }}/bridal-necklace-sets"><i class="fas fa-heart"></i> Bridal Necklace Sets</a>
