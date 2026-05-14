@@ -718,6 +718,19 @@ header {
   min-width: 460px;
 }
 
+.mega-panel-style-grid {
+  left: 50%;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(136px, 1fr));
+  gap: 18px;
+  width: min(1120px, calc(100vw - 48px));
+  padding: 22px;
+}
+
+.mega-style-column {
+  min-width: 0;
+}
+
 .mega-heading {
   color: var(--dark);
   font-size: 11px;
@@ -725,6 +738,26 @@ header {
   letter-spacing: 1.2px;
   margin: 4px 0 8px;
   text-transform: uppercase;
+}
+
+.mega-heading-link {
+  color: var(--dark) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.1px !important;
+  line-height: 1.35;
+  margin-bottom: 8px;
+  padding: 0 0 10px !important;
+  text-transform: uppercase !important;
+}
+
+#main-nav .mega-style-column a:not(.mega-heading-link) {
+  color: var(--gray);
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 1.35;
+  padding: 8px 0;
+  text-transform: none;
 }
 
 .nav-group:hover .mega-panel,
@@ -1296,6 +1329,67 @@ header {
   padding: 84px 24px 96px;
 }
 
+.style-type-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.style-type-card {
+  background: #fff;
+}
+
+.style-type-image {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  color: #fff;
+  background: var(--dark);
+}
+
+.style-type-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.56), rgba(0,0,0,0));
+}
+
+.style-type-image h3 {
+  position: absolute;
+  z-index: 1;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.style-type-links {
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 1px solid var(--sand);
+  border-top: 0;
+}
+
+.style-type-links a {
+  color: var(--dark);
+  font-size: 13px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--sand);
+}
+
+.style-type-links a:last-child {
+  border-bottom: 0;
+}
+
+.style-type-links a:hover {
+  background: var(--champagne);
+}
+
 .sale-clearance-header {
   margin-bottom: 30px;
 }
@@ -1433,6 +1527,10 @@ header {
   .sale-clearance-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  .style-type-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 768px) {
@@ -1463,6 +1561,10 @@ header {
 
   .sale-card {
     min-height: 230px;
+  }
+
+  .style-type-grid {
+    grid-template-columns: 1fr;
   }
 
   .category-card {

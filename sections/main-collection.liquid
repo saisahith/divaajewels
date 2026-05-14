@@ -16,8 +16,8 @@
          class="filter-btn {% if collection.handle == 'all' %}active{% endif %}">
         All
       </a>
-      {% assign cat_handles = "new-arrivals,necklace-sets,bridal-necklace-sets,earrings,bangles-bracelets,rings,american-diamond-jewelry,kundan-jewelry,traditional-jewelry,temple-jewelry,oxidised-jewelry,bridal-jewelry,sarees,bridal-edit,occasion-edit,sale,clearance" | split: "," %}
-      {% assign cat_labels  = "New Arrivals,Necklace Sets,Bridal Necklace Sets,Earrings,Bangles & Bracelets,Rings,American Diamond,Kundan,Traditional,Temple,Oxidised,Bridal Jewelry,Sarees,Bridal Edit,Occasion Edit,Sale,Clearance" | split: "," %}
+      {% assign cat_handles = "new-arrivals,american-diamond-jewelry,kundan-jewelry,traditional-jewelry,temple-jewelry,oxidised-jewelry,bridal-jewelry,necklace-sets,bridal-necklace-sets,earrings,bangles-bracelets,rings,sarees,bridal-edit,occasion-edit,sale,clearance" | split: "," %}
+      {% assign cat_labels  = "New Arrivals,American Diamond,Kundan,Traditional,Temple,Oxidised,Bridal Jewelry,Necklace Sets,Bridal Necklace Sets,Earrings,Bangles & Bracelets,Rings,Sarees,Bridal Edit,Occasion Edit,Sale,Clearance" | split: "," %}
       {% for handle in cat_handles %}
         <a href="{{ routes.collections_url }}/{{ handle }}"
            class="filter-btn {% if collection.handle == handle %}active{% endif %}">

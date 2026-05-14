@@ -2,19 +2,27 @@
   <div class="container">
     <div class="categories-header">
       <span class="section-label">Shop By Jewelry Style</span>
-      <h2 class="section-title">Choose the finish of the moment.</h2>
+      <h2 class="section-title">Choose a style, then shop the type.</h2>
     </div>
 
-    <div class="categories-grid">
-      {% assign cards = "American Diamond Jewelry|american-diamond-jewelry|0% 0%,Kundan Jewelry|kundan-jewelry|50% 0%,Traditional Jewelry|traditional-jewelry|100% 0%,Temple Jewelry|temple-jewelry|0% 100%,Oxidised Jewelry|oxidised-jewelry|50% 100%,Bridal Jewelry|bridal-jewelry|100% 100%" | split: "," %}
+    <div class="style-type-grid">
+      {% assign cards = "American Diamond Jewelry|american-diamond|0% 0%,Kundan Jewelry|kundan|50% 0%,Traditional Jewelry|traditional|100% 0%,Temple Jewelry|temple|0% 100%,Oxidised Jewelry|oxidised|50% 100%,Bridal Jewelry|bridal-jewelry|100% 100%" | split: "," %}
+      {% assign type_labels = "Necklace Sets,Bridal Necklace Sets,Earrings,Bangles & Bracelets,Rings" | split: "," %}
+      {% assign type_handles = "necklace-sets,bridal-necklace-sets,earrings,bangles-bracelets,rings" | split: "," %}
       {% for item in cards %}
         {% assign card = item | split: "|" %}
-        <a href="{{ routes.collections_url }}/{{ card[1] }}" class="category-card">
-          <div class="category-bg category-img" style="background-image:url('{{ 'divaa-jewelry-styles.png' | asset_url }}'); background-position:{{ card[2] }};"></div>
-          <div class="category-overlay">
-            <h3 class="category-name">{{ card[0] }}</h3>
+        <article class="style-type-card">
+          <a href="{{ routes.collections_url }}/{{ card[1] }}-jewelry" class="style-type-image">
+            <div class="category-bg category-img" style="background-image:url('{{ 'divaa-jewelry-styles.png' | asset_url }}'); background-position:{{ card[2] }};"></div>
+            <h3>{{ card[0] }}</h3>
+          </a>
+          <div class="style-type-links">
+            {% for type_handle in type_handles %}
+              {% assign combined_handle = card[1] | append: '-' | append: type_handle %}
+              <a href="{{ routes.collections_url }}/{{ combined_handle }}">{{ type_labels[forloop.index0] }}</a>
+            {% endfor %}
           </div>
-        </a>
+        </article>
       {% endfor %}
     </div>
   </div>
