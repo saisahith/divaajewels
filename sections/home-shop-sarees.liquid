@@ -1,0 +1,29 @@
+<section class="categories shop-sarees-section">
+  <div class="container">
+    <div class="categories-header">
+      <span class="section-label">Shop Sarees</span>
+      <h2 class="section-title">A focused saree edit.</h2>
+    </div>
+
+    <div class="categories-grid saree-grid">
+      {% assign sarees = "Banarasi Sarees|banarasi-sarees|0% 0%,Kanchivaram Sarees|kanchivaram-sarees|50% 0%,Bridal Sarees|bridal-sarees|100% 0%,Designer Sarees|designer-sarees|0% 100%,Party Wear Sarees|party-wear-sarees|50% 100%" | split: "," %}
+      {% for item in sarees %}
+        {% assign card = item | split: "|" %}
+        <a href="{{ routes.collections_url }}/{{ card[1] }}" class="category-card">
+          <div class="category-bg category-img" style="background-image:url('{{ 'divaa-saree-edits.png' | asset_url }}'); background-position:{{ card[2] }};"></div>
+          <div class="category-overlay">
+            <h3 class="category-name">{{ card[0] }}</h3>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop Sarees",
+  "settings": [],
+  "presets": [{ "name": "Shop Sarees" }]
+}
+{% endschema %}

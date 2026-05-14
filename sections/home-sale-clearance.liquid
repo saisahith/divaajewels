@@ -1,11 +1,11 @@
 <section class="sale-clearance-section">
   <div class="container">
     <div class="sale-clearance-header">
-      <span class="section-label">Sale and Clearance</span>
-      <h2 class="section-title">Last call on standout pieces.</h2>
+      <span class="section-label">Live Sale Collection</span>
+      <h2 class="section-title">Live deals and final pieces.</h2>
     </div>
     <div class="sale-clearance-grid">
-      {% assign cards = "Jewelry Sale|jewelry-sale|0% 0%,Saree Sale|saree-sale|50% 0%,Bridal Sale|bridal-sale|100% 0%,Final Pieces|final-pieces|0% 100%,Last Chance Jewelry|last-chance-jewelry|50% 100%,Last Chance Sarees|last-chance-sarees|100% 100%" | split: "," %}
+      {% assign cards = "Live Sale|live-sale|0% 0%,Jewelry Sale|jewelry-sale|50% 0%,Saree Sale|saree-sale|100% 0%,Bridal Sale|bridal-sale|0% 100%,Final Pieces|final-pieces|50% 100%,Clearance|clearance|100% 100%" | split: "," %}
       {% for item in cards %}
         {% assign card = item | split: "|" %}
         <a href="{{ routes.collections_url }}/{{ card[1] }}" class="sale-card">
@@ -19,8 +19,8 @@
 
 {% schema %}
 {
-  "name": "Sale and Clearance",
+  "name": "Live Sale Collection",
   "settings": [],
-  "presets": [{ "name": "Sale and Clearance" }]
+  "presets": [{ "name": "Live Sale Collection" }]
 }
 {% endschema %}
