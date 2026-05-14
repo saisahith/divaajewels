@@ -711,6 +711,22 @@ header {
   transition: opacity .25s, transform .25s;
 }
 
+.mega-panel-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(190px, 1fr));
+  gap: 18px;
+  min-width: 460px;
+}
+
+.mega-heading {
+  color: var(--dark);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  margin: 4px 0 8px;
+  text-transform: uppercase;
+}
+
 .nav-group:hover .mega-panel,
 .nav-group:focus-within .mega-panel {
   opacity: 1;
@@ -1231,6 +1247,103 @@ header {
   display: none;
 }
 
+.bridal-edit-section {
+  background: #fff;
+  padding: 82px 24px;
+}
+
+.bridal-edit-layout {
+  display: grid;
+  grid-template-columns: 1.08fr .92fr;
+  min-height: 620px;
+  background: #f6efe4;
+}
+
+.bridal-edit-hero {
+  background-size: 305%;
+  background-position: 0% 100%;
+  min-height: 520px;
+}
+
+.bridal-edit-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(34px, 6vw, 82px);
+}
+
+.bridal-edit-content p {
+  font-size: 18px;
+  line-height: 1.55;
+  max-width: 520px;
+  margin: 22px 0 30px;
+}
+
+.edit-link-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.edit-link-grid a {
+  color: var(--dark);
+  border-bottom: 1px solid rgba(26, 26, 26, .22);
+  padding: 11px 0;
+  font-size: 15px;
+}
+
+.sale-clearance-section {
+  background: #fff;
+  padding: 84px 24px 96px;
+}
+
+.sale-clearance-header {
+  margin-bottom: 30px;
+}
+
+.sale-clearance-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.sale-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 320px;
+  color: #fff;
+  background: var(--dark);
+}
+
+.sale-card-img {
+  position: absolute;
+  inset: 0;
+  background-size: 305%;
+  background-repeat: no-repeat;
+  transition: transform .45s;
+}
+
+.sale-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.56), rgba(0,0,0,0));
+}
+
+.sale-card:hover .sale-card-img {
+  transform: scale(1.05);
+}
+
+.sale-card span {
+  position: absolute;
+  z-index: 1;
+  left: 14px;
+  right: 14px;
+  bottom: 16px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
 .essential-jewelry {
   background: #fff;
   padding: 82px 24px 96px;
@@ -1312,6 +1425,14 @@ header {
   .tsr-promo .shop-look-inner {
     grid-template-columns: 1fr;
   }
+
+  .bridal-edit-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sale-clearance-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 768px) {
@@ -1334,6 +1455,14 @@ header {
   .products-grid,
   .essential-products {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sale-clearance-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sale-card {
+    min-height: 230px;
   }
 
   .category-card {

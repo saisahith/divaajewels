@@ -1,79 +1,29 @@
-<section class="categories">
+<section class="categories product-type-section">
   <div class="container">
     <div class="categories-header">
       <span class="section-label">Shop By Product Type</span>
-      <h2 class="section-title">Find the one, for you.</h2>
-      <div class="section-divider" style="margin:20px auto 0;"></div>
+      <h2 class="section-title">Start with the piece.</h2>
     </div>
 
     <div class="categories-grid">
-      <a href="{{ routes.collections_url }}/traditional" class="category-card">
-        <div class="category-bg category-img" style="background-image:url('{{ 'divaa-editorial-grid.png' | asset_url }}'); background-position:0% 50%;"></div>
-        <div class="category-overlay">
-          <i class="fas fa-crown cat-icon"></i>
-          <span class="category-label">Classic · Festive</span>
-          <h3 class="category-name">Traditional</h3>
-          <span class="category-link">Explore <i class="fas fa-arrow-right"></i></span>
-        </div>
-      </a>
-
-      <a href="{{ routes.collections_url }}/oxidized" class="category-card">
-        <div class="category-bg category-img" style="background-image:url('{{ 'divaa-product-grid.png' | asset_url }}'); background-position:50% 50%;"></div>
-        <div class="category-overlay">
-          <i class="fas fa-leaf cat-icon"></i>
-          <span class="category-label">Boho · Silver</span>
-          <h3 class="category-name">Oxidized</h3>
-          <span class="category-link">Explore <i class="fas fa-arrow-right"></i></span>
-        </div>
-      </a>
-
-      <a href="{{ routes.collections_url }}/south-indian" class="category-card">
-        <div class="category-bg category-img" style="background-image:url('{{ 'divaa-editorial-grid.png' | asset_url }}'); background-position:100% 0%;"></div>
-        <div class="category-overlay">
-          <i class="fas fa-gopuram cat-icon"></i>
-          <span class="category-label">Temple · Gold</span>
-          <h3 class="category-name">South Indian</h3>
-          <span class="category-link">Explore <i class="fas fa-arrow-right"></i></span>
-        </div>
-      </a>
-
-      <a href="{{ routes.collections_url }}/american-diamond" class="category-card">
-        <div class="category-bg category-img" style="background-image:url('{{ 'divaa-product-grid.png' | asset_url }}'); background-position:0% 0%;"></div>
-        <div class="category-overlay">
-          <i class="fas fa-gem cat-icon"></i>
-          <span class="category-label">CZ · Occasion</span>
-          <h3 class="category-name">American Diamond</h3>
-          <span class="category-link">Explore <i class="fas fa-arrow-right"></i></span>
-        </div>
-      </a>
-
-      <a href="{{ routes.collections_url }}/kundan" class="category-card">
-        <div class="category-bg category-img" style="background-image:url('{{ 'divaa-editorial-grid.png' | asset_url }}'); background-position:50% 0%;"></div>
-        <div class="category-overlay">
-          <i class="fas fa-spa cat-icon"></i>
-          <span class="category-label">Polki · Royal</span>
-          <h3 class="category-name">Kundan</h3>
-          <span class="category-link">Explore <i class="fas fa-arrow-right"></i></span>
-        </div>
-      </a>
-
-      <a href="{{ routes.collections_url }}/sarees" class="category-card">
-        <div class="category-bg category-img" style="background-image:url('{{ 'divaa-editorial-grid.png' | asset_url }}'); background-position:100% 100%;"></div>
-        <div class="category-overlay">
-          <i class="fas fa-scroll cat-icon"></i>
-          <span class="category-label">Ethnic Drapes</span>
-          <h3 class="category-name">Sarees</h3>
-          <span class="category-link">Explore <i class="fas fa-arrow-right"></i></span>
-        </div>
-      </a>
+      {% assign cards = "Necklace Sets|necklace-sets|0% 0%,Bridal Necklace Sets|bridal-necklace-sets|50% 0%,Earrings|earrings|100% 0%,Bangles & Bracelets|bangles-bracelets|0% 100%,Rings|rings|50% 100%,Sarees|sarees|100% 100%" | split: "," %}
+      {% for item in cards %}
+        {% assign card = item | split: "|" %}
+        <a href="{{ routes.collections_url }}/{{ card[1] }}" class="category-card">
+          <div class="category-bg category-img" style="background-image:url('{% if forloop.index == 6 %}{{ 'divaa-saree-edits.png' | asset_url }}{% else %}{{ 'divaa-jewelry-types.png' | asset_url }}{% endif %}'); background-position:{{ card[2] }};"></div>
+          <div class="category-overlay">
+            <h3 class="category-name">{{ card[0] }}</h3>
+          </div>
+        </a>
+      {% endfor %}
     </div>
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Categories",
+  "name": "Shop By Product Type",
   "settings": [],
-  "presets": [{ "name": "Categories" }]
+  "presets": [{ "name": "Shop By Product Type" }]
 }
 {% endschema %}

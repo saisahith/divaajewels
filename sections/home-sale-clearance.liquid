@@ -1,0 +1,26 @@
+<section class="sale-clearance-section">
+  <div class="container">
+    <div class="sale-clearance-header">
+      <span class="section-label">Sale and Clearance</span>
+      <h2 class="section-title">Last call on standout pieces.</h2>
+    </div>
+    <div class="sale-clearance-grid">
+      {% assign cards = "Jewelry Sale|jewelry-sale|0% 0%,Saree Sale|saree-sale|50% 0%,Bridal Sale|bridal-sale|100% 0%,Final Pieces|final-pieces|0% 100%,Last Chance Jewelry|last-chance-jewelry|50% 100%,Last Chance Sarees|last-chance-sarees|100% 100%" | split: "," %}
+      {% for item in cards %}
+        {% assign card = item | split: "|" %}
+        <a href="{{ routes.collections_url }}/{{ card[1] }}" class="sale-card">
+          <div class="sale-card-img" style="background-image:url('{{ 'divaa-saree-edits.png' | asset_url }}'); background-position:{{ card[2] }};"></div>
+          <span>{{ card[0] }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Sale and Clearance",
+  "settings": [],
+  "presets": [{ "name": "Sale and Clearance" }]
+}
+{% endschema %}

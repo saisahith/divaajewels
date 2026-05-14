@@ -12,12 +12,12 @@
     </div>
 
     <div class="essential-products">
-      {% assign essentials = "Champagne Kundan Edit|$89|kundan,American Diamond Edit|$104|american-diamond,South Indian Temple Edit|$118|south-indian,Oxidized Everyday Edit|$45|oxidized,Traditional Festive Edit|$98|traditional,Silk Saree Pairing|$135|sarees" | split: "," %}
+      {% assign essentials = "Champagne Kundan Edit|$89|kundan-jewelry,American Diamond Edit|$104|american-diamond-jewelry,Temple Jewelry Edit|$118|temple-jewelry,Oxidised Everyday Edit|$45|oxidised-jewelry,Traditional Festive Edit|$98|traditional-jewelry,Silk Saree Pairing|$135|sarees" | split: "," %}
       {% for item in essentials %}
         {% assign p = item | split: "|" %}
         <article class="tsr-product-card">
           <a href="{{ routes.collections_url }}/{{ p[2] }}">
-            <div class="tsr-product-media" style="background-image:url('{% if forloop.index <= 3 %}{{ 'divaa-product-grid.png' | asset_url }}{% else %}{{ 'divaa-editorial-grid.png' | asset_url }}{% endif %}'); background-position:{% cycle '0% 0%', '50% 0%', '100% 0%', '0% 100%', '50% 100%', '100% 100%' %};">
+            <div class="tsr-product-media" style="background-image:url('{% if forloop.index <= 5 %}{{ 'divaa-jewelry-styles.png' | asset_url }}{% else %}{{ 'divaa-saree-edits.png' | asset_url }}{% endif %}'); background-position:{% cycle '0% 0%', '50% 0%', '100% 0%', '0% 100%', '50% 100%', '100% 100%' %};">
               <span>Quick View</span>
             </div>
             <h3>{{ p[0] }}</h3>

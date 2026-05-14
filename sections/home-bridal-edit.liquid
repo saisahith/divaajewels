@@ -1,0 +1,27 @@
+<section class="bridal-edit-section">
+  <div class="container">
+    <div class="bridal-edit-layout">
+      <div class="bridal-edit-hero" style="background-image:url('{{ 'divaa-saree-edits.png' | asset_url }}');"></div>
+      <div class="bridal-edit-content">
+        <span class="section-label">Bridal Edit</span>
+        <h2 class="section-title">Build the full bridal look.</h2>
+        <p>Necklace sets, earrings, bangles, sarees, and complete looks curated for ceremony-ready styling.</p>
+        <div class="edit-link-grid">
+          <a href="{{ routes.collections_url }}/bridal-necklace-sets">Bridal Necklace Sets</a>
+          <a href="{{ routes.collections_url }}/bridal-earrings">Bridal Earrings</a>
+          <a href="{{ routes.collections_url }}/bridal-bangles">Bridal Bangles</a>
+          <a href="{{ routes.collections_url }}/bridal-sarees">Bridal Sarees</a>
+          <a href="{{ routes.collections_url }}/complete-bridal-looks">Complete Bridal Looks</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bridal Edit",
+  "settings": [],
+  "presets": [{ "name": "Bridal Edit" }]
+}
+{% endschema %}

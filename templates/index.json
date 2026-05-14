@@ -2,6 +2,8 @@
   "sections": {
     "home-hero": { "type": "home-hero", "disabled": false, "settings": {} },
     "home-categories": { "type": "home-categories", "disabled": false, "settings": {} },
+    "home-jewelry-style": { "type": "home-jewelry-style", "disabled": false, "settings": {} },
+    "home-bridal-edit": { "type": "home-bridal-edit", "disabled": false, "settings": {} },
     "home-featured": {
       "type": "home-featured",
       "disabled": false,
@@ -12,17 +14,17 @@
       }
     },
     "home-shop-look": { "type": "home-shop-look", "disabled": false, "settings": {} },
-    "home-gift-guide": { "type": "home-gift-guide", "disabled": false, "settings": {} },
-    "home-essential-jewelry": { "type": "home-essential-jewelry", "disabled": false, "settings": {} },
+    "home-sale-clearance": { "type": "home-sale-clearance", "disabled": false, "settings": {} },
     "home-newsletter": { "type": "home-newsletter", "disabled": false, "settings": {} }
   },
   "order": [
     "home-hero",
     "home-categories",
+    "home-jewelry-style",
+    "home-bridal-edit",
     "home-featured",
     "home-shop-look",
-    "home-gift-guide",
-    "home-essential-jewelry",
+    "home-sale-clearance",
     "home-newsletter"
   ]
 }
