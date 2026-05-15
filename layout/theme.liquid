@@ -7,7 +7,7 @@
 
   <title>
     {{ page_title }}
-    {%- unless page_title contains shop.name %} — {{ shop.name }}{% endunless %}
+    {%- unless page_title contains shop.name %} - {{ shop.name }}{% endunless %}
   </title>
 
   {% if page_description %}
@@ -63,6 +63,8 @@
 
   {% section 'footer' %}
 
+  {% render 'search-drawer' %}
+  {% render 'cart-drawer' %}
   {% render 'float-buttons' %}
 
   <!-- AOS -->

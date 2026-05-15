@@ -1,79 +1,22 @@
-<section class="categories jewelry-style-section">
+<section class="categories jewelry-style-section" id="shop-jewelry">
   <div class="container">
     <div class="categories-header">
       <span class="section-label">Shop Jewelry</span>
-      <h2 class="section-title">Start with what you need.</h2>
+      <h2 class="section-title">Shop Jewelry</h2>
     </div>
 
-    <div class="style-type-grid">
-      <article class="style-type-card">
-        <a href="{{ routes.collections_url }}/necklace-sets" class="style-type-image">
-          <div class="category-bg category-img" style="background-image:url('{{ 'divaa-jewelry-types.png' | asset_url }}'); background-position:0% 0%;"></div>
-          <h3>Necklace Sets</h3>
+    <div class="arrival-collection-grid jewelry-pill-grid" aria-label="Shop jewelry categories">
+      {% assign jewelry_cards = "Necklace Sets|Statement necklace sets for weddings, parties, and festive styling.|necklace-sets|0% 0%|divaa-jewelry-types.png||Earrings|Elegant earrings for sarees, lehengas, and everyday ethnic looks.|earrings|100% 0%|divaa-jewelry-types.png||Bangles & Bracelets|Classic bangles and bracelets to complete your celebration look.|bangles-bracelets|0% 100%|divaa-jewelry-types.png||Rings|American Diamond and Kundan rings with a polished occasion finish.|rings|50% 100%|divaa-jewelry-types.png||Bridal Accessories|Maang tikka, matha patti, passa, hathphool, bajuband, and kamarband.|bridal-accessories|100% 0%|divaa-saree-edits.png" | split: "||" %}
+      {% for item in jewelry_cards %}
+        {% assign card = item | split: "|" %}
+        <a href="{{ routes.collections_url }}/{{ card[2] }}" class="arrival-collection-card">
+          <span class="arrival-card-image" style="background-image:url('{{ card[4] | asset_url }}'); background-position:{{ card[3] }};"></span>
+          <span class="arrival-card-copy">
+            <strong>{{ card[0] }}</strong>
+            <em>{{ card[1] }}</em>
+          </span>
         </a>
-        <div class="style-type-links">
-          <a href="{{ routes.collections_url }}/american-diamond-necklace-sets">American Diamond</a>
-          <a href="{{ routes.collections_url }}/kundan-necklace-sets">Kundan</a>
-          <a href="{{ routes.collections_url }}/temple-necklace-sets">Temple Jewelry</a>
-          <a href="{{ routes.collections_url }}/traditional-necklace-sets">Traditional Jewelry</a>
-          <a href="{{ routes.collections_url }}/oxidized-necklace-sets">Oxidized Jewelry</a>
-          <a href="{{ routes.collections_url }}/bridal-necklace-sets">Bridal Necklace Sets</a>
-        </div>
-      </article>
-
-      <article class="style-type-card">
-        <a href="{{ routes.collections_url }}/earrings" class="style-type-image">
-          <div class="category-bg category-img" style="background-image:url('{{ 'divaa-jewelry-types.png' | asset_url }}'); background-position:100% 0%;"></div>
-          <h3>Earrings</h3>
-        </a>
-        <div class="style-type-links">
-          <a href="{{ routes.collections_url }}/american-diamond-earrings">American Diamond Earrings</a>
-          <a href="{{ routes.collections_url }}/kundan-earrings">Kundan Earrings</a>
-          <a href="{{ routes.collections_url }}/temple-earrings">Temple Earrings</a>
-          <a href="{{ routes.collections_url }}/oxidized-earrings">Oxidized Earrings</a>
-        </div>
-      </article>
-
-      <article class="style-type-card">
-        <a href="{{ routes.collections_url }}/bangles-bracelets" class="style-type-image">
-          <div class="category-bg category-img" style="background-image:url('{{ 'divaa-jewelry-types.png' | asset_url }}'); background-position:0% 100%;"></div>
-          <h3>Bangles & Bracelets</h3>
-        </a>
-        <div class="style-type-links">
-          <a href="{{ routes.collections_url }}/bangles">Bangles</a>
-          <a href="{{ routes.collections_url }}/kadas">Kadas</a>
-          <a href="{{ routes.collections_url }}/american-diamond-bangles">American Diamond Bangles</a>
-          <a href="{{ routes.collections_url }}/kundan-bangles">Kundan Bangles</a>
-          <a href="{{ routes.collections_url }}/temple-bangles">Temple Bangles</a>
-          <a href="{{ routes.collections_url }}/oxidized-bangles">Oxidized Bangles</a>
-        </div>
-      </article>
-
-      <article class="style-type-card">
-        <a href="{{ routes.collections_url }}/rings" class="style-type-image">
-          <div class="category-bg category-img" style="background-image:url('{{ 'divaa-jewelry-types.png' | asset_url }}'); background-position:50% 100%;"></div>
-          <h3>Rings</h3>
-        </a>
-        <div class="style-type-links">
-          <a href="{{ routes.collections_url }}/american-diamond-rings">American Diamond Rings</a>
-          <a href="{{ routes.collections_url }}/kundan-rings">Kundan Rings</a>
-        </div>
-      </article>
-
-      <article class="style-type-card">
-        <a href="{{ routes.collections_url }}/bridal-accessories" class="style-type-image">
-          <div class="category-bg category-img" style="background-image:url('{{ 'divaa-saree-edits.png' | asset_url }}'); background-position:100% 0%;"></div>
-          <h3>Bridal Accessories</h3>
-        </a>
-        <div class="style-type-links">
-          <a href="{{ routes.collections_url }}/maang-tikka">Maang Tikka</a>
-          <a href="{{ routes.collections_url }}/passa">Passa</a>
-          <a href="{{ routes.collections_url }}/matha-patti">Matha Patti</a>
-          <a href="{{ routes.collections_url }}/hathphool">Hathphool</a>
-          <a href="{{ routes.collections_url }}/bajuband">Bajuband</a>
-          <a href="{{ routes.collections_url }}/waist-belt-kamarband">Waist Belt / Kamarband</a>
-        </div>
-      </article>
+      {% endfor %}
     </div>
   </div>
 </section>

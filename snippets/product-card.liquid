@@ -5,6 +5,12 @@
         <img src="{{ product.featured_image | image_url: width: 600 }}"
              alt="{{ product.featured_image.alt | escape }}"
              loading="lazy" width="600" height="800">
+        {% if product.images.size > 1 %}
+          <img class="product-card-second-image"
+               src="{{ product.images[1] | image_url: width: 600 }}"
+               alt="{{ product.images[1].alt | default: product.title | escape }}"
+               loading="lazy" width="600" height="800">
+        {% endif %}
       {% else %}
         <div class="product-placeholder">
           <i class="fas fa-gem"></i>
@@ -14,11 +20,12 @@
     </a>
 
     <div class="product-overlay">
+      <a href="{{ product.url }}" class="quick-view-link" aria-label="Quick view {{ product.title | escape }}">Quick View</a>
       <button class="quick-add"
               type="button"
               data-variant-id="{{ product.first_available_variant.id }}"
               {% unless product.available %}disabled{% endunless %}>
-        {% if product.available %}Quick Add{% else %}Sold Out{% endif %}
+        {% if product.available %}Add to Cart{% else %}Sold Out{% endif %}
       </button>
     </div>
 
@@ -27,6 +34,10 @@
     {% else %}
       {% if product.compare_at_price > product.price %}
         <span class="product-badge">Sale</span>
+      {% elsif product.tags contains 'new-arrival' or product.tags contains 'new' %}
+        <span class="product-badge">New Arrival</span>
+      {% elsif product.tags contains 'bestseller' or product.tags contains 'best-seller' %}
+        <span class="product-badge">Bestseller</span>
       {% endif %}
     {% endunless %}
   </div>
@@ -39,6 +50,10 @@
     <p class="product-price {% unless product.available %}sold{% endunless %}">
       {% if product.compare_at_price > product.price %}
         <s style="color:var(--gray); font-size:12px;">{{ product.compare_at_price | money }}</s>
+        &nbsp;
+        {% assign discount_amount = product.compare_at_price | minus: product.price %}
+        {% assign discount_percent = discount_amount | times: 100 | divided_by: product.compare_at_price %}
+        <span class="product-discount">{{ discount_percent }}% off</span>
         &nbsp;
       {% endif %}
       {{ product.price | money }}

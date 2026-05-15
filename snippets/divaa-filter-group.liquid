@@ -1,0 +1,16 @@
+<details class="filter-store-group" open>
+  <summary>{{ group_title }}</summary>
+  <div class="filter-link-list">
+    {% for item in group_items %}
+      {% assign parts = item | split: '|' %}
+      {% assign label = parts[0] %}
+      {% assign handle = parts[1] %}
+      <a href="{{ routes.collections_url }}/{{ handle }}"
+         class="filter-check filter-check-link{% if current_handle == handle %} active{% endif %}"
+         aria-label="Shop {{ label | escape }}">
+        <span class="filter-check-box" aria-hidden="true"></span>
+        <span>{{ label }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</details>

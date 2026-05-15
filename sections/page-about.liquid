@@ -1,14 +1,12 @@
-<!-- Hero -->
 <section class="hero" style="min-height:55vh;">
   <div class="hero-bg-pattern"></div>
   <div class="hero-content">
-    <span class="hero-tag">Est. 2020 · Virginia, USA</span>
+    <span class="hero-tag">Est. 2020 / Virginia, USA</span>
     <h1 class="hero-title">Our <span>Story</span></h1>
-    <p class="hero-subtitle">Handcrafted Indian Heritage · Delivered Across America</p>
+    <p class="hero-subtitle">Handcrafted Indian heritage / Delivered across America</p>
   </div>
 </section>
 
-<!-- Story -->
 <section style="background:#fff; padding:90px 24px;">
   <div class="container">
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center;">
@@ -17,13 +15,13 @@
         <h2 class="section-title">Born from Tradition,<br>Crafted for You</h2>
         <div class="section-divider"></div>
         <p style="color:#555;font-size:14px;line-height:1.9;margin-bottom:20px;">
-          DiVaa Jewels N Ensemble was founded in 2020 by a passionate curator of Indian craftsmanship who moved to Virginia, USA — bringing with her a love for handcrafted jewellery that tells a story.
+          DiVaa Jewels N Ensemble was founded in 2020 by a passionate curator of Indian craftsmanship who moved to Virginia, USA, bringing with her a love for handcrafted jewelry that tells a story.
         </p>
         <p style="color:#555;font-size:14px;line-height:1.9;margin-bottom:20px;">
-          Every piece in our collection is carefully handpicked from skilled artisans across India — from the gold temple workshops of South India to the kundan craftsmen of Rajasthan.
+          Every piece in our collection is carefully handpicked from skilled artisans across India, from the temple jewelry workshops of South India to the kundan craftsmen of Rajasthan.
         </p>
         <p style="color:#555;font-size:14px;line-height:1.9;">
-          We ship exclusively within the USA, bringing authentic Indian heritage jewellery directly to your doorstep.
+          We ship within the USA, bringing authentic Indian heritage jewelry and sarees directly to your doorstep.
         </p>
       </div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
@@ -40,7 +38,6 @@
   </div>
 </section>
 
-<!-- Values -->
 <section style="background:var(--cream); padding:90px 24px;">
   <div class="container">
     <div style="text-align:center; margin-bottom:56px;">
@@ -49,7 +46,7 @@
       <div class="section-divider" style="margin:20px auto 0;"></div>
     </div>
     <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:32px;">
-      {% assign values = "fas fa-gem,Authentic Craftsmanship,Every piece is handcrafted by skilled artisans preserving centuries-old techniques.|fas fa-heart,Curated with Love,We personally inspect every piece for quality before it reaches your home.|fas fa-truck,USA-Wide Delivery,Free shipping on orders over $75 — from our Virginia home to yours." | split: "|" %}
+      {% assign values = "fas fa-gem,Authentic Craftsmanship,Every piece is handcrafted by skilled artisans preserving centuries-old techniques.|fas fa-heart,Curated with Care,We inspect every piece for quality before it reaches your home.|fas fa-truck,USA-Wide Delivery,Free shipping on qualifying orders from our Virginia home to yours." | split: "|" %}
       {% for value in values %}
         {% assign parts = value | split: "," %}
         <div style="background:#fff;padding:40px 32px;text-align:center;border:1px solid rgba(201,168,76,.15);transition:transform .3s,box-shadow .3s;"
@@ -64,14 +61,13 @@
   </div>
 </section>
 
-<!-- CTA -->
 <section style="background:var(--dark); padding:80px 24px; text-align:center;">
   <div class="container">
     <span class="section-label">Start Exploring</span>
     <h2 class="section-title" style="color:#fff; margin:12px 0 20px;">Find Your Perfect Piece</h2>
     <div class="section-divider" style="margin:0 auto 32px;"></div>
-    <a href="{{ routes.collections_url }}/all" class="btn-primary">
-      Shop All Collections &nbsp;<i class="fas fa-arrow-right"></i>
+    <a href="{{ routes.collections_url }}/necklace-sets" class="btn-primary">
+      Shop Jewelry &nbsp;<i class="fas fa-arrow-right"></i>
     </a>
   </div>
 </section>

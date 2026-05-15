@@ -1,53 +1,122 @@
-<section class="featured">
+<section class="new-arrivals-showcase">
   <div class="container">
-    <div class="featured-header">
+    <div class="new-arrivals-header">
       <span class="section-label">{{ section.settings.label }}</span>
       <h2 class="section-title">{{ section.settings.title }}</h2>
-      <div class="section-divider"></div>
+      {% if section.settings.subtitle != blank %}
+        <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
+
+      {% if section.settings.show_chips %}
+        <div class="arrival-filter-chips" aria-label="New arrival filters">
+          {% assign chip_labels = "All,Jewelry,Clothing,Bridal,Sarees" | split: "," %}
+          {% assign chip_urls = "/collections/new-arrivals,/#shop-jewelry,/#shop-clothing,/collections/bridal,/collections/sarees" | split: "," %}
+          {% assign active_paths = "new-arrivals,shop-jewelry,shop-clothing,bridal,sarees" | split: "," %}
+          {% for chip in chip_labels %}
+            {% assign chip_url = chip_urls[forloop.index0] %}
+            {% assign active_path = active_paths[forloop.index0] %}
+            <a href="{{ chip_url }}"
+               class="{% if request.path contains active_path %}active{% elsif forloop.first and request.path == routes.root_url %}active{% endif %}"
+               aria-label="Shop {{ chip | escape }}">
+              {{ chip }}
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
 
-    <div class="products-grid">
-      {%- liquid
-        assign col = section.settings.collection
-        assign featured_collection = collections[col]
-        if featured_collection == blank or featured_collection == nil
-        assign featured_collection = collections['new-arrivals']
-        endif
-        assign rendered_products = 0
-      -%}
+    {%- liquid
+      assign selected_collection = collections[section.settings.collection]
+      if selected_collection == blank or selected_collection == nil
+        assign selected_collection = collections['new-arrivals']
+      endif
+      assign featured_product = all_products[section.settings.featured_product]
+      if featured_product == blank and selected_collection != blank and selected_collection.products_count > 0
+        assign featured_product = selected_collection.products.first
+      endif
+      assign rendered_small_products = 0
+    -%}
 
-      {%- if featured_collection != blank and featured_collection != nil -%}
-        {%- for product in featured_collection.products limit: section.settings.products_count -%}
-          {% assign rendered_products = rendered_products | plus: 1 %}
-          {% render 'product-card', product: product %}
-        {%- endfor -%}
-      {%- endif -%}
-
-      {%- if rendered_products == 0 -%}
-        {% assign dummy_products = "American Diamond Necklace Set|$125|New|american-diamond-necklace-sets,Kundan Earrings|$68|Signature|kundan-earrings,Temple Bangles|$110|Heritage|temple-bangles,Oxidized Earrings|$45|Best Seller|oxidized-earrings,Bridal Necklace Set|$198|Bridal|bridal-necklace-sets,Designer Saree Edit|$135|Limited|designer-sarees" | split: "," %}
-        {% for item in dummy_products %}
-          {% assign p = item | split: "|" %}
-          <article class="product-card dummy-product-card">
-            <a href="{{ routes.collections_url }}/{{ p[3] }}">
-              <div class="product-img-wrap product-img-tile" style="background-image:url('{% if forloop.index <= 3 %}{{ 'divaa-jewelry-styles.png' | asset_url }}{% else %}{{ 'divaa-saree-edits.png' | asset_url }}{% endif %}'); background-position:{% cycle '0% 0%', '50% 0%', '100% 0%', '0% 100%', '50% 100%', '100% 100%' %};">
-                <span class="product-badge">{{ p[2] }}</span>
+    <div class="arrival-showcase-layout">
+      {% if featured_product != blank %}
+        <article class="arrival-feature-card">
+          <a href="{{ featured_product.url }}" class="arrival-feature-media">
+            {% if featured_product.featured_image %}
+              <img src="{{ featured_product.featured_image | image_url: width: 900 }}"
+                   alt="{{ featured_product.featured_image.alt | default: featured_product.title | escape }}"
+                   width="900" height="1100" loading="lazy">
+            {% else %}
+              <div class="product-placeholder">
+                <i class="fas fa-gem"></i>
+                <span>{{ featured_product.type | default: 'New Arrival' }}</span>
               </div>
-            </a>
-            <div class="product-info">
-              <p class="product-brand">Divaa Jewels</p>
-              <h3 class="product-name"><a href="{{ routes.collections_url }}/{{ p[3] }}">{{ p[0] }}</a></h3>
-              <p class="product-price">{{ p[1] }}</p>
-            </div>
-          </article>
-        {% endfor %}
-      {%- endif -%}
+            {% endif %}
+            <span class="arrival-badge">New Arrival</span>
+          </a>
+          <div class="arrival-feature-content">
+            <h3><a href="{{ featured_product.url }}">{{ featured_product.title }}</a></h3>
+            <p>{{ featured_product.description | strip_html | truncate: 120 | default: 'Freshly added for weddings, festive moments, and elegant ethnic styling.' }}</p>
+            <strong>{{ featured_product.price | money }}</strong>
+            <a href="{{ featured_product.url }}" class="btn-primary">Shop Now</a>
+          </div>
+        </article>
+      {% else %}
+        {% comment %}TEMP TEST PRODUCTS — REMOVE BEFORE LAUNCH{% endcomment %}
+        <article class="arrival-feature-card">
+          <a href="{{ routes.collections_url }}/new-arrivals" class="arrival-feature-media">
+            <div class="arrival-dummy-media" style="background-image:url('{{ 'divaa-jewelry-styles.png' | asset_url }}'); background-position:50% 0%;"></div>
+            <span class="arrival-badge">Preview Only</span>
+          </a>
+          <div class="arrival-feature-content">
+            <h3><a href="{{ routes.collections_url }}/new-arrivals">Pearl Drop Kundan Necklace Set</a></h3>
+            <p>Freshly added for weddings, festive moments, and elegant ethnic styling.</p>
+            <strong>$125</strong>
+            <a href="{{ routes.collections_url }}/new-arrivals" class="btn-primary">Shop Now</a>
+          </div>
+        </article>
+      {% endif %}
+
+      <div class="arrival-small-grid">
+        {% if selected_collection != blank and selected_collection.products_count > 0 %}
+          {% for product in selected_collection.products limit: 5 %}
+            {% unless featured_product != blank and product.id == featured_product.id %}
+              {% if rendered_small_products < 4 %}
+                {% assign rendered_small_products = rendered_small_products | plus: 1 %}
+                {% render 'product-card', product: product %}
+              {% endif %}
+            {% endunless %}
+          {% endfor %}
+        {% endif %}
+
+        {% if rendered_small_products == 0 %}
+          {% comment %}TEMP TEST PRODUCTS — REMOVE BEFORE LAUNCH{% endcomment %}
+          {% assign dummy_products = "Crystal American Diamond Earrings|$68|american-diamond-earrings,Mint Kundan Earrings|$78|kundan-earrings,Temple Bangles Set|$110|temple-bangles,Rose Designer Saree|$135|designer-sarees" | split: "," %}
+          {% for item in dummy_products %}
+            {% assign p = item | split: "|" %}
+            <article class="product-card dummy-product-card">
+              <a href="{{ routes.collections_url }}/{{ p[2] }}">
+                <div class="product-img-wrap product-img-tile" style="background-image:url('{% if forloop.index < 4 %}{{ 'divaa-jewelry-styles.png' | asset_url }}{% else %}{{ 'divaa-saree-edits.png' | asset_url }}{% endif %}'); background-position:{% cycle '0% 0%', '50% 0%', '100% 0%', '0% 100%' %};">
+                  <span class="product-badge">Preview Only</span>
+                  <div class="product-overlay">
+                    <a href="{{ routes.collections_url }}/{{ p[2] }}" class="quick-view-link">Quick View</a>
+                    <button class="quick-add dummy-add-link" type="button" disabled>Preview Only</button>
+                  </div>
+                </div>
+              </a>
+              <div class="product-info">
+                <h3 class="product-name"><a href="{{ routes.collections_url }}/{{ p[2] }}">{{ p[0] }}</a></h3>
+                <p class="product-price">{{ p[1] }}</p>
+              </div>
+            </article>
+          {% endfor %}
+        {% endif %}
+      </div>
     </div>
 
     <div class="view-all-wrap">
-      {%- assign fallback_url = routes.collections_url | append: '/all' -%}
-      {%- assign col_url = featured_collection.url | default: fallback_url -%}
-      <a href="{{ col_url }}" class="btn-ghost">
-        View All &nbsp;<i class="fas fa-arrow-right"></i>
+      {% assign fallback_url = routes.collections_url | append: '/new-arrivals' %}
+      <a href="{{ section.settings.button_link | default: fallback_url }}" class="btn-primary arrival-shop-all">
+        {{ section.settings.button_text }}
       </a>
     </div>
   </div>
@@ -55,13 +124,17 @@
 
 {% schema %}
 {
-  "name": "Featured Collection",
+  "name": "New Arrivals Showcase",
   "settings": [
-    { "type": "text",       "id": "label",          "label": "Section label",    "default": "New Arrivals" },
-    { "type": "text",       "id": "title",          "label": "Section title",    "default": "Freshly Curated Jewelry" },
-    { "type": "collection", "id": "collection",     "label": "Collection" },
-    { "type": "range",      "id": "products_count", "label": "Products to show", "min": 3, "max": 12, "step": 3, "default": 6 }
+    { "type": "text", "id": "label", "label": "Section label", "default": "JUST DROPPED" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "New Arrivals" },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "Freshly added jewelry and clothing pieces curated for weddings, festive moments, and elegant ethnic styling." },
+    { "type": "checkbox", "id": "show_chips", "label": "Show filter chips", "default": true },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "product", "id": "featured_product", "label": "Featured product" },
+    { "type": "text", "id": "button_text", "label": "Button text", "default": "Shop New Arrivals" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
   ],
-  "presets": [{ "name": "Featured Collection" }]
+  "presets": [{ "name": "New Arrivals Showcase" }]
 }
 {% endschema %}

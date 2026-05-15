@@ -1,22 +1,22 @@
 <header id="header">
   <div class="header-inner">
-    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
       <span></span><span></span><span></span>
     </button>
 
-    <a href="{{ routes.root_url }}" class="logo">DIVAA</a>
+    <a href="{{ routes.root_url }}" class="logo" aria-label="{{ shop.name }}">DIVAA</a>
 
     <nav id="main-nav" aria-label="Primary navigation">
       <a href="{{ routes.collections_url }}/new-arrivals">New Arrivals</a>
 
       <div class="nav-group nav-group-wide">
-        <a href="{{ routes.collections_url }}/all">Jewelry</a>
-        <div class="mega-panel mega-panel-style-grid">
+        <a href="{{ routes.collections_url }}/necklace-sets">Jewelry</a>
+        <div class="mega-panel mega-panel-style-grid mega-with-promo">
           <div class="mega-style-column">
             <a href="{{ routes.collections_url }}/necklace-sets" class="mega-heading-link">Necklace Sets</a>
             <a href="{{ routes.collections_url }}/american-diamond-necklace-sets">American Diamond</a>
             <a href="{{ routes.collections_url }}/kundan-necklace-sets">Kundan</a>
-            <a href="{{ routes.collections_url }}/temple-necklace-sets">Temple Jewelry</a>
+            <a href="{{ routes.collections_url }}/temple-jewelry-necklace-sets">Temple Jewelry</a>
             <a href="{{ routes.collections_url }}/traditional-necklace-sets">Traditional Jewelry</a>
             <a href="{{ routes.collections_url }}/oxidized-necklace-sets">Oxidized Jewelry</a>
             <a href="{{ routes.collections_url }}/bridal-necklace-sets">Bridal Necklace Sets</a>
@@ -57,43 +57,64 @@
             <a href="{{ routes.collections_url }}/bajuband">Bajuband</a>
             <a href="{{ routes.collections_url }}/waist-belt-kamarband">Waist Belt / Kamarband</a>
           </div>
+
+          <a href="{{ routes.collections_url }}/bridal" class="mega-promo-card">
+            <span>Bridal Collection</span>
+            <strong>Statement pieces for every celebration</strong>
+            <em>Explore Bridal</em>
+          </a>
         </div>
       </div>
 
       <div class="nav-group">
-        <a href="{{ routes.collections_url }}/sarees">Sarees</a>
-        <div class="mega-panel">
-          <a href="{{ routes.collections_url }}/banarasi-sarees">Banarasi Sarees</a>
-          <a href="{{ routes.collections_url }}/kanchivaram-sarees">Kanchivaram Sarees</a>
-          <a href="{{ routes.collections_url }}/bridal-sarees">Bridal Sarees</a>
-          <a href="{{ routes.collections_url }}/designer-sarees">Designer Sarees</a>
-          <a href="{{ routes.collections_url }}/party-wear-sarees">Party Wear Sarees</a>
+        <a href="{{ routes.collections_url }}/bridal">Bridal</a>
+        <div class="mega-panel mega-bridal-grid">
+          <div class="mega-style-column">
+            <a href="{{ routes.collections_url }}/bridal" class="mega-heading-link">Bridal Collection</a>
+            <a href="{{ routes.collections_url }}/bridal-necklace-sets">Bridal Necklace Sets</a>
+            <a href="{{ routes.collections_url }}/maang-tikka">Maang Tikka</a>
+            <a href="{{ routes.collections_url }}/passa">Passa</a>
+            <a href="{{ routes.collections_url }}/matha-patti">Matha Patti</a>
+            <a href="{{ routes.collections_url }}/hathphool">Hathphool</a>
+            <a href="{{ routes.collections_url }}/bajuband">Bajuband</a>
+            <a href="{{ routes.collections_url }}/waist-belt-kamarband">Waist Belt / Kamarband</a>
+            <a href="{{ routes.collections_url }}/bridal-sarees">Bridal Sarees</a>
+          </div>
         </div>
       </div>
 
       <div class="nav-group">
-        <a href="{{ routes.collections_url }}/bridal-collection">Bridal Collection</a>
-        <div class="mega-panel">
-          <a href="{{ routes.collections_url }}/bridal-necklace-sets">Bridal Necklace Sets</a>
-          <a href="{{ routes.collections_url }}/bridal-earrings">Bridal Earrings</a>
-          <a href="{{ routes.collections_url }}/bridal-bangles">Bridal Bangles</a>
-          <a href="{{ routes.collections_url }}/bridal-sarees">Bridal Sarees</a>
-          <a href="{{ routes.collections_url }}/complete-bridal-looks">Complete Bridal Looks</a>
+        <a href="{{ routes.collections_url }}/clothing">Clothing</a>
+        <div class="mega-panel mega-clothing-grid">
+          <div class="mega-style-column">
+            <a href="{{ routes.collections_url }}/sarees" class="mega-heading-link">Sarees</a>
+            <a href="{{ routes.collections_url }}/banarasi-sarees">Banarasi Sarees</a>
+            <a href="{{ routes.collections_url }}/kanchivaram-sarees">Kanchivaram Sarees</a>
+            <a href="{{ routes.collections_url }}/bridal-sarees">Bridal Sarees</a>
+            <a href="{{ routes.collections_url }}/designer-sarees">Designer Sarees</a>
+            <a href="{{ routes.collections_url }}/party-wear-sarees">Party Wear Sarees</a>
+          </div>
+          <div class="mega-style-column">
+            <a href="{{ routes.collections_url }}/lehengas" class="mega-heading-link">Lehengas</a>
+            <a href="{{ routes.collections_url }}/party-wear-lehenga">Party Wear Lehenga</a>
+          </div>
+          <div class="mega-style-column">
+            <a href="{{ routes.collections_url }}/dresses-gowns" class="mega-heading-link">Dresses / Gowns</a>
+            <a href="{{ routes.collections_url }}/indo-western">Indo Western</a>
+            <a href="{{ routes.collections_url }}/anarkali">Anarkali</a>
+            <a href="{{ routes.collections_url }}/party-wear-dresses">Party Wear Dresses</a>
+          </div>
+          <a href="{{ routes.collections_url }}/clothing" class="mega-promo-card clothing-promo">
+            <span>Shop Ethnic Clothing</span>
+            <strong>Sarees, lehengas, and occasion-ready looks</strong>
+            <em>Shop Clothing</em>
+          </a>
         </div>
       </div>
 
-      <div class="nav-group">
-        <a href="{{ routes.collections_url }}/sale">Sale</a>
-        <div class="mega-panel">
-          <a href="{{ routes.collections_url }}/live-sale">Live Sale Collection</a>
-          <a href="{{ routes.collections_url }}/jewelry-sale">Jewelry Sale</a>
-          <a href="{{ routes.collections_url }}/saree-sale">Saree Sale</a>
-          <a href="{{ routes.collections_url }}/bridal-sale">Bridal Sale</a>
-          <a href="{{ routes.collections_url }}/clearance">Clearance</a>
-        </div>
-      </div>
-
-      <a href="{{ routes.root_url }}pages/membership">VIP Signup</a>
+      <a href="{{ routes.collections_url }}/sale">Sale</a>
+      <a href="{{ routes.collections_url }}/clearance">Clearance</a>
+      <a href="{{ routes.root_url }}#vip-signup">Membership</a>
     </nav>
 
     <div class="header-icons">
@@ -105,7 +126,7 @@
           <i class="fas fa-user"></i>
         </a>
       {% endif %}
-      <a href="{{ routes.cart_url }}" aria-label="Cart" style="position:relative">
+      <a href="{{ routes.cart_url }}" aria-label="Cart" class="js-cart-toggle" style="position:relative">
         <i class="fas fa-shopping-bag"></i>
         <span class="cart-badge" id="cart-count">{{ cart.item_count }}</span>
       </a>
@@ -115,15 +136,45 @@
 
 <nav id="mobile-nav" aria-label="Main navigation">
   <a href="{{ routes.collections_url }}/new-arrivals"><i class="fas fa-star"></i> New Arrivals</a>
-  <a href="{{ routes.collections_url }}/necklace-sets"><i class="fas fa-ring"></i> Necklace Sets</a>
-  <a href="{{ routes.collections_url }}/earrings"><i class="fas fa-circle"></i> Earrings</a>
-  <a href="{{ routes.collections_url }}/bangles-bracelets"><i class="fas fa-circle-notch"></i> Bangles & Bracelets</a>
-  <a href="{{ routes.collections_url }}/rings"><i class="fas fa-ring"></i> Rings</a>
-  <a href="{{ routes.collections_url }}/bridal-accessories"><i class="fas fa-heart"></i> Bridal Accessories</a>
-  <a href="{{ routes.collections_url }}/sarees"><i class="fas fa-scroll"></i> Sarees</a>
-  <a href="{{ routes.collections_url }}/bridal-collection"><i class="fas fa-heart"></i> Bridal Collection</a>
-  <a href="{{ routes.collections_url }}/live-sale"><i class="fas fa-tag"></i> Live Sale</a>
-  <a href="{{ routes.root_url }}pages/membership"><i class="fas fa-user-plus"></i> VIP Signup</a>
+
+  <details class="mobile-menu-group">
+    <summary><i class="fas fa-gem"></i> Jewelry</summary>
+    <div class="mobile-submenu">
+      <details><summary>Necklace Sets</summary><a href="{{ routes.collections_url }}/american-diamond-necklace-sets">American Diamond</a><a href="{{ routes.collections_url }}/kundan-necklace-sets">Kundan</a><a href="{{ routes.collections_url }}/temple-jewelry-necklace-sets">Temple Jewelry</a><a href="{{ routes.collections_url }}/traditional-necklace-sets">Traditional Jewelry</a><a href="{{ routes.collections_url }}/oxidized-necklace-sets">Oxidized Jewelry</a><a href="{{ routes.collections_url }}/bridal-necklace-sets">Bridal Necklace Sets</a><a href="{{ routes.collections_url }}/fusion-contemporary-necklace-sets">Fusion / Contemporary</a><a href="{{ routes.collections_url }}/premium-necklace-sets">Premium Collection</a></details>
+      <details><summary>Earrings</summary><a href="{{ routes.collections_url }}/american-diamond-earrings">American Diamond Earrings</a><a href="{{ routes.collections_url }}/kundan-earrings">Kundan Earrings</a><a href="{{ routes.collections_url }}/temple-earrings">Temple Earrings</a><a href="{{ routes.collections_url }}/oxidized-earrings">Oxidized Earrings</a></details>
+      <details><summary>Bangles & Bracelets</summary><a href="{{ routes.collections_url }}/bangles">Bangles</a><a href="{{ routes.collections_url }}/kadas">Kadas</a><a href="{{ routes.collections_url }}/american-diamond-bangles">American Diamond Bangles</a><a href="{{ routes.collections_url }}/kundan-bangles">Kundan Bangles</a><a href="{{ routes.collections_url }}/temple-bangles">Temple Bangles</a><a href="{{ routes.collections_url }}/oxidized-bangles">Oxidized Bangles</a></details>
+      <details><summary>Rings</summary><a href="{{ routes.collections_url }}/american-diamond-rings">American Diamond Rings</a><a href="{{ routes.collections_url }}/kundan-rings">Kundan Rings</a></details>
+      <details><summary>Bridal Accessories</summary><a href="{{ routes.collections_url }}/maang-tikka">Maang Tikka</a><a href="{{ routes.collections_url }}/passa">Passa</a><a href="{{ routes.collections_url }}/matha-patti">Matha Patti</a><a href="{{ routes.collections_url }}/hathphool">Hathphool</a><a href="{{ routes.collections_url }}/bajuband">Bajuband</a><a href="{{ routes.collections_url }}/waist-belt-kamarband">Waist Belt / Kamarband</a></details>
+    </div>
+  </details>
+
+  <details class="mobile-menu-group">
+    <summary><i class="fas fa-ring"></i> Bridal</summary>
+    <div class="mobile-submenu">
+      <a href="{{ routes.collections_url }}/bridal">Bridal Collection</a>
+      <a href="{{ routes.collections_url }}/bridal-necklace-sets">Bridal Necklace Sets</a>
+      <a href="{{ routes.collections_url }}/maang-tikka">Maang Tikka</a>
+      <a href="{{ routes.collections_url }}/passa">Passa</a>
+      <a href="{{ routes.collections_url }}/matha-patti">Matha Patti</a>
+      <a href="{{ routes.collections_url }}/hathphool">Hathphool</a>
+      <a href="{{ routes.collections_url }}/bajuband">Bajuband</a>
+      <a href="{{ routes.collections_url }}/waist-belt-kamarband">Waist Belt / Kamarband</a>
+      <a href="{{ routes.collections_url }}/bridal-sarees">Bridal Sarees</a>
+    </div>
+  </details>
+
+  <details class="mobile-menu-group">
+    <summary><i class="fas fa-scroll"></i> Clothing</summary>
+    <div class="mobile-submenu">
+      <details><summary>Sarees</summary><a href="{{ routes.collections_url }}/banarasi-sarees">Banarasi Sarees</a><a href="{{ routes.collections_url }}/kanchivaram-sarees">Kanchivaram Sarees</a><a href="{{ routes.collections_url }}/bridal-sarees">Bridal Sarees</a><a href="{{ routes.collections_url }}/designer-sarees">Designer Sarees</a><a href="{{ routes.collections_url }}/party-wear-sarees">Party Wear Sarees</a></details>
+      <details><summary>Lehengas</summary><a href="{{ routes.collections_url }}/party-wear-lehenga">Party Wear Lehenga</a></details>
+      <details><summary>Dresses / Gowns</summary><a href="{{ routes.collections_url }}/indo-western">Indo Western</a><a href="{{ routes.collections_url }}/anarkali">Anarkali</a><a href="{{ routes.collections_url }}/party-wear-dresses">Party Wear Dresses</a></details>
+    </div>
+  </details>
+
+  <a href="{{ routes.collections_url }}/sale"><i class="fas fa-tag"></i> Sale</a>
+  <a href="{{ routes.collections_url }}/clearance"><i class="fas fa-clock"></i> Clearance</a>
+  <a href="{{ routes.root_url }}#vip-signup"><i class="fas fa-user-plus"></i> Membership</a>
 </nav>
 
 {% schema %}

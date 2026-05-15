@@ -1,77 +1,63 @@
 <footer>
   <div class="footer-inner">
+    <div class="footer-newsletter">
+      <div>
+        <h2>Stay in the Divaa Circle</h2>
+        <p>Sign up for new arrivals, private offers, and styling updates.</p>
+      </div>
+      <div class="newsletter-form footer-signup">
+        <input type="email" class="newsletter-input" placeholder="Email address" aria-label="Email address">
+        <button class="newsletter-btn" type="button">Sign Up</button>
+      </div>
+    </div>
+
     <div class="footer-top">
-      <!-- Brand -->
       <div class="footer-brand">
         <a href="{{ routes.root_url }}" class="logo">DIVAA</a>
         <p class="footer-desc">
-          Handcrafted Indian jewellery & ethnic wear curated for the modern woman.
-          Authentic craftsmanship delivered across the USA.
+          Premium Indian jewelry and ethnic clothing curated for weddings, festive events, and elevated everyday styling.
+          Based in Virginia and shipping across the USA.
         </p>
-        <div class="footer-socials">
-          <a href="https://instagram.com/{{ settings.social_instagram | default: 'divaajewels_n_ensemble' }}" target="_blank" rel="noopener" aria-label="Instagram">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="https://wa.me/{{ settings.social_whatsapp | default: '17033894519' }}" target="_blank" rel="noopener" aria-label="WhatsApp">
-            <i class="fab fa-whatsapp"></i>
-          </a>
-          <a href="https://www.facebook.com/DiVaaJewelsbyNehaJain/" target="_blank" rel="noopener" aria-label="Facebook">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="https://pinterest.com" target="_blank" rel="noopener" aria-label="Pinterest">
-            <i class="fab fa-pinterest-p"></i>
-          </a>
-        </div>
       </div>
 
-      <!-- Shop -->
+      <div class="footer-col">
+        <h4>Customer Care</h4>
+        <ul>
+          <li><a href="{{ routes.root_url }}pages/contact">Contact Us</a></li>
+          <li><a href="{{ routes.root_url }}pages/policies#shipping">Shipping Policy</a></li>
+          <li><a href="{{ routes.root_url }}pages/policies#returns">Returns & Exchanges</a></li>
+          <li><a href="{{ routes.root_url }}pages/policies#terms">Terms & Conditions</a></li>
+          <li><a href="{{ routes.root_url }}pages/policies#privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+
       <div class="footer-col">
         <h4>Shop</h4>
         <ul>
-          <li><a href="{{ routes.collections_url }}/american-diamond">American Diamond</a></li>
-          <li><a href="{{ routes.collections_url }}/kundan">Kundan Jewelry</a></li>
-          <li><a href="{{ routes.collections_url }}/south-indian">Temple Jewelry</a></li>
-          <li><a href="{{ routes.collections_url }}/oxidized">Oxidised Jewelry</a></li>
-          <li><a href="{{ routes.collections_url }}/sarees">Sarees</a></li>
-          <li><a href="{{ routes.collections_url }}/bridal-collection">Bridal Collection</a></li>
+          <li><a href="{{ routes.collections_url }}/necklace-sets">Jewelry</a></li>
+          <li><a href="{{ routes.collections_url }}/clothing">Clothing</a></li>
           <li><a href="{{ routes.collections_url }}/sale">Sale</a></li>
+          <li><a href="{{ routes.collections_url }}/clearance">Clearance</a></li>
+          <li><a href="{{ routes.collections_url }}/new-arrivals">New Arrivals</a></li>
         </ul>
       </div>
 
-      <!-- Help -->
       <div class="footer-col">
-        <h4>Help</h4>
+        <h4>Divaa Jewels</h4>
         <ul>
-          <li><a href="{{ routes.root_url }}pages/contact">Contact Us</a></li>
-          <li><a href="{{ routes.root_url }}pages/order-tracking">Track Order</a></li>
-          <li><a href="{{ routes.root_url }}pages/policies#shipping">Shipping Info</a></li>
-          <li><a href="{{ routes.root_url }}pages/policies#returns">Returns & Exchange</a></li>
-          <li><a href="{{ routes.root_url }}pages/policies#faq">FAQ</a></li>
-          {% if shop.customer_accounts_enabled %}
-            <li><a href="{{ routes.account_url }}">My Account</a></li>
-          {% endif %}
+          <li><a href="{{ routes.root_url }}pages/about">About Us</a></li>
+          <li><a href="{{ routes.root_url }}#vip-signup">Membership</a></li>
+          <li><a href="{{ routes.collections_url }}/bridal-accessories">Bridal Collection</a></li>
         </ul>
       </div>
 
-      <!-- About -->
       <div class="footer-col">
-        <h4>About</h4>
+        <h4>Connect</h4>
         <ul>
-          <li><a href="{{ routes.root_url }}pages/about">Our Story</a></li>
-          <li><a href="{{ routes.root_url }}pages/policies#terms">Terms of Service</a></li>
-          <li><a href="{{ routes.root_url }}pages/policies#privacy">Privacy Policy</a></li>
-          <li><a href="{{ routes.root_url }}pages/policies#refund">Refund Policy</a></li>
-        </ul>
-      </div>
-
-      <!-- Contact -->
-      <div class="footer-col">
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="https://wa.me/{{ settings.social_whatsapp | default: '17033894519' }}">WhatsApp Us</a></li>
-          <li><a href="mailto:divaajewels@gmail.com">divaajewels@gmail.com</a></li>
-          <li><a href="https://ig.me/m/{{ settings.social_instagram | default: 'divaajewels_n_ensemble' }}">Instagram DM</a></li>
-          <li><a href="{{ routes.root_url }}pages/contact">Send a Message</a></li>
+          <li><a href="https://instagram.com/{{ settings.social_instagram | default: 'divaajewels_n_ensemble' }}" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.facebook.com/DiVaaJewelsbyNehaJain/" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://wa.me/{{ settings.social_whatsapp | default: '17033894519' }}" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="mailto:divaajewels@gmail.com">Email</a></li>
         </ul>
       </div>
     </div>
@@ -80,7 +66,7 @@
       <p class="footer-copy">
         &copy; {{ 'now' | date: '%Y' }} <a href="{{ routes.root_url }}">{{ shop.name }}</a>. All rights reserved.
       </p>
-      <p class="powered">Virginia, USA &nbsp;·&nbsp; Est. 2020</p>
+      <p class="powered">Virginia, USA / Est. 2020</p>
     </div>
   </div>
 </footer>

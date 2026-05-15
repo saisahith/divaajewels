@@ -1,0 +1,17 @@
+<div class="search-drawer-backdrop" data-search-close hidden></div>
+<aside class="search-drawer" id="search-drawer" aria-label="Search" aria-hidden="true">
+  <div class="search-drawer-head">
+    <strong>Search Divaa</strong>
+    <button type="button" data-search-close aria-label="Close search"><i class="fas fa-times"></i></button>
+  </div>
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-drawer-form">
+    <input type="search" name="q" placeholder="Search necklace sets, sarees, earrings..." aria-label="Search necklace sets, sarees, earrings">
+    <button type="submit" class="btn-primary">Search</button>
+  </form>
+  <div class="search-suggestions">
+    <a href="{{ routes.collections_url }}/necklace-sets">Necklace Sets</a>
+    <a href="{{ routes.collections_url }}/earrings">Earrings</a>
+    <a href="{{ routes.collections_url }}/sarees">Sarees</a>
+    <a href="{{ routes.collections_url }}/bridal-accessories">Bridal Accessories</a>
+  </div>
+</aside>

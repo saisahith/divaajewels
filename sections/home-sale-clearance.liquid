@@ -1,18 +1,49 @@
-<section class="sale-clearance-section">
+<section class="featured sale-clearance-section">
   <div class="container">
-    <div class="sale-clearance-header">
+    <div class="sale-clearance-header featured-header">
       <span class="section-label">Live Sale Collection</span>
-      <h2 class="section-title">Live deals and final pieces.</h2>
+      <h2 class="section-title">Live Sale</h2>
+      <p class="section-subtitle">Limited-time offers on selected jewelry and clothing.</p>
     </div>
-    <div class="sale-clearance-grid">
-      {% assign cards = "Live Sale|live-sale|0% 0%,Jewelry Sale|jewelry-sale|50% 0%,Saree Sale|saree-sale|100% 0%,Bridal Sale|bridal-sale|0% 100%,Final Pieces|final-pieces|50% 100%,Clearance|clearance|100% 100%" | split: "," %}
-      {% for item in cards %}
-        {% assign card = item | split: "|" %}
-        <a href="{{ routes.collections_url }}/{{ card[1] }}" class="sale-card">
-          <div class="sale-card-img" style="background-image:url('{{ 'divaa-saree-edits.png' | asset_url }}'); background-position:{{ card[2] }};"></div>
-          <span>{{ card[0] }}</span>
-        </a>
-      {% endfor %}
+
+    <div class="products-grid">
+      {%- liquid
+        assign sale_collection = collections['sale']
+        assign rendered_products = 0
+      -%}
+
+      {%- if sale_collection != blank and sale_collection != nil -%}
+        {%- for product in sale_collection.products limit: 4 -%}
+          {% assign rendered_products = rendered_products | plus: 1 %}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      {%- endif -%}
+
+      {%- if rendered_products == 0 -%}
+        {% comment %}TEMP TEST PRODUCTS — REMOVE BEFORE LAUNCH{% endcomment %}
+        {% assign dummy_products = "Pearl Drop Kundan Necklace Set|$89|Preview Only|kundan-necklace-sets,Crystal American Diamond Earrings|$58|Preview Only|american-diamond-earrings,Midnight Party Wear Saree|$125|Preview Only|party-wear-sarees,Oxidized Bangles Set|$42|Preview Only|oxidized-bangles" | split: "," %}
+        {% for item in dummy_products %}
+          {% assign p = item | split: "|" %}
+          <article class="product-card dummy-product-card">
+            <a href="{{ routes.collections_url }}/{{ p[3] }}">
+              <div class="product-img-wrap product-img-tile" style="background-image:url('{% if forloop.index < 3 %}{{ 'divaa-jewelry-styles.png' | asset_url }}{% else %}{{ 'divaa-saree-edits.png' | asset_url }}{% endif %}'); background-position:{% cycle '0% 0%', '50% 0%', '100% 0%', '0% 100%' %};">
+                <span class="product-badge">{{ p[2] }}</span>
+                <div class="product-overlay">
+                  <button class="quick-add dummy-add-link" type="button" disabled>Preview Only</button>
+                </div>
+              </div>
+            </a>
+            <div class="product-info">
+              <h3 class="product-name"><a href="{{ routes.collections_url }}/{{ p[3] }}">{{ p[0] }}</a></h3>
+              <p class="product-price">{{ p[1] }}</p>
+            </div>
+          </article>
+        {% endfor %}
+      {%- endif -%}
+    </div>
+
+    <div class="view-all-wrap">
+      <a href="{{ routes.collections_url }}/sale" class="btn-ghost">Shop Sale</a>
     </div>
   </div>
 </section>

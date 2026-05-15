@@ -6,13 +6,13 @@
     </div>
 
     <div class="essential-tabs" aria-label="Essential jewelry collections">
-      <a href="{{ routes.collections_url }}/kundan">Kundan</a>
-      <a href="{{ routes.collections_url }}/american-diamond">American Diamond</a>
-      <a href="{{ routes.collections_url }}/south-indian">South Indian</a>
+      <a href="{{ routes.collections_url }}/kundan-necklace-sets">Kundan</a>
+      <a href="{{ routes.collections_url }}/american-diamond-necklace-sets">American Diamond</a>
+      <a href="{{ routes.collections_url }}/temple-jewelry-necklace-sets">Temple Jewelry</a>
     </div>
 
     <div class="essential-products">
-      {% assign essentials = "Champagne Kundan Edit|$89|kundan,American Diamond Edit|$104|american-diamond,Temple Jewelry Edit|$118|south-indian,Oxidised Everyday Edit|$45|oxidized,Traditional Festive Edit|$98|traditional,Silk Saree Pairing|$135|sarees" | split: "," %}
+      {% assign essentials = "Champagne Kundan Necklace Set|$89|kundan-necklace-sets,American Diamond Necklace Set|$104|american-diamond-necklace-sets,Temple Jewelry Necklace Set|$118|temple-jewelry-necklace-sets,Oxidized Earrings|$45|oxidized-earrings,Traditional Festive Set|$98|traditional-necklace-sets,Silk Saree Pairing|$135|sarees" | split: "," %}
       {% for item in essentials %}
         {% assign p = item | split: "|" %}
         <article class="tsr-product-card">

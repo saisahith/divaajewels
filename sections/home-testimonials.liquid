@@ -1,19 +1,18 @@
 <section class="testimonials">
   <div class="container">
     <div class="testimonials-header">
-      <span class="section-label">What Our Customers Say</span>
-      <h2 class="section-title">Loved Across the USA</h2>
+      <span class="section-label">Customer Reviews</span>
+      <h2 class="section-title">Loved by Our Customers</h2>
       <div class="section-divider" style="margin:20px auto 0;"></div>
     </div>
     <div class="testimonials-grid">
       {% for block in section.blocks %}
         <div class="testimonial-card">
-          <div class="quote-mark">&ldquo;</div>
-          <div class="testimonial-stars">
+          <div class="testimonial-stars" aria-label="5 out of 5 stars">
             {% for i in (1..5) %}&#9733;{% endfor %}
           </div>
           <p class="testimonial-text">{{ block.settings.text }}</p>
-          <p class="testimonial-author">— {{ block.settings.author }}</p>
+          <p class="testimonial-author">{{ block.settings.author }}</p>
         </div>
       {% endfor %}
     </div>
@@ -28,8 +27,8 @@
       "type": "testimonial",
       "name": "Testimonial",
       "settings": [
-        { "type": "textarea", "id": "text",   "label": "Review text" },
-        { "type": "text",     "id": "author", "label": "Customer name" }
+        { "type": "textarea", "id": "text", "label": "Review text" },
+        { "type": "text", "id": "author", "label": "Customer name" }
       ]
     }
   ],
@@ -37,21 +36,9 @@
     {
       "name": "Testimonials",
       "blocks": [
-        { "type": "testimonial", "settings": {
-            "text": "The jewelry I ordered for my sister's wedding was absolutely stunning. Everyone kept asking where I got it from!",
-            "author": "Priya M., New Jersey"
-          }
-        },
-        { "type": "testimonial", "settings": {
-            "text": "Fast shipping, beautiful packaging, and the quality exceeded my expectations. Will definitely order again!",
-            "author": "Ananya R., Texas"
-          }
-        },
-        { "type": "testimonial", "settings": {
-            "text": "The oxidized collection is so unique and lightweight. Perfect for everyday wear. Love DiVaa!",
-            "author": "Deepa K., California"
-          }
-        }
+        { "type": "testimonial", "settings": { "text": "The necklace set looked even better in person. Perfect for my event.", "author": "Priya M., New Jersey" } },
+        { "type": "testimonial", "settings": { "text": "Beautiful quality and fast response. Loved the bridal accessories.", "author": "Ananya R., Texas" } },
+        { "type": "testimonial", "settings": { "text": "The jewelry paired perfectly with my saree. Very elegant.", "author": "Deepa K., California" } }
       ]
     }
   ]

@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-membership",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
