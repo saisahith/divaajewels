@@ -1,55 +1,432 @@
 /* DIVAA JEWELS - main.js (Shopify Edition) */
 
-function initDivaaGuidedFilters() {
-  const params = new URLSearchParams(window.location.search);
-  const selectedType = params.get('type');
+function getDataList(element, key) {
+  return String(element.dataset[key] || '')
+    .split(',')
+    .map((value) => value.trim())
+    .filter(Boolean);
+}
 
-  document.querySelectorAll('[data-guided-filter]').forEach((filter) => {
-    const initial = filter.querySelector('[data-guided-initial]');
-    const selected = filter.querySelector('[data-guided-selected]');
-    const selectedLabel = filter.querySelector('[data-guided-selected-label]');
-    const options = filter.querySelector('[data-guided-options]');
-    const links = filter.querySelectorAll('[data-guided-type-link]');
-    const groups = filter.querySelectorAll('[data-guided-option-group]');
+function updateCollectionVisibleCount(visibleCount) {
+  document.querySelectorAll('[data-visible-product-count]').forEach((countEl) => {
+    const label = visibleCount === 1 ? 'product' : 'products';
+    countEl.textContent = `${visibleCount} ${label}`;
+  });
+}
 
-    links.forEach((link) => {
-      const isActive = link.dataset.type === selectedType;
-      link.classList.toggle('is-active', isActive);
-      link.classList.toggle('active', isActive);
-      link.setAttribute('aria-current', isActive ? 'true' : 'false');
+function updateFilteredEmptyState(visibleCount, hasActiveFilter) {
+  document.querySelectorAll('[data-filter-empty]').forEach((emptyState) => {
+    emptyState.hidden = !(hasActiveFilter && visibleCount === 0);
+  });
+}
 
-      if (!link.dataset.guidedBound) {
-        link.dataset.guidedBound = 'true';
-        link.addEventListener('click', (event) => {
-          event.preventDefault();
-          window.location.href = link.href;
-        });
-      }
-    });
+function syncDivaaFilterAccordions(scope) {
+  const root = scope || document;
 
-    groups.forEach((group) => {
-      group.hidden = group.dataset.type !== selectedType;
-    });
+  root.querySelectorAll('[data-filter-accordion]').forEach((accordion) => {
+    const summary = accordion.querySelector('summary');
+    if (!summary) return;
 
-    if (selectedType) {
-      const activeLink = filter.querySelector(`[data-guided-type-link][data-type="${CSS.escape(selectedType)}"]`);
-      const label = activeLink ? activeLink.textContent.trim() : selectedType;
+    summary.setAttribute('role', 'button');
+    summary.setAttribute('aria-expanded', accordion.open ? 'true' : 'false');
 
-      if (selectedLabel) selectedLabel.textContent = label;
-      if (initial) initial.hidden = true;
-      if (selected) selected.hidden = false;
-      if (options) options.hidden = false;
-    } else {
-      if (selectedLabel) selectedLabel.textContent = '';
-      if (initial) initial.hidden = false;
-      if (selected) selected.hidden = true;
-      if (options) options.hidden = true;
+    if (!accordion.dataset.accordionBound) {
+      accordion.dataset.accordionBound = 'true';
+      accordion.addEventListener('toggle', () => {
+        summary.setAttribute('aria-expanded', accordion.open ? 'true' : 'false');
+      });
     }
   });
 }
 
+function initCarbonFilterAccordions(scope) {
+  const root = scope || document;
+
+  root.querySelectorAll('[data-carbon-filter-trigger]').forEach((button) => {
+    const panelId = button.getAttribute('aria-controls');
+    const panel = panelId ? root.querySelector(`#${CSS.escape(panelId)}`) || document.getElementById(panelId) : null;
+    if (!panel) return;
+
+    function setExpanded(expanded) {
+      button.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      panel.hidden = !expanded;
+    }
+
+    setExpanded(button.getAttribute('aria-expanded') === 'true');
+
+    if (!button.dataset.carbonAccordionBound) {
+      button.dataset.carbonAccordionBound = 'true';
+      button.addEventListener('click', () => {
+        setExpanded(button.getAttribute('aria-expanded') !== 'true');
+      });
+    }
+  });
+}
+
+function initDivaaNewArrivalsFilters() {
+  const params = new URLSearchParams(window.location.search);
+  const selectedType = params.get('type');
+  const selectedSubcategory = params.get('subcategory');
+
+  const basePath = '/collections/new-arrivals';
+  const typeLabels = {
+    'necklace-sets': 'Necklace Sets',
+    'earrings': 'Earrings',
+    'bangles-bracelets': 'Bangles & Bracelets',
+    'rings': 'Rings',
+    'bridal-accessories': 'Bridal Accessories',
+    'sarees': 'Sarees',
+    'lehengas': 'Lehengas',
+    'dresses-gowns': 'Dresses / Gowns'
+  };
+  const subcategoryLabels = {
+    'american-diamond': 'American Diamond',
+    'kundan': 'Kundan',
+    'temple-jewelry': 'Temple Jewelry',
+    'traditional-jewelry': 'Traditional Jewelry',
+    'oxidized-jewelry': 'Oxidized Jewelry',
+    'bridal-necklace-sets': 'Bridal Necklace Sets',
+    'fusion-contemporary': 'Fusion / Contemporary',
+    'premium-collection': 'Premium Collection',
+    'american-diamond-earrings': 'American Diamond Earrings',
+    'kundan-earrings': 'Kundan Earrings',
+    'temple-earrings': 'Temple Earrings',
+    'oxidized-earrings': 'Oxidized Earrings',
+    'bangles': 'Bangles',
+    'kadas': 'Kadas',
+    'american-diamond-bangles': 'American Diamond Bangles',
+    'kundan-bangles': 'Kundan Bangles',
+    'temple-bangles': 'Temple Bangles',
+    'oxidized-bangles': 'Oxidized Bangles',
+    'american-diamond-rings': 'American Diamond Rings',
+    'kundan-rings': 'Kundan Rings',
+    'maang-tikka': 'Maang Tikka',
+    'passa': 'Passa',
+    'matha-patti': 'Matha Patti',
+    'hathphool': 'Hathphool',
+    'bajuband': 'Bajuband',
+    'waist-belt-kamarband': 'Waist Belt / Kamarband',
+    'banarasi-sarees': 'Banarasi Sarees',
+    'kanchivaram-sarees': 'Kanchivaram Sarees',
+    'bridal-sarees': 'Bridal Sarees',
+    'designer-sarees': 'Designer Sarees',
+    'party-wear-sarees': 'Party Wear Sarees',
+    'party-wear-lehenga': 'Party Wear Lehenga',
+    'indo-western': 'Indo Western',
+    'anarkali': 'Anarkali',
+    'party-wear-dresses': 'Party Wear Dresses'
+  };
+  const subcategoryHeadings = {
+    'necklace-sets': 'Necklace Sets',
+    'earrings': 'Earrings',
+    'bangles-bracelets': 'Bangles & Bracelets',
+    'rings': 'Rings',
+    'bridal-accessories': 'Bridal Accessories',
+    'sarees': 'Sarees',
+    'lehengas': 'Lehengas',
+    'dresses-gowns': 'Dresses/Gowns'
+  };
+
+  function buildNewArrivalsUrl(nextType, nextSubcategory) {
+    const nextParams = new URLSearchParams();
+    if (nextType) nextParams.set('type', nextType);
+    if (nextType && nextSubcategory) nextParams.set('subcategory', nextSubcategory);
+    const query = nextParams.toString();
+    return query ? `${basePath}?${query}` : basePath;
+  }
+
+  function setLinkState(link, active) {
+    link.classList.toggle('is-active', active);
+    link.classList.toggle('active', active);
+    if (active) {
+      link.setAttribute('aria-current', 'true');
+    } else {
+      link.removeAttribute('aria-current');
+    }
+  }
+
+  document.querySelectorAll('[data-new-arrivals-filter]').forEach((filter) => {
+    const categoryTriggers = filter.querySelectorAll('[data-filter-category-trigger]');
+    const typeLinks = filter.querySelectorAll('[data-filter-type-link]');
+    const subcategoryLinks = filter.querySelectorAll('[data-filter-subcategory-link]');
+    const subcategoryGroups = filter.querySelectorAll('[data-subcategory-group]');
+    const categoryAccordions = filter.querySelectorAll('[data-category-accordion]');
+    const selectedTypeEl = filter.querySelector('[data-selected-type]');
+    const selectedSubcategoryEl = filter.querySelector('[data-selected-subcategory]');
+    const clearType = filter.querySelector('[data-clear-type]');
+    const clearSubcategory = filter.querySelector('[data-clear-subcategory]');
+    const clearAll = filter.querySelector('[data-clear-all]');
+
+    categoryTriggers.forEach((button) => {
+      const value = button.dataset.value;
+      const active = value === selectedType;
+      const panelId = button.getAttribute('aria-controls');
+      const panel = panelId ? document.getElementById(panelId) : null;
+
+      button.classList.toggle('active', active);
+      button.classList.toggle('is-active', active);
+      if (active) {
+        button.setAttribute('aria-current', 'true');
+      } else {
+        button.removeAttribute('aria-current');
+      }
+
+      button.setAttribute('aria-expanded', active ? 'true' : 'false');
+      if (panel) panel.hidden = !active;
+
+      if (!button.dataset.categoryTriggerBound) {
+        button.dataset.categoryTriggerBound = 'true';
+        button.addEventListener('click', (event) => {
+          const nextType = button.dataset.value;
+          if (nextType && nextType !== new URLSearchParams(window.location.search).get('type')) {
+            event.preventDefault();
+            window.location.href = buildNewArrivalsUrl(nextType, '');
+          }
+        });
+      }
+    });
+
+    typeLinks.forEach((link) => {
+      const value = link.dataset.value;
+      const active = (!selectedType && !value) || value === selectedType;
+      link.href = buildNewArrivalsUrl(value, '');
+      link.setAttribute('aria-checked', active ? 'true' : 'false');
+      setLinkState(link, active);
+    });
+
+    categoryAccordions.forEach((accordion) => {
+      accordion.classList.toggle('active', accordion.dataset.type === selectedType);
+    });
+
+    subcategoryGroups.forEach((group) => {
+      group.hidden = false;
+    });
+
+    subcategoryLinks.forEach((link) => {
+      const value = link.dataset.value;
+      const parentGroup = link.closest('[data-subcategory-group]');
+      const parentType = parentGroup ? parentGroup.dataset.type : selectedType;
+      const active = parentType === selectedType && ((!selectedSubcategory && !value) || value === selectedSubcategory);
+      link.href = buildNewArrivalsUrl(parentType, value);
+      link.setAttribute('aria-checked', active ? 'true' : 'false');
+      setLinkState(link, active);
+    });
+
+    if (selectedTypeEl) selectedTypeEl.textContent = selectedType ? typeLabels[selectedType] || selectedType : 'Any';
+    if (selectedSubcategoryEl) selectedSubcategoryEl.textContent = selectedSubcategory ? subcategoryLabels[selectedSubcategory] || selectedSubcategory : 'Any';
+    if (clearType) clearType.href = basePath;
+    if (clearSubcategory) clearSubcategory.href = buildNewArrivalsUrl(selectedType, '');
+    if (clearAll) clearAll.href = basePath;
+
+    syncDivaaFilterAccordions(filter);
+    initCarbonFilterAccordions(filter);
+  });
+
+  const cards = document.querySelectorAll('[data-product-card]');
+  if (cards.length) {
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const cardTypes = getDataList(card, 'productType');
+      const cardSubcategories = getDataList(card, 'subcategory');
+      const typeMatches = !selectedType || cardTypes.includes(selectedType);
+      const subcategoryMatches = !selectedSubcategory || cardSubcategories.includes(selectedSubcategory);
+      const isVisible = typeMatches && subcategoryMatches;
+
+      card.hidden = !isVisible;
+      if (isVisible) visibleCount += 1;
+    });
+
+    updateCollectionVisibleCount(visibleCount);
+    updateFilteredEmptyState(visibleCount, Boolean(selectedType || selectedSubcategory));
+  }
+}
+
+function initDivaaBridalCategoryFilters() {
+  const filterBlocks = document.querySelectorAll('[data-bridal-category-filter]');
+  if (!filterBlocks.length) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const categoryParam = params.get('category');
+  const selectedCategories = categoryParam && categoryParam !== 'all'
+    ? categoryParam.split(',').map((value) => value.trim()).filter(Boolean)
+    : [];
+  const basePath = window.location.pathname.replace(/\/$/, '') || '/collections/bridal';
+
+  function buildBridalCategoryUrl(categories) {
+    const nextCategories = Array.from(new Set(categories.filter(Boolean)));
+    if (!nextCategories.length) return basePath;
+    return `${basePath}?category=${nextCategories.join(',')}`;
+  }
+
+  function setLinkState(link, active) {
+    link.classList.toggle('is-active', active);
+    link.classList.toggle('active', active);
+    if (active) {
+      link.setAttribute('aria-current', 'true');
+    } else {
+      link.removeAttribute('aria-current');
+    }
+  }
+
+  filterBlocks.forEach((filter) => {
+    const allLink = filter.querySelector('[data-bridal-category-all]');
+    const categoryLinks = filter.querySelectorAll('[data-bridal-category-link]');
+    const allActive = selectedCategories.length === 0;
+
+    if (allLink) {
+      allLink.href = basePath;
+      setLinkState(allLink, allActive);
+    }
+
+    categoryLinks.forEach((link) => {
+      const value = link.dataset.value;
+      const isSelected = selectedCategories.includes(value);
+      const nextCategories = isSelected
+        ? selectedCategories.filter((category) => category !== value)
+        : selectedCategories.concat(value);
+
+      link.href = buildBridalCategoryUrl(nextCategories);
+      setLinkState(link, isSelected);
+    });
+  });
+
+  const cards = document.querySelectorAll('[data-product-card][data-bridal-category]');
+  if (cards.length) {
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const cardCategories = getDataList(card, 'bridalCategory');
+      const isVisible = selectedCategories.length === 0
+        || selectedCategories.some((category) => cardCategories.includes(category));
+
+      card.hidden = !isVisible;
+      if (isVisible) visibleCount += 1;
+    });
+
+    updateCollectionVisibleCount(visibleCount);
+    updateFilteredEmptyState(visibleCount, selectedCategories.length > 0);
+  }
+}
+
+function initDivaaJewelryCollectionFilters() {
+  const shell = document.querySelector('[data-collection-handle]');
+  if (!shell) return;
+
+  const currentHandle = shell.dataset.collectionHandle;
+  const handleMap = {
+    'necklace-sets': { type: 'necklace-sets' },
+    'american-diamond-necklace-sets': { type: 'necklace-sets', subcategory: 'american-diamond' },
+    'kundan-necklace-sets': { type: 'necklace-sets', subcategory: 'kundan' },
+    'temple-jewelry-necklace-sets': { type: 'necklace-sets', subcategory: 'temple-jewelry' },
+    'traditional-necklace-sets': { type: 'necklace-sets', subcategory: 'traditional-jewelry' },
+    'oxidized-necklace-sets': { type: 'necklace-sets', subcategory: 'oxidized-jewelry' },
+    'bridal-necklace-sets': { type: 'necklace-sets', subcategory: 'bridal-necklace-sets' },
+    'fusion-contemporary-necklace-sets': { type: 'necklace-sets', subcategory: 'fusion-contemporary' },
+    'premium-necklace-sets': { type: 'necklace-sets', subcategory: 'premium-collection' },
+    'earrings': { type: 'earrings' },
+    'american-diamond-earrings': { type: 'earrings', subcategory: 'american-diamond-earrings' },
+    'kundan-earrings': { type: 'earrings', subcategory: 'kundan-earrings' },
+    'temple-earrings': { type: 'earrings', subcategory: 'temple-earrings' },
+    'oxidized-earrings': { type: 'earrings', subcategory: 'oxidized-earrings' },
+    'bangles-bracelets': { type: 'bangles-bracelets' },
+    'bangles': { type: 'bangles-bracelets', subcategory: 'bangles' },
+    'kadas': { type: 'bangles-bracelets', subcategory: 'kadas' },
+    'american-diamond-bangles': { type: 'bangles-bracelets', subcategory: 'american-diamond-bangles' },
+    'kundan-bangles': { type: 'bangles-bracelets', subcategory: 'kundan-bangles' },
+    'temple-bangles': { type: 'bangles-bracelets', subcategory: 'temple-bangles' },
+    'oxidized-bangles': { type: 'bangles-bracelets', subcategory: 'oxidized-bangles' },
+    'rings': { type: 'rings' },
+    'american-diamond-rings': { type: 'rings', subcategory: 'american-diamond-rings' },
+    'kundan-rings': { type: 'rings', subcategory: 'kundan-rings' },
+    'bridal-accessories': { type: 'bridal-accessories' },
+    'maang-tikka': { type: 'bridal-accessories', subcategory: 'maang-tikka' },
+    'passa': { type: 'bridal-accessories', subcategory: 'passa' },
+    'matha-patti': { type: 'bridal-accessories', subcategory: 'matha-patti' },
+    'hathphool': { type: 'bridal-accessories', subcategory: 'hathphool' },
+    'bajuband': { type: 'bridal-accessories', subcategory: 'bajuband' },
+    'waist-belt-kamarband': { type: 'bridal-accessories', subcategory: 'waist-belt-kamarband' }
+  };
+  const selected = handleMap[currentHandle];
+  if (!selected) return;
+
+  const cards = document.querySelectorAll('[data-product-card]');
+  if (!cards.length) return;
+
+  let visibleCount = 0;
+  cards.forEach((card) => {
+    const cardTypes = getDataList(card, 'productType');
+    const cardSubcategories = getDataList(card, 'subcategory');
+    const typeMatches = !selected.type || cardTypes.includes(selected.type);
+    const subcategoryMatches = !selected.subcategory || cardSubcategories.includes(selected.subcategory);
+    const isVisible = typeMatches && subcategoryMatches;
+
+    card.hidden = !isVisible;
+    if (isVisible) visibleCount += 1;
+  });
+
+  updateCollectionVisibleCount(visibleCount);
+  updateFilteredEmptyState(visibleCount, visibleCount === 0);
+}
+
+function initDivaaClothingCollectionFilters() {
+  const filterBlocks = document.querySelectorAll('[data-clothing-filter]');
+  if (!filterBlocks.length) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const selectedClothingType = params.get('clothing_type');
+
+  function buildClothingUrl(basePath, value) {
+    if (!value) return basePath;
+    return `${basePath}?clothing_type=${encodeURIComponent(value)}`;
+  }
+
+  function setOptionState(option, active) {
+    option.classList.toggle('is-active', active);
+    option.classList.toggle('active', active);
+    option.setAttribute('aria-checked', active ? 'true' : 'false');
+    if (active) {
+      option.setAttribute('aria-current', 'true');
+    } else {
+      option.removeAttribute('aria-current');
+    }
+  }
+
+  filterBlocks.forEach((filter) => {
+    const basePath = filter.dataset.clothingBasePath || window.location.pathname;
+    const options = filter.querySelectorAll('[data-clothing-filter-option]');
+    const clearAll = filter.querySelector('[data-clothing-clear-all]');
+
+    if (clearAll) clearAll.href = basePath;
+
+    options.forEach((option) => {
+      const value = option.dataset.value || '';
+      const active = selectedClothingType ? value === selectedClothingType : value === '';
+      option.href = buildClothingUrl(basePath, value);
+      setOptionState(option, active);
+    });
+
+    initCarbonFilterAccordions(filter);
+  });
+
+  const cards = document.querySelectorAll('[data-product-card]');
+  if (!cards.length) return;
+
+  let visibleCount = 0;
+  cards.forEach((card) => {
+    const cardSubcategories = getDataList(card, 'subcategory');
+    const isVisible = !selectedClothingType || cardSubcategories.includes(selectedClothingType);
+
+    card.hidden = !isVisible;
+    if (isVisible) visibleCount += 1;
+  });
+
+  updateCollectionVisibleCount(visibleCount);
+  updateFilteredEmptyState(visibleCount, Boolean(selectedClothingType));
+}
+
 document.addEventListener('click', (event) => {
-  const link = event.target.closest('[data-guided-type-link]');
+  const link = event.target.closest('[data-filter-type-link], [data-filter-subcategory-link], [data-clear-type], [data-clear-subcategory], [data-clear-all]');
   if (!link) return;
 
   const href = link.getAttribute('href');
@@ -57,7 +434,7 @@ document.addEventListener('click', (event) => {
 
   event.preventDefault();
   event.stopPropagation();
-  window.location.assign(href);
+  window.location.href = href;
 }, true);
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -224,7 +601,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  initDivaaGuidedFilters();
+  initDivaaNewArrivalsFilters();
+  initDivaaBridalCategoryFilters();
+  initDivaaJewelryCollectionFilters();
+  initDivaaClothingCollectionFilters();
+  syncDivaaFilterAccordions(document);
+  initCarbonFilterAccordions(document);
 
   document.querySelectorAll('[data-qty-minus]').forEach((button) => {
     button.addEventListener('click', () => {
@@ -391,4 +773,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-document.addEventListener('shopify:section:load', initDivaaGuidedFilters);
+document.addEventListener('shopify:section:load', initDivaaNewArrivalsFilters);
+document.addEventListener('shopify:section:load', initDivaaBridalCategoryFilters);
+document.addEventListener('shopify:section:load', initDivaaJewelryCollectionFilters);
+document.addEventListener('shopify:section:load', initDivaaClothingCollectionFilters);

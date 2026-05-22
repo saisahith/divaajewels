@@ -5,8 +5,15 @@
       {% assign parts = item | split: '|' %}
       {% assign label = parts[0] %}
       {% assign handle = parts[1] %}
+      {% assign item_active = false %}
+      {% if current_handle == handle %}
+        {% assign item_active = true %}
+      {% elsif all_active and label == 'All' %}
+        {% assign item_active = true %}
+      {% endif %}
       <a href="{{ routes.collections_url }}/{{ handle }}"
-         class="filter-check filter-check-link{% if current_handle == handle %} active{% endif %}"
+         class="filter-check filter-check-link{% if item_active %} active{% endif %}"
+         {% if item_active %}aria-current="true"{% endif %}
          aria-label="Shop {{ label | escape }}">
         <span class="filter-check-box" aria-hidden="true"></span>
         <span>{{ label }}</span>

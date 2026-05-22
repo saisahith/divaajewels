@@ -8,7 +8,7 @@
         "title_line1": "Jewelry That Completes",
         "title_line2": "Every Ethnic Look",
         "subtitle": "Discover statement necklace sets, bridal accessories, sarees, and occasion-ready pieces designed to make every celebration unforgettable.",
-        "cta1_label": "Shop Jewelry",
+        "cta1_label": "Necklace Sets",
         "cta1_url": "/collections/necklace-sets",
         "cta2_label": "Explore Clothing",
         "cta2_url": "/collections/clothing"
@@ -26,7 +26,6 @@
       }
     },
     "home-bridal-edit": { "type": "home-bridal-edit", "disabled": false, "settings": {} },
-    "home-jewelry-style": { "type": "home-jewelry-style", "disabled": false, "settings": {} },
     "home-shop-sarees": { "type": "home-shop-sarees", "disabled": false, "settings": {} },
     "home-sale-clearance": { "type": "home-sale-clearance", "disabled": false, "settings": {} },
     "home-testimonials": {
@@ -50,7 +49,6 @@
     "home-hero",
     "home-featured",
     "home-bridal-edit",
-    "home-jewelry-style",
     "home-shop-sarees",
     "home-sale-clearance",
     "home-testimonials",

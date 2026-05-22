@@ -1,4 +1,57 @@
-<div class="product-card">
+{% liquid
+  assign product_type_handles = 'necklace-sets,earrings,bangles-bracelets,rings,bridal-accessories,sarees,lehengas,dresses-gowns' | split: ','
+  assign subcategory_handles = 'american-diamond,kundan,temple-jewelry,traditional-jewelry,oxidized-jewelry,bridal-necklace-sets,fusion-contemporary,premium-collection,american-diamond-earrings,kundan-earrings,temple-earrings,oxidized-earrings,bangles,kadas,american-diamond-bangles,kundan-bangles,temple-bangles,oxidized-bangles,american-diamond-rings,kundan-rings,maang-tikka,passa,matha-patti,hathphool,bajuband,waist-belt-kamarband,banarasi-sarees,kanchivaram-sarees,bridal-sarees,designer-sarees,party-wear-sarees,party-wear-lehenga,indo-western,anarkali,party-wear-dresses' | split: ','
+  assign bridal_category_handles = 'bridal-necklace-sets,maang-tikka,passa,matha-patti,hathphool,bajuband,waist-belt-kamarband,bridal-sarees' | split: ','
+  assign product_type_data = ''
+  assign subcategory_data = ''
+  assign bridal_category_data = ''
+
+  for product_collection in product.collections
+    if product_type_handles contains product_collection.handle
+      assign product_type_data = product_type_data | append: product_collection.handle | append: ','
+    endif
+    if subcategory_handles contains product_collection.handle
+      assign subcategory_data = subcategory_data | append: product_collection.handle | append: ','
+    endif
+    if bridal_category_handles contains product_collection.handle
+      assign bridal_category_data = bridal_category_data | append: product_collection.handle | append: ','
+    endif
+  endfor
+
+  for tag in product.tags
+    assign tag_handle = tag | handleize
+    assign normalized_tag_handle = tag_handle
+    case tag_handle
+      when 'clothing-type-banarasi-sarees', 'saree-banarasi'
+        assign normalized_tag_handle = 'banarasi-sarees'
+      when 'clothing-type-kanchivaram-sarees'
+        assign normalized_tag_handle = 'kanchivaram-sarees'
+      when 'clothing-type-bridal-sarees'
+        assign normalized_tag_handle = 'bridal-sarees'
+      when 'clothing-type-designer-sarees'
+        assign normalized_tag_handle = 'designer-sarees'
+      when 'clothing-type-party-wear-sarees'
+        assign normalized_tag_handle = 'party-wear-sarees'
+      when 'clothing-type-party-wear-lehenga'
+        assign normalized_tag_handle = 'party-wear-lehenga'
+    endcase
+    if product_type_handles contains normalized_tag_handle
+      assign product_type_data = product_type_data | append: normalized_tag_handle | append: ','
+    endif
+    if subcategory_handles contains normalized_tag_handle
+      assign subcategory_data = subcategory_data | append: normalized_tag_handle | append: ','
+    endif
+    if bridal_category_handles contains normalized_tag_handle
+      assign bridal_category_data = bridal_category_data | append: normalized_tag_handle | append: ','
+    endif
+  endfor
+
+  assign product_type_data = product_type_data | split: ',' | uniq | join: ','
+  assign subcategory_data = subcategory_data | split: ',' | uniq | join: ','
+  assign bridal_category_data = bridal_category_data | split: ',' | uniq | join: ','
+%}
+
+<div class="product-card" data-product-card{% if product_type_data != blank %} data-product-type="{{ product_type_data }}"{% endif %}{% if subcategory_data != blank %} data-subcategory="{{ subcategory_data }}"{% endif %}{% if bridal_category_data != blank %} data-bridal-category="{{ bridal_category_data }}"{% endif %}>
   <div class="product-img-wrap">
     <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
       {% if product.featured_image %}

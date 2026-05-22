@@ -20,25 +20,10 @@
       {%- endif -%}
 
       {%- if rendered_products == 0 -%}
-        {% comment %}TEMP TEST PRODUCTS — REMOVE BEFORE LAUNCH{% endcomment %}
-        {% assign dummy_products = "Pearl Drop Kundan Necklace Set|$89|Preview Only|kundan-necklace-sets,Crystal American Diamond Earrings|$58|Preview Only|american-diamond-earrings,Midnight Party Wear Saree|$125|Preview Only|party-wear-sarees,Oxidized Bangles Set|$42|Preview Only|oxidized-bangles" | split: "," %}
-        {% for item in dummy_products %}
-          {% assign p = item | split: "|" %}
-          <article class="product-card dummy-product-card">
-            <a href="{{ routes.collections_url }}/{{ p[3] }}">
-              <div class="product-img-wrap product-img-tile" style="background-image:url('{% if forloop.index < 3 %}{{ 'divaa-jewelry-styles.png' | asset_url }}{% else %}{{ 'divaa-saree-edits.png' | asset_url }}{% endif %}'); background-position:{% cycle '0% 0%', '50% 0%', '100% 0%', '0% 100%' %};">
-                <span class="product-badge">{{ p[2] }}</span>
-                <div class="product-overlay">
-                  <button class="quick-add dummy-add-link" type="button" disabled>Preview Only</button>
-                </div>
-              </div>
-            </a>
-            <div class="product-info">
-              <h3 class="product-name"><a href="{{ routes.collections_url }}/{{ p[3] }}">{{ p[0] }}</a></h3>
-              <p class="product-price">{{ p[1] }}</p>
-            </div>
-          </article>
-        {% endfor %}
+        <div class="collection-empty-state sale-empty-state">
+          <strong>No sale products are live yet.</strong>
+          <span>Add products to the Sale collection in Shopify Admin to populate this section.</span>
+        </div>
       {%- endif -%}
     </div>
 

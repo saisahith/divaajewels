@@ -25,7 +25,7 @@ This is a premium ethnic boutique storefront focused on jewelry and clothing.
 - Do not delete required Shopify files.
 - Do not break theme settings schema.
 - Run available theme checks, build checks, or lint checks after changes.
-- If a collection has no real products, only show clearly marked temporary placeholders. Never silently mix fake products with real products.
+- Collection pages must show only real Shopify products from the active collection. If no products exist, show a clean empty state.
 
 ## Approved Main Navigation
 
@@ -125,13 +125,11 @@ Avoid bright red, neon pink, cheap gold gradients, heavy shadows, too many anima
 
 ## Placeholder Rules
 
-If products or images are missing, use theme-level placeholder cards only for previewing layout.
+Do not render temporary preview products on customer-facing collection pages.
 
 - Do not create fake live products.
 - Do not silently mix fake placeholders with real products.
-- Label placeholders as Preview Only, Layout Preview, or TEST.
-- Add code comments: `TEMP TEST PRODUCTS — REMOVE BEFORE LAUNCH`
-- Keep placeholders easy to remove.
+- Empty collections should use a clean empty state instead of preview product cards.
 
 ## Shopify Implementation Rules
 
@@ -144,3 +142,4 @@ If products or images are missing, use theme-level placeholder cards only for pr
 - Keep snippets reusable.
 - Keep Liquid syntax valid.
 - Run `shopify theme check` after changes when available.
+
