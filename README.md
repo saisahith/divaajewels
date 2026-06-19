@@ -5,7 +5,7 @@ Shopify theme for Divaa Jewels N Ensemble.
 ## Local Development
 
 ```bash
-shopify theme dev --store divaa-jewels-3.myshopify.com
+shopify theme dev --store divaa-jewels-va.myshopify.com
 ```
 
 ## Validation
@@ -17,7 +17,7 @@ shopify theme check
 ## Deploy To Unpublished Theme
 
 ```bash
-shopify theme push --store divaa-jewels-3.myshopify.com --unpublished --theme "Divaa Jewels V3"
+shopify theme push --store divaa-jewels-va.myshopify.com --unpublished --theme "Divaa Jewels V3"
 ```
 
 ## Notes

@@ -1,7 +1,7 @@
 {% liquid
   assign current_handle = collection.handle
   assign jewelry_handles = 'jewelry,necklace-sets,american-diamond-necklace-sets,kundan-necklace-sets,temple-jewelry-necklace-sets,traditional-necklace-sets,oxidized-necklace-sets,bridal-necklace-sets,fusion-contemporary-necklace-sets,premium-necklace-sets,earrings,american-diamond-earrings,kundan-earrings,temple-earrings,oxidized-earrings,bangles-bracelets,bangles,kadas,american-diamond-bangles,kundan-bangles,temple-bangles,oxidized-bangles,rings,american-diamond-rings,kundan-rings,bridal-accessories,maang-tikka,passa,matha-patti,hathphool,bajuband,waist-belt-kamarband' | split: ','
-  assign bridal_handles = 'bridal,bridal-necklace-sets,maang-tikka,passa,matha-patti,hathphool,bajuband,waist-belt-kamarband,bridal-sarees' | split: ','
+  assign bridal_handles = 'bridal,bridal-necklace-sets,bridal-accessories,maang-tikka,passa,matha-patti,hathphool,bajuband,waist-belt-kamarband,bridal-sarees' | split: ','
   assign clothing_handles = 'clothing,sarees,banarasi-sarees,kanchivaram-sarees,bridal-sarees,designer-sarees,party-wear-sarees,lehengas,party-wear-lehenga,dresses-gowns,indo-western,anarkali,party-wear-dresses' | split: ','
 
   assign breadcrumb_parent = ''
@@ -49,53 +49,76 @@
   assign bridal_tile_handles = 'bridal-necklace-sets,maang-tikka,passa,matha-patti,hathphool,bajuband,waist-belt-kamarband,bridal-sarees' | split: ','
   assign bridal_tile_labels = 'Bridal Necklace Sets,Maang Tikka,Passa,Matha Patti,Hathphool,Bajuband,Waist Belt / Kamarband,Bridal Sarees' | split: ','
   assign saree_handles = 'sarees,banarasi-sarees,kanchivaram-sarees,bridal-sarees,designer-sarees,party-wear-sarees' | split: ','
-  assign selected_new_arrivals_type = request.params.type | default: ''
+  assign lehenga_handles = 'lehengas,party-wear-lehenga' | split: ','
+  assign dress_handles = 'dresses-gowns,indo-western,anarkali,party-wear-dresses' | split: ','
+
+  assign selected_clothing_type = ''
+  assign selected_clothing_subcategory = ''
+  if saree_handles contains current_handle
+    assign selected_clothing_type = 'sarees'
+    if current_handle != 'sarees'
+      assign selected_clothing_subcategory = current_handle
+    endif
+  elsif lehenga_handles contains current_handle
+    assign selected_clothing_type = 'lehengas'
+    if current_handle != 'lehengas'
+      assign selected_clothing_subcategory = current_handle
+    endif
+  elsif dress_handles contains current_handle
+    assign selected_clothing_type = 'dresses-gowns'
+    if current_handle != 'dresses-gowns'
+      assign selected_clothing_subcategory = current_handle
+    endif
+  endif
+
+  assign use_native_filters = true
+  if current_handle == 'new-arrivals' or bridal_handles contains current_handle or clothing_handles contains current_handle
+    assign use_native_filters = false
+  endif
+
   assign active_sort = collection.sort_by | default: collection.default_sort_by
 %}
 
 {% paginate collection.products by 16 %}
 
-<section class="collection-shell collection-shell-v2{% if current_handle == 'bridal' %} bridal-collection-page{% endif %}">
-  <div class="collection-hero-v2{% if collection.image %} has-image{% endif %}">
-    {% if collection.image %}
-      <img src="{{ collection.image | image_url: width: 1800 }}"
-           alt="{{ collection.image.alt | default: collection_title | escape }}"
-           loading="eager"
-           width="1800"
-           height="760">
-    {% endif %}
-    <div class="collection-hero-inner">
-      <nav class="collection-breadcrumb" aria-label="Breadcrumb">
-        <a href="{{ routes.root_url }}">Home</a>
-        {% if breadcrumb_parent != blank %}
-          <span>/</span>
-          {% if breadcrumb_parent == 'Jewelry' %}
-            <a href="{{ routes.collections_url }}/necklace-sets">Jewelry</a>
-          {% elsif breadcrumb_parent == 'Clothing' %}
-            <a href="{{ routes.collections_url }}/clothing">Clothing</a>
-          {% elsif breadcrumb_parent == 'Bridal' %}
-            <a href="{{ routes.collections_url }}/bridal">Bridal</a>
-          {% elsif breadcrumb_parent == 'Sale' %}
-            <a href="{{ routes.collections_url }}/sale">Sale</a>
-          {% elsif breadcrumb_parent == 'Clearance' %}
-            <a href="{{ routes.collections_url }}/clearance">Clearance</a>
-          {% elsif breadcrumb_parent == 'New Arrivals' %}
-            <a href="{{ routes.collections_url }}/new-arrivals">New Arrivals</a>
-          {% endif %}
-        {% endif %}
-        {% unless collection_title == breadcrumb_parent %}
-          <span>/</span>
-          <span>{{ collection_title }}</span>
-        {% endunless %}
-      </nav>
-      <span class="section-label">{{ breadcrumb_parent | default: 'Divaa Collection' }}</span>
-      <h1 class="section-title">{{ collection_title }}</h1>
-      <p class="collection-description">{{ collection_description }}</p>
-      {% if current_handle == 'bridal' %}
-        <a href="#collection-products" class="btn-primary bridal-hero-cta">Shop Bridal</a>
+<section class="collection-shell collection-shell-v2{% if current_handle == 'bridal' %} bridal-collection-page{% endif %}" data-collection-handle="{{ current_handle }}">
+  {% unless bridal_handles contains current_handle %}
+    <div class="collection-hero-v2{% if collection.image %} has-image{% endif %}">
+      {% if collection.image %}
+        <img src="{{ collection.image | image_url: width: 1800 }}"
+             alt="{{ collection.image.alt | default: collection_title | escape }}"
+             loading="eager"
+             width="1800"
+             height="760">
       {% endif %}
+      <div class="collection-hero-inner">
+        <nav class="collection-breadcrumb" aria-label="Breadcrumb">
+          <a href="{{ routes.root_url }}">Home</a>
+          {% if breadcrumb_parent != blank %}
+            <span>/</span>
+            {% if breadcrumb_parent == 'Jewelry' %}
+              <a href="{{ routes.collections_url }}/necklace-sets">Jewelry</a>
+            {% elsif breadcrumb_parent == 'Clothing' %}
+              <a href="{{ routes.collections_url }}/clothing">Clothing</a>
+            {% elsif breadcrumb_parent == 'Sale' %}
+              <a href="{{ routes.collections_url }}/sale">Sale</a>
+            {% elsif breadcrumb_parent == 'Clearance' %}
+              <a href="{{ routes.collections_url }}/clearance">Clearance</a>
+            {% elsif breadcrumb_parent == 'New Arrivals' %}
+              <a href="{{ routes.collections_url }}/new-arrivals">New Arrivals</a>
+            {% endif %}
+          {% endif %}
+          {% unless collection_title == breadcrumb_parent %}
+            <span>/</span>
+            <span>{{ collection_title }}</span>
+          {% endunless %}
+        </nav>
+        <span class="section-label">{{ breadcrumb_parent | default: 'Divaa Collection' }}</span>
+        <h1 class="section-title">{{ collection_title }}</h1>
+        <p class="collection-description">{{ collection_description }}</p>
+      </div>
     </div>
-  </div>
+  {% endunless %}
 
   <div class="container">
     {% if current_handle == 'bridal' %}
@@ -111,7 +134,7 @@
 
     <div class="collection-toolbar collection-toolbar-v2" id="collection-products">
       <div>
-        <strong>{{ collection.products_count }} products</strong>
+        <strong data-visible-product-count data-total-product-count="{{ collection.products_count }}">{{ collection.products_count }} products</strong>
         <span>{{ collection_title }}</span>
       </div>
       <button type="button" class="filter-drawer-toggle" data-filter-toggle aria-controls="collection-filters">
@@ -137,7 +160,7 @@
           <button type="button" data-filter-close aria-label="Close filters"><i class="fas fa-times" aria-hidden="true"></i></button>
         </div>
 
-        {% if collection.filters.size > 0 %}
+        {% if use_native_filters and collection.filters.size > 0 %}
           {% for filter in collection.filters %}
             <details class="filter-store-group">
               <summary>{{ filter.label }}</summary>
@@ -163,8 +186,6 @@
               assign filter_context = 'sale'
             elsif bridal_handles contains current_handle
               assign filter_context = 'bridal'
-            elsif saree_handles contains current_handle
-              assign filter_context = 'sarees'
             elsif clothing_handles contains current_handle
               assign filter_context = 'clothing'
             elsif jewelry_handles contains current_handle
@@ -172,23 +193,13 @@
             endif
           %}
 
-          {% unless current_handle == 'new-arrivals' %}
-            <p class="filter-setup-note">Configure Shopify Search & Discovery filters in Admin to enable dynamic filtering.</p>
-          {% endunless %}
-
           {% case filter_context %}
             {% when 'new-arrivals' %}
-              {% render 'divaa-guided-new-arrivals-filter', selected_type: selected_new_arrivals_type %}
+              {% render 'divaa-guided-new-arrivals-filter' %}
 
             {% when 'bridal' %}
               {% assign group_title = 'Bridal Category' %}
-              {% assign group_items = 'Bridal Necklace Sets|bridal-necklace-sets,Maang Tikka|maang-tikka,Passa|passa,Matha Patti|matha-patti,Hathphool|hathphool,Bajuband|bajuband,Waist Belt / Kamarband|waist-belt-kamarband,Bridal Sarees|bridal-sarees' | split: ',' %}
-              {% render 'divaa-filter-group', group_title: group_title, group_items: group_items, current_handle: current_handle %}
-              {% assign group_title = 'Bridal Style' %}
-              {% assign group_items = 'American Diamond|american-diamond-necklace-sets,Kundan|kundan-necklace-sets,Temple Jewelry|temple-jewelry-necklace-sets,Traditional Jewelry|traditional-necklace-sets,Premium Collection|premium-necklace-sets' | split: ',' %}
-              {% render 'divaa-filter-group', group_title: group_title, group_items: group_items, current_handle: current_handle %}
-              {% assign group_title = 'Bridal Occasion' %}
-              {% assign group_items = 'Wedding|bridal,Reception|bridal-sarees,Engagement|maang-tikka,Traditional Ceremony|matha-patti' | split: ',' %}
+              {% assign group_items = 'All|bridal,Bridal Necklace Sets|bridal-necklace-sets,Maang Tikka|maang-tikka,Passa|passa,Matha Patti|matha-patti,Hathphool|hathphool,Bajuband|bajuband,Waist Belt / Kamarband|waist-belt-kamarband,Bridal Sarees|bridal-sarees' | split: ',' %}
               {% render 'divaa-filter-group', group_title: group_title, group_items: group_items, current_handle: current_handle %}
 
             {% when 'jewelry' %}
@@ -202,24 +213,102 @@
               {% assign group_items = 'Bridal|bridal,Festive|temple-jewelry-necklace-sets,Party Wear|party-wear-sarees,Traditional|traditional-necklace-sets' | split: ',' %}
               {% render 'divaa-filter-group', group_title: group_title, group_items: group_items, current_handle: current_handle %}
 
-            {% when 'sarees' %}
-              {% assign group_title = 'Saree Type' %}
-              {% assign group_items = 'Banarasi Sarees|banarasi-sarees,Kanchivaram Sarees|kanchivaram-sarees,Bridal Sarees|bridal-sarees,Designer Sarees|designer-sarees,Party Wear Sarees|party-wear-sarees' | split: ',' %}
-              {% render 'divaa-filter-group', group_title: group_title, group_items: group_items, current_handle: current_handle %}
-              {% assign group_title = 'Occasion' %}
-              {% assign group_items = 'Bridal|bridal-sarees,Festive|kanchivaram-sarees,Party Wear|party-wear-sarees,Traditional|banarasi-sarees' | split: ',' %}
-              {% render 'divaa-filter-group', group_title: group_title, group_items: group_items, current_handle: current_handle %}
-
             {% when 'clothing' %}
-              {% assign group_title = 'Clothing Type' %}
-              {% assign group_items = 'Sarees|sarees,Lehengas|lehengas,Dresses / Gowns|dresses-gowns' | split: ',' %}
-              {% render 'divaa-filter-group', group_title: group_title, group_items: group_items, current_handle: current_handle %}
-              {% assign group_title = 'Saree Type' %}
-              {% assign group_items = 'Banarasi Sarees|banarasi-sarees,Kanchivaram Sarees|kanchivaram-sarees,Bridal Sarees|bridal-sarees,Designer Sarees|designer-sarees,Party Wear Sarees|party-wear-sarees' | split: ',' %}
-              {% render 'divaa-filter-group', group_title: group_title, group_items: group_items, current_handle: current_handle %}
-              {% assign group_title = 'Dress Type' %}
-              {% assign group_items = 'Indo Western|indo-western,Anarkali|anarkali,Party Wear Dresses|party-wear-dresses' | split: ',' %}
-              {% render 'divaa-filter-group', group_title: group_title, group_items: group_items, current_handle: current_handle %}
+              <div class="clothing-context-filter"
+                   data-clothing-collection-filter
+                   data-base-path="{{ routes.collections_url }}/clothing"
+                   data-selected-type="{{ selected_clothing_type }}"
+                   data-selected-subcategory="{{ selected_clothing_subcategory }}">
+                <details class="filter-store-group" open>
+                  <summary>Clothing Type</summary>
+                  <div class="filter-link-list">
+                    <a href="{{ routes.collections_url }}/clothing?type=sarees"
+                       class="filter-check filter-check-link{% if selected_clothing_type == 'sarees' %} active{% endif %}"
+                       data-clothing-type-link
+                       data-value="sarees"
+                       {% if selected_clothing_type == 'sarees' %}aria-current="true"{% endif %}
+                       aria-label="Shop Sarees">
+                      <span class="filter-check-box" aria-hidden="true"></span>
+                      <span>Sarees</span>
+                    </a>
+                    <a href="{{ routes.collections_url }}/clothing?type=lehengas"
+                       class="filter-check filter-check-link{% if selected_clothing_type == 'lehengas' %} active{% endif %}"
+                       data-clothing-type-link
+                       data-value="lehengas"
+                       {% if selected_clothing_type == 'lehengas' %}aria-current="true"{% endif %}
+                       aria-label="Shop Lehengas">
+                      <span class="filter-check-box" aria-hidden="true"></span>
+                      <span>Lehengas</span>
+                    </a>
+                    <a href="{{ routes.collections_url }}/clothing?type=dresses-gowns"
+                       class="filter-check filter-check-link{% if selected_clothing_type == 'dresses-gowns' %} active{% endif %}"
+                       data-clothing-type-link
+                       data-value="dresses-gowns"
+                       {% if selected_clothing_type == 'dresses-gowns' %}aria-current="true"{% endif %}
+                       aria-label="Shop Dresses / Gowns">
+                      <span class="filter-check-box" aria-hidden="true"></span>
+                      <span>Dresses / Gowns</span>
+                    </a>
+                  </div>
+                </details>
+
+                <details class="filter-store-group" open data-clothing-child-group data-type="sarees"{% unless selected_clothing_type == 'sarees' %} hidden{% endunless %}>
+                  <summary>Saree Type</summary>
+                  <div class="filter-link-list">
+                    {% assign saree_type_items = 'Banarasi Sarees|banarasi-sarees,Kanchivaram Sarees|kanchivaram-sarees,Bridal Sarees|bridal-sarees,Designer Sarees|designer-sarees,Party Wear Sarees|party-wear-sarees' | split: ',' %}
+                    {% for item in saree_type_items %}
+                      {% assign parts = item | split: '|' %}
+                      {% assign label = parts[0] %}
+                      {% assign handle = parts[1] %}
+                      <a href="{{ routes.collections_url }}/clothing?type=sarees&subcategory={{ handle }}"
+                         class="filter-check filter-check-link{% if selected_clothing_subcategory == handle %} active{% endif %}"
+                         data-clothing-subcategory-link
+                         data-value="{{ handle }}"
+                         {% if selected_clothing_subcategory == handle %}aria-current="true"{% endif %}
+                         aria-label="Shop {{ label | escape }}">
+                        <span class="filter-check-box" aria-hidden="true"></span>
+                        <span>{{ label }}</span>
+                      </a>
+                    {% endfor %}
+                  </div>
+                </details>
+
+                <details class="filter-store-group" open data-clothing-child-group data-type="lehengas"{% unless selected_clothing_type == 'lehengas' %} hidden{% endunless %}>
+                  <summary>Lehenga Type</summary>
+                  <div class="filter-link-list">
+                    <a href="{{ routes.collections_url }}/clothing?type=lehengas&subcategory=party-wear-lehenga"
+                       class="filter-check filter-check-link{% if selected_clothing_subcategory == 'party-wear-lehenga' %} active{% endif %}"
+                       data-clothing-subcategory-link
+                       data-value="party-wear-lehenga"
+                       {% if selected_clothing_subcategory == 'party-wear-lehenga' %}aria-current="true"{% endif %}
+                       aria-label="Shop Party Wear Lehenga">
+                      <span class="filter-check-box" aria-hidden="true"></span>
+                      <span>Party Wear Lehenga</span>
+                    </a>
+                  </div>
+                </details>
+
+                <details class="filter-store-group" open data-clothing-child-group data-type="dresses-gowns"{% unless selected_clothing_type == 'dresses-gowns' %} hidden{% endunless %}>
+                  <summary>Dress Type</summary>
+                  <div class="filter-link-list">
+                    {% assign dress_type_items = 'Indo Western|indo-western,Anarkali|anarkali,Party Wear Dresses|party-wear-dresses' | split: ',' %}
+                    {% for item in dress_type_items %}
+                      {% assign parts = item | split: '|' %}
+                      {% assign label = parts[0] %}
+                      {% assign handle = parts[1] %}
+                      <a href="{{ routes.collections_url }}/clothing?type=dresses-gowns&subcategory={{ handle }}"
+                         class="filter-check filter-check-link{% if selected_clothing_subcategory == handle %} active{% endif %}"
+                         data-clothing-subcategory-link
+                         data-value="{{ handle }}"
+                         {% if selected_clothing_subcategory == handle %}aria-current="true"{% endif %}
+                         aria-label="Shop {{ label | escape }}">
+                        <span class="filter-check-box" aria-hidden="true"></span>
+                        <span>{{ label }}</span>
+                      </a>
+                    {% endfor %}
+                  </div>
+                </details>
+              </div>
 
             {% when 'sale' %}
               {% assign group_title = 'Department' %}
@@ -229,14 +318,6 @@
               {% assign group_items = 'Necklace Sets|necklace-sets,Earrings|earrings,Bangles & Bracelets|bangles-bracelets,Rings|rings,Bridal Accessories|bridal-accessories,Sarees|sarees,Lehengas|lehengas,Dresses / Gowns|dresses-gowns' | split: ',' %}
               {% render 'divaa-filter-group', group_title: group_title, group_items: group_items, current_handle: current_handle %}
           {% endcase %}
-
-          <details class="filter-store-group">
-            <summary>Availability</summary>
-            <div class="filter-link-list">
-              <span class="filter-static-option">In Stock</span>
-              <span class="filter-static-option">Sold Out</span>
-            </div>
-          </details>
         {% endif %}
       </aside>
 
@@ -245,108 +326,17 @@
           {% for product in collection.products %}
             {% render 'product-card', product: product %}
           {% else %}
-            {% comment %}
-              TEMP TEST PRODUCTS — REMOVE BEFORE LAUNCH
-              Theme-only placeholders for empty approved collections. These are not Shopify products.
-            {% endcomment %}
-            {% liquid
-              assign placeholder_icon = 'fas fa-gem'
-              assign placeholder_kind = 'Jewelry'
-              assign placeholder_titles = 'Ruby Glow American Diamond Necklace Set|Pearl Drop Kundan Necklace Set|Crystal American Diamond Earrings|Classic Gold Bangles Set'
-              assign placeholder_prices = '$89.00|$129.00|$42.00|$58.00'
-
-              case current_handle
-                when 'bridal'
-                  assign placeholder_titles = 'Bridal Necklace Sets|Maang Tikka|Passa|Matha Patti|Hathphool|Bajuband|Waist Belt / Kamarband|Bridal Sarees'
-                  assign placeholder_prices = '$148.00|$48.00|$46.00|$74.00|$62.00|$58.00|$88.00|$228.00'
-                when 'necklace-sets'
-                  assign placeholder_titles = 'Ruby Glow American Diamond Necklace Set|Pearl Drop Kundan Necklace Set|Antique Lakshmi Temple Necklace Set|Royal Traditional Necklace Set'
-                  assign placeholder_prices = '$89.00|$129.00|$98.00|$76.00'
-                when 'earrings'
-                  assign placeholder_titles = 'Crystal American Diamond Earrings|Mint Kundan Earrings|Antique Temple Earrings|Silver Oxidized Earrings'
-                  assign placeholder_prices = '$38.00|$42.00|$46.00|$32.00'
-                when 'bangles-bracelets'
-                  assign placeholder_titles = 'Classic Gold Bangles Set|Royal Kadas Pair|American Diamond Bangles Set|Kundan Bangles Set'
-                  assign placeholder_prices = '$54.00|$68.00|$58.00|$44.00'
-                when 'rings'
-                  assign placeholder_titles = 'American Diamond Statement Ring|Kundan Floral Ring|American Diamond Statement Ring|Kundan Floral Ring'
-                  assign placeholder_prices = '$28.00|$34.00|$36.00|$34.00'
-                when 'bridal-accessories'
-                  assign placeholder_titles = 'Bridal Maang Tikka|Pearl Passa|Royal Matha Patti|Bridal Waist Belt Kamarband'
-                  assign placeholder_prices = '$48.00|$46.00|$74.00|$88.00'
-                when 'bridal-necklace-sets'
-                  assign placeholder_titles = 'Bridal Radiance Necklace Set|Pearl Drop Kundan Necklace Set|Ruby Glow American Diamond Necklace Set|Antique Lakshmi Temple Necklace Set'
-                  assign placeholder_prices = '$148.00|$89.00|$98.00|$129.00'
-                when 'maang-tikka'
-                  assign placeholder_titles = 'Bridal Maang Tikka|Royal Matha Patti|Pearl Passa|Kundan Hathphool'
-                  assign placeholder_prices = '$48.00|$74.00|$46.00|$62.00'
-                when 'passa'
-                  assign placeholder_titles = 'Pearl Passa|Bridal Maang Tikka|Royal Matha Patti|Bridal Waist Belt Kamarband'
-                  assign placeholder_prices = '$46.00|$48.00|$74.00|$88.00'
-                when 'matha-patti'
-                  assign placeholder_titles = 'Royal Matha Patti|Bridal Maang Tikka|Pearl Passa|Kundan Hathphool'
-                  assign placeholder_prices = '$74.00|$48.00|$46.00|$62.00'
-                when 'hathphool'
-                  assign placeholder_titles = 'Kundan Hathphool|Bridal Maang Tikka|Royal Matha Patti|Antique Bajuband'
-                  assign placeholder_prices = '$62.00|$48.00|$74.00|$58.00'
-                when 'bajuband'
-                  assign placeholder_titles = 'Antique Bajuband|Kundan Hathphool|Royal Matha Patti|Bridal Waist Belt Kamarband'
-                  assign placeholder_prices = '$58.00|$62.00|$74.00|$88.00'
-                when 'waist-belt-kamarband'
-                  assign placeholder_titles = 'Bridal Waist Belt Kamarband|Antique Bajuband|Royal Matha Patti|Kundan Hathphool'
-                  assign placeholder_prices = '$88.00|$58.00|$74.00|$62.00'
-                when 'sarees'
-                  assign placeholder_titles = 'Royal Banarasi Saree|Classic Kanchivaram Saree|Divaa Bridal Saree|Rose Designer Saree'
-                  assign placeholder_prices = '$149.00|$189.00|$228.00|$138.00'
-                  assign placeholder_icon = 'fas fa-scroll'
-                  assign placeholder_kind = 'Clothing'
-                when 'bridal-sarees'
-                  assign placeholder_titles = 'Divaa Bridal Saree|Classic Kanchivaram Saree|Royal Banarasi Saree|Rose Designer Saree'
-                  assign placeholder_prices = '$228.00|$189.00|$149.00|$138.00'
-                  assign placeholder_icon = 'fas fa-scroll'
-                  assign placeholder_kind = 'Clothing'
-                when 'lehengas', 'party-wear-lehenga'
-                  assign placeholder_titles = 'Blush Party Wear Lehenga|Champagne Party Wear Dress|Ivory Indo Western Dress|Maroon Anarkali Set'
-                  assign placeholder_prices = '$248.00|$168.00|$128.00|$158.00'
-                  assign placeholder_icon = 'fas fa-ribbon'
-                  assign placeholder_kind = 'Clothing'
-                when 'dresses-gowns', 'indo-western', 'anarkali', 'party-wear-dresses'
-                  assign placeholder_titles = 'Ivory Indo Western Dress|Maroon Anarkali Set|Champagne Party Wear Dress|Blush Party Wear Lehenga'
-                  assign placeholder_prices = '$128.00|$158.00|$168.00|$248.00'
-                  assign placeholder_icon = 'fas fa-ribbon'
-                  assign placeholder_kind = 'Clothing'
-              endcase
-
-              assign placeholder_titles = placeholder_titles | split: '|'
-              assign placeholder_prices = placeholder_prices | split: '|'
-            %}
-
-            <div class="test-products-note">
-              <strong>Layout Preview</strong>
-              <span>Temporary preview products are shown because this collection has no live products yet. TEMP TEST PRODUCTS — REMOVE BEFORE LAUNCH.</span>
+            <div class="collection-empty-state">
+              <strong>No products found in this collection.</strong>
+              <span>Check back soon for new arrivals, or explore another Divaa collection.</span>
+              <a href="{{ routes.collections_url }}/new-arrivals" class="btn-primary">Shop New Arrivals</a>
             </div>
-
-            {% for title in placeholder_titles %}
-              <article class="product-card test-product-card" aria-label="Temporary preview product: {{ title | escape }}">
-                <div class="product-img-wrap test-product-media">
-                  <div class="test-product-art test-product-art-{{ forloop.index }}">
-                    <i class="{{ placeholder_icon }}" aria-hidden="true"></i>
-                    <span>{{ placeholder_kind }}</span>
-                  </div>
-                  <div class="product-overlay">
-                    <button class="quick-view-link test-product-action" type="button" disabled>View Product</button>
-                    <button class="quick-add test-product-action" type="button" disabled>Preview Only</button>
-                  </div>
-                  <span class="product-badge test-product-badge">Preview Only</span>
-                </div>
-                <div class="product-info">
-                  <p class="product-brand">Divaa Layout Preview</p>
-                  <h3 class="product-name">{{ title }}</h3>
-                  <p class="product-price">{{ placeholder_prices[forloop.index0] }}</p>
-                </div>
-              </article>
-            {% endfor %}
           {% endfor %}
+        </div>
+        <div class="collection-empty-state" data-filter-empty hidden>
+          <strong>No products match this selection.</strong>
+          <span>Clear the filter or explore another Divaa collection.</span>
+          <a href="{{ request.path }}" class="btn-primary">Clear Filters</a>
         </div>
 
         {% if paginate.pages > 1 %}
@@ -374,34 +364,6 @@
       <p>{{ seo_text }}</p>
     </div>
 
-    <div class="collection-faq-panel">
-      <span class="section-label">Questions</span>
-      <h2>Shopping at Divaa Jewels</h2>
-      <details open>
-        <summary>What can I shop at Divaa Jewels?</summary>
-        <p>Divaa Jewels offers jewelry and clothing, with jewelry as the primary focus and clothing as a secondary category.</p>
-      </details>
-      <details>
-        <summary>What jewelry categories are available?</summary>
-        <p>You can shop necklace sets, earrings, bangles and bracelets, rings, and bridal accessories.</p>
-      </details>
-      <details>
-        <summary>What is included in the Bridal Collection?</summary>
-        <p>The Bridal Collection includes bridal necklace sets, maang tikka, passa, matha patti, hathphool, bajuband, waist belt/kamarband, and bridal sarees.</p>
-      </details>
-      <details>
-        <summary>What clothing categories are available?</summary>
-        <p>Clothing includes sarees, lehengas, and dresses/gowns.</p>
-      </details>
-      <details>
-        <summary>Can Divaa jewelry be paired with sarees?</summary>
-        <p>Yes. Divaa jewelry is curated to pair with sarees, lehengas, and ethnic occasion wear.</p>
-      </details>
-      <details>
-        <summary>Are preview products real products?</summary>
-        <p>No. Preview products are temporary layout placeholders and must be removed before launch.</p>
-      </details>
-    </div>
   </div>
 </section>
 

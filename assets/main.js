@@ -370,20 +370,24 @@ function initDivaaJewelryCollectionFilters() {
 }
 
 function initDivaaClothingCollectionFilters() {
-  const filterBlocks = document.querySelectorAll('[data-clothing-filter]');
+  const filterBlocks = document.querySelectorAll('[data-clothing-collection-filter]');
   if (!filterBlocks.length) return;
 
   const params = new URLSearchParams(window.location.search);
-  const selectedClothingType = params.get('clothing_type');
+  const urlType = params.get('type');
+  const urlSubcategory = params.get('subcategory');
 
-  function buildClothingUrl(basePath, value) {
-    if (!value) return basePath;
-    return `${basePath}?clothing_type=${encodeURIComponent(value)}`;
+  function buildClothingUrl(basePath, type, subcategory) {
+    const nextParams = new URLSearchParams();
+    if (type) nextParams.set('type', type);
+    if (subcategory) nextParams.set('subcategory', subcategory);
+    const query = nextParams.toString();
+    return query ? `${basePath}?${query}` : basePath;
   }
 
   function setOptionState(option, active) {
-    option.classList.toggle('is-active', active);
     option.classList.toggle('active', active);
+    option.classList.toggle('is-active', active);
     option.setAttribute('aria-checked', active ? 'true' : 'false');
     if (active) {
       option.setAttribute('aria-current', 'true');
@@ -392,37 +396,64 @@ function initDivaaClothingCollectionFilters() {
     }
   }
 
+  let selectedType = '';
+  let selectedSubcategory = '';
+
   filterBlocks.forEach((filter) => {
-    const basePath = filter.dataset.clothingBasePath || window.location.pathname;
-    const options = filter.querySelectorAll('[data-clothing-filter-option]');
-    const clearAll = filter.querySelector('[data-clothing-clear-all]');
+    const basePath = filter.dataset.basePath || '/collections/clothing';
+    selectedType = urlType || filter.dataset.selectedType || '';
+    selectedSubcategory = urlSubcategory || filter.dataset.selectedSubcategory || '';
 
-    if (clearAll) clearAll.href = basePath;
+    const validSubcategoryGroup = selectedType
+      ? filter.querySelector(`[data-clothing-child-group][data-type="${CSS.escape(selectedType)}"]`)
+      : null;
 
-    options.forEach((option) => {
+    if (selectedSubcategory && !validSubcategoryGroup?.querySelector(`[data-clothing-subcategory-link][data-value="${CSS.escape(selectedSubcategory)}"]`)) {
+      selectedSubcategory = '';
+    }
+
+    filter.querySelectorAll('[data-clothing-type-link]').forEach((option) => {
       const value = option.dataset.value || '';
-      const active = selectedClothingType ? value === selectedClothingType : value === '';
-      option.href = buildClothingUrl(basePath, value);
-      setOptionState(option, active);
+      option.href = buildClothingUrl(basePath, value, '');
+      setOptionState(option, value === selectedType);
     });
 
-    initCarbonFilterAccordions(filter);
+    filter.querySelectorAll('[data-clothing-child-group]').forEach((group) => {
+      group.hidden = group.dataset.type !== selectedType;
+    });
+
+    filter.querySelectorAll('[data-clothing-subcategory-link]').forEach((option) => {
+      const value = option.dataset.value || '';
+      const parentGroup = option.closest('[data-clothing-child-group]');
+      const parentType = parentGroup?.dataset.type || selectedType;
+      option.href = buildClothingUrl(basePath, parentType, value);
+      setOptionState(option, parentType === selectedType && value === selectedSubcategory);
+    });
+
+    syncDivaaFilterAccordions(filter);
   });
+
+  const collectionShell = document.querySelector('[data-collection-handle]');
+  const currentHandle = collectionShell?.dataset.collectionHandle || '';
+  if (currentHandle !== 'clothing') return;
 
   const cards = document.querySelectorAll('[data-product-card]');
   if (!cards.length) return;
 
   let visibleCount = 0;
   cards.forEach((card) => {
+    const cardTypes = getDataList(card, 'productType');
     const cardSubcategories = getDataList(card, 'subcategory');
-    const isVisible = !selectedClothingType || cardSubcategories.includes(selectedClothingType);
+    const typeMatches = !selectedType || cardTypes.includes(selectedType);
+    const subcategoryMatches = !selectedSubcategory || cardSubcategories.includes(selectedSubcategory);
+    const isVisible = typeMatches && subcategoryMatches;
 
     card.hidden = !isVisible;
     if (isVisible) visibleCount += 1;
   });
 
   updateCollectionVisibleCount(visibleCount);
-  updateFilteredEmptyState(visibleCount, Boolean(selectedClothingType));
+  updateFilteredEmptyState(visibleCount, Boolean(selectedType || selectedSubcategory));
 }
 
 document.addEventListener('click', (event) => {
