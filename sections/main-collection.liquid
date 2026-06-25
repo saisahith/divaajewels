@@ -198,9 +198,34 @@
               {% render 'divaa-guided-new-arrivals-filter' %}
 
             {% when 'bridal' %}
-              {% assign group_title = 'Bridal Category' %}
-              {% assign group_items = 'All|bridal,Bridal Necklace Sets|bridal-necklace-sets,Maang Tikka|maang-tikka,Passa|passa,Matha Patti|matha-patti,Hathphool|hathphool,Bajuband|bajuband,Waist Belt / Kamarband|waist-belt-kamarband,Bridal Sarees|bridal-sarees' | split: ',' %}
-              {% render 'divaa-filter-group', group_title: group_title, group_items: group_items, current_handle: current_handle %}
+              {% if current_handle == 'bridal' %}
+                <details class="filter-store-group" open data-bridal-category-filter>
+                  <summary>Bridal Category</summary>
+                  <div class="filter-link-list">
+                    <a href="{{ routes.collections_url }}/bridal"
+                       class="filter-check filter-check-link"
+                       data-bridal-category-all
+                       aria-label="Shop all bridal">
+                      <span class="filter-check-box" aria-hidden="true"></span>
+                      <span>All</span>
+                    </a>
+                    {% for handle in bridal_tile_handles %}
+                      <a href="{{ routes.collections_url }}/bridal?category={{ handle }}"
+                         class="filter-check filter-check-link"
+                         data-bridal-category-link
+                         data-value="{{ handle }}"
+                         aria-label="Shop {{ bridal_tile_labels[forloop.index0] | escape }}">
+                        <span class="filter-check-box" aria-hidden="true"></span>
+                        <span>{{ bridal_tile_labels[forloop.index0] }}</span>
+                      </a>
+                    {% endfor %}
+                  </div>
+                </details>
+              {% else %}
+                {% assign group_title = 'Bridal Category' %}
+                {% assign group_items = 'All|bridal,Bridal Necklace Sets|bridal-necklace-sets,Maang Tikka|maang-tikka,Passa|passa,Matha Patti|matha-patti,Hathphool|hathphool,Bajuband|bajuband,Waist Belt / Kamarband|waist-belt-kamarband,Bridal Sarees|bridal-sarees' | split: ',' %}
+                {% render 'divaa-filter-group', group_title: group_title, group_items: group_items, current_handle: current_handle %}
+              {% endif %}
 
             {% when 'jewelry' %}
               {% assign group_title = 'Jewelry Type' %}

@@ -5,6 +5,29 @@
   assign product_type_data = ''
   assign subcategory_data = ''
   assign bridal_category_data = ''
+  assign product_type_handle = product.type | handleize
+  case product_type_handle
+    when 'necklace-set', 'necklace-sets'
+      assign product_type_handle = 'necklace-sets'
+    when 'earring', 'earrings'
+      assign product_type_handle = 'earrings'
+    when 'bangle', 'bangles', 'bracelet', 'bracelets', 'bangles-bracelets'
+      assign product_type_handle = 'bangles-bracelets'
+    when 'ring', 'rings'
+      assign product_type_handle = 'rings'
+    when 'bridal-accessory', 'bridal-accessories'
+      assign product_type_handle = 'bridal-accessories'
+    when 'saree', 'sarees'
+      assign product_type_handle = 'sarees'
+    when 'lehenga', 'lehengas'
+      assign product_type_handle = 'lehengas'
+    when 'dress', 'dresses', 'gown', 'gowns', 'dresses-gowns', 'dresses-and-gowns'
+      assign product_type_handle = 'dresses-gowns'
+  endcase
+
+  if product_type_handles contains product_type_handle
+    assign product_type_data = product_type_data | append: product_type_handle | append: ','
+  endif
 
   for product_collection in product.collections
     if product_type_handles contains product_collection.handle
@@ -12,6 +35,18 @@
     endif
     if subcategory_handles contains product_collection.handle
       assign subcategory_data = subcategory_data | append: product_collection.handle | append: ','
+      case product_collection.handle
+        when 'banarasi-sarees', 'kanchivaram-sarees', 'bridal-sarees', 'designer-sarees', 'party-wear-sarees'
+          assign product_type_data = product_type_data | append: 'sarees,'
+        when 'party-wear-lehenga'
+          assign product_type_data = product_type_data | append: 'lehengas,'
+        when 'indo-western', 'anarkali', 'party-wear-dresses'
+          assign product_type_data = product_type_data | append: 'dresses-gowns,'
+        when 'maang-tikka', 'passa', 'matha-patti', 'hathphool', 'bajuband', 'waist-belt-kamarband'
+          assign product_type_data = product_type_data | append: 'bridal-accessories,'
+        when 'bridal-necklace-sets'
+          assign product_type_data = product_type_data | append: 'necklace-sets,'
+      endcase
     endif
     if bridal_category_handles contains product_collection.handle
       assign bridal_category_data = bridal_category_data | append: product_collection.handle | append: ','
@@ -34,12 +69,30 @@
         assign normalized_tag_handle = 'party-wear-sarees'
       when 'clothing-type-party-wear-lehenga'
         assign normalized_tag_handle = 'party-wear-lehenga'
+      when 'saree', 'sarees'
+        assign normalized_tag_handle = 'sarees'
+      when 'lehenga', 'lehengas'
+        assign normalized_tag_handle = 'lehengas'
+      when 'dress', 'dresses', 'gown', 'gowns', 'dresses-gowns', 'dresses-and-gowns'
+        assign normalized_tag_handle = 'dresses-gowns'
     endcase
     if product_type_handles contains normalized_tag_handle
       assign product_type_data = product_type_data | append: normalized_tag_handle | append: ','
     endif
     if subcategory_handles contains normalized_tag_handle
       assign subcategory_data = subcategory_data | append: normalized_tag_handle | append: ','
+      case normalized_tag_handle
+        when 'banarasi-sarees', 'kanchivaram-sarees', 'bridal-sarees', 'designer-sarees', 'party-wear-sarees'
+          assign product_type_data = product_type_data | append: 'sarees,'
+        when 'party-wear-lehenga'
+          assign product_type_data = product_type_data | append: 'lehengas,'
+        when 'indo-western', 'anarkali', 'party-wear-dresses'
+          assign product_type_data = product_type_data | append: 'dresses-gowns,'
+        when 'maang-tikka', 'passa', 'matha-patti', 'hathphool', 'bajuband', 'waist-belt-kamarband'
+          assign product_type_data = product_type_data | append: 'bridal-accessories,'
+        when 'bridal-necklace-sets'
+          assign product_type_data = product_type_data | append: 'necklace-sets,'
+      endcase
     endif
     if bridal_category_handles contains normalized_tag_handle
       assign bridal_category_data = bridal_category_data | append: normalized_tag_handle | append: ','
