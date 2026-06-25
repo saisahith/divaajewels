@@ -297,15 +297,16 @@ function initDivaaBridalCategoryFilters() {
 
     cards.forEach((card) => {
       const cardCategories = getDataList(card, 'bridalCategory');
-      const isVisible = selectedCategories.length === 0
-        || selectedCategories.some((category) => cardCategories.includes(category));
+      const isVisible = cardCategories.length > 0
+        && (selectedCategories.length === 0
+          || selectedCategories.some((category) => cardCategories.includes(category)));
 
       card.hidden = !isVisible;
       if (isVisible) visibleCount += 1;
     });
 
     updateCollectionVisibleCount(visibleCount);
-    updateFilteredEmptyState(visibleCount, selectedCategories.length > 0);
+    updateFilteredEmptyState(visibleCount, true);
   }
 }
 
@@ -354,11 +355,14 @@ function initDivaaJewelryCollectionFilters() {
   const cards = document.querySelectorAll('[data-product-card]');
   if (!cards.length) return;
 
+  const jewelryTypes = ['necklace-sets', 'earrings', 'bangles-bracelets', 'rings', 'bridal-accessories'];
   let visibleCount = 0;
   cards.forEach((card) => {
     const cardTypes = getDataList(card, 'productType');
     const cardSubcategories = getDataList(card, 'subcategory');
-    const typeMatches = !selected.type || cardTypes.includes(selected.type);
+    const typeMatches = selected.type
+      ? cardTypes.includes(selected.type)
+      : cardTypes.some((type) => jewelryTypes.includes(type));
     const subcategoryMatches = !selected.subcategory || cardSubcategories.includes(selected.subcategory);
     const isVisible = typeMatches && subcategoryMatches;
 
@@ -367,7 +371,7 @@ function initDivaaJewelryCollectionFilters() {
   });
 
   updateCollectionVisibleCount(visibleCount);
-  updateFilteredEmptyState(visibleCount, Boolean(selected.type || selected.subcategory));
+  updateFilteredEmptyState(visibleCount, true);
 }
 
 function initDivaaClothingCollectionFilters() {
@@ -441,11 +445,14 @@ function initDivaaClothingCollectionFilters() {
   const cards = document.querySelectorAll('[data-product-card]');
   if (!cards.length) return;
 
+  const clothingTypes = ['sarees', 'lehengas', 'dresses-gowns'];
   let visibleCount = 0;
   cards.forEach((card) => {
     const cardTypes = getDataList(card, 'productType');
     const cardSubcategories = getDataList(card, 'subcategory');
-    const typeMatches = !selectedType || cardTypes.includes(selectedType);
+    const typeMatches = selectedType
+      ? cardTypes.includes(selectedType)
+      : cardTypes.some((type) => clothingTypes.includes(type));
     const subcategoryMatches = !selectedSubcategory || cardSubcategories.includes(selectedSubcategory);
     const isVisible = typeMatches && subcategoryMatches;
 
@@ -454,7 +461,7 @@ function initDivaaClothingCollectionFilters() {
   });
 
   updateCollectionVisibleCount(visibleCount);
-  updateFilteredEmptyState(visibleCount, Boolean(selectedType || selectedSubcategory));
+  updateFilteredEmptyState(visibleCount, true);
 }
 
 document.addEventListener('click', (event) => {
