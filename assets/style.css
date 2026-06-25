@@ -3934,8 +3934,7 @@ header {
   background: #f3ece4;
 }
 
-.arrival-feature-media img,
-.arrival-dummy-media {
+.arrival-feature-media img {
   width: 100%;
   height: 100%;
   min-height: 520px;
@@ -3946,7 +3945,6 @@ header {
 }
 
 .arrival-feature-card:hover .arrival-feature-media img,
-.arrival-feature-card:hover .arrival-dummy-media,
 .arrival-small-grid .product-card:hover img,
 .arrival-small-grid .product-card:hover .product-img-tile {
   transform: scale(1.04);
@@ -4111,8 +4109,7 @@ header {
   }
 
   .arrival-feature-media,
-  .arrival-feature-media img,
-  .arrival-dummy-media {
+  .arrival-feature-media img {
     min-height: 460px;
   }
 }
@@ -4217,8 +4214,7 @@ header {
   }
 
   .arrival-feature-media,
-  .arrival-feature-media img,
-  .arrival-dummy-media {
+  .arrival-feature-media img {
     min-height: 390px;
   }
 

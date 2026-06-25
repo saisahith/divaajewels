@@ -61,19 +61,11 @@
           </div>
         </article>
       {% else %}
-        {% comment %}TEMP TEST PRODUCTS — REMOVE BEFORE LAUNCH{% endcomment %}
-        <article class="arrival-feature-card">
-          <a href="{{ routes.collections_url }}/new-arrivals" class="arrival-feature-media">
-            <div class="arrival-dummy-media" style="background-image:url('{{ 'divaa-jewelry-styles.png' | asset_url }}'); background-position:50% 0%;"></div>
-            <span class="arrival-badge">Preview Only</span>
-          </a>
-          <div class="arrival-feature-content">
-            <h3><a href="{{ routes.collections_url }}/new-arrivals">Pearl Drop Kundan Necklace Set</a></h3>
-            <p>Freshly added for weddings, festive moments, and elegant ethnic styling.</p>
-            <strong>$125</strong>
-            <a href="{{ routes.collections_url }}/new-arrivals" class="btn-primary">Shop Now</a>
-          </div>
-        </article>
+        <div class="collection-empty-state arrival-empty-state">
+          <strong>New arrivals are being curated.</strong>
+          <span>Add products to the New Arrivals collection in Shopify Admin to feature them here.</span>
+          <a href="{{ routes.collections_url }}/new-arrivals" class="btn-primary">View New Arrivals</a>
+        </div>
       {% endif %}
 
       <div class="arrival-small-grid">
@@ -89,26 +81,10 @@
         {% endif %}
 
         {% if rendered_small_products == 0 %}
-          {% comment %}TEMP TEST PRODUCTS — REMOVE BEFORE LAUNCH{% endcomment %}
-          {% assign dummy_products = "Crystal American Diamond Earrings|$68|american-diamond-earrings,Mint Kundan Earrings|$78|kundan-earrings,Temple Bangles Set|$110|temple-bangles,Rose Designer Saree|$135|designer-sarees" | split: "," %}
-          {% for item in dummy_products %}
-            {% assign p = item | split: "|" %}
-            <article class="product-card dummy-product-card">
-              <a href="{{ routes.collections_url }}/{{ p[2] }}">
-                <div class="product-img-wrap product-img-tile" style="background-image:url('{% if forloop.index < 4 %}{{ 'divaa-jewelry-styles.png' | asset_url }}{% else %}{{ 'divaa-saree-edits.png' | asset_url }}{% endif %}'); background-position:{% cycle '0% 0%', '50% 0%', '100% 0%', '0% 100%' %};">
-                  <span class="product-badge">Preview Only</span>
-                  <div class="product-overlay">
-                    <a href="{{ routes.collections_url }}/{{ p[2] }}" class="quick-view-link">Quick View</a>
-                    <button class="quick-add dummy-add-link" type="button" disabled>Preview Only</button>
-                  </div>
-                </div>
-              </a>
-              <div class="product-info">
-                <h3 class="product-name"><a href="{{ routes.collections_url }}/{{ p[2] }}">{{ p[0] }}</a></h3>
-                <p class="product-price">{{ p[1] }}</p>
-              </div>
-            </article>
-          {% endfor %}
+          <div class="collection-empty-state arrival-empty-state">
+            <strong>No new arrival products yet.</strong>
+            <span>Products from the New Arrivals collection will appear here once they are published.</span>
+          </div>
         {% endif %}
       </div>
     </div>
